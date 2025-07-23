@@ -1,5 +1,5 @@
 .container-geral-menu{
-  position: fixed;
+  position: relative;
   top: 0;
   left: 0;
   height: 100vh;
@@ -13,7 +13,11 @@
 .icon-open-options{
   width: 20px;
   height: 20px;
-  transition: all 0.3s ease;
+  transition: all 0.1s ease;
+}
+.option-selected{
+  border-left: #29B6C5 3px solid !important;
+  background-color: rgba(0, 0, 0, 0.521) !important;
 }
 .container-option-principal{
   display: flex;
@@ -30,6 +34,7 @@
   width: 20px;
   height: 20px;
   margin-right: 10px;
+  
 }
 .option-principal{
   display: flex;
@@ -52,7 +57,7 @@
   justify-content: start;
   align-items: center;
   cursor: pointer;
-   
+   border-left:  3px solid;
    border-top: 1px solid rgba(138, 160, 166, 0.288);
    padding: 8px 5px 8px 10px;
    background-color: rgba(0, 0, 0, 0.171);
@@ -83,6 +88,6 @@
 }
 .icon-options-rotate {
   transform: rotate(180deg);
-  transition: transform 0.3s ease;
+  transition: transform 0.1s ease-in-out;
 }
 
