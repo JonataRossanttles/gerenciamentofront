@@ -1,15 +1,21 @@
 
-import { useState } from 'react'
 import './App.css'
-import Header from './components/header/header'
-import Menu from './components/menu/menu'
+import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import  Login from './pages/login/login'
+import Geral from './pages/geral/geral'
 
 function App() {
 
   return (
     <>
-      <Menu></Menu>
-      <Header></Header>
+ 
+ <BrowserRouter>
+      <Routes>
+        <Route path='/login' element={<Login />} />
+        <Route path='/adm' element={<Geral />} />
+        {/* Add other routes here */}
+      </Routes>
+    </BrowserRouter>
     </>
   )
 }

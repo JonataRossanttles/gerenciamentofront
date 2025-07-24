@@ -1,5 +1,5 @@
 
-import { useEffect, useRef } from 'react'
+import { use, useEffect, useRef } from 'react'
 import './menu.css'
 import { usarcontexto } from '../../context/context'
 
@@ -12,6 +12,7 @@ function Menu() {
     divconsulta: useRef<HTMLDivElement>(null),
     diviconcadastro: useRef<HTMLImageElement>(null),
     diviconconsulta: useRef<HTMLImageElement>(null),
+    divinicio: useRef<HTMLDivElement>(null)
   }
 function togglecadastro () {
   if(refs.divcadastro.current){
@@ -31,20 +32,45 @@ function infooption (e: React.MouseEvent<HTMLDivElement>) {
   const target = e.target as HTMLElement;
   const divOption = target.closest('.div-option');
   if (divOption) {
+    const options = document.querySelectorAll('.div-option');
+    const divinicio = refs.divinicio.current;
+    options.forEach(option => {
+      option.classList.remove('option-selected');
+    });
+    if(divinicio) {
+     divinicio.id = '';
+    }
     divOption.classList.add('option-selected');
+    
     const span = divOption.querySelector('span');
     if (span) {
       useinformationmenu(span.textContent);
     }
 }}
 
+function infoinicio(){
+  const divinicio = refs.divinicio.current;
+  const options = document.querySelectorAll('.div-option');
+   options.forEach(option => {
+      option.classList.remove('option-selected');
+    });
+
+  if (divinicio) {
+    divinicio.id = 'div-inicio';
+
+  useinformationmenu('Início');
+
+  }
+  
+}
+
   return (
     <>
     <div className='container-geral-menu'>
       <img  src='/logo.png' alt='logo' className='logo'></img>
       <div className='container-option-principal'>
-        <div className='option-principal' >
-          <div className='container-icon-option'>
+        <div className='option-principal'  id='div-inicio' ref={refs.divinicio} onClick={infoinicio}>
+          <div className='container-icon-option' >
             <img src='/home.png' alt='home' className='icon-option'></img>
             <span className='text-option-principal' >Inicio</span>
           </div>

@@ -12,9 +12,8 @@ const Context = createContext<props | undefined>(undefined);
 
 // Provider para fornecer as rotas da API
 export const Provider = ({ children }: { children: ReactNode }) => {
- //'https://backportaldocliente.onrender.com'
-  const baseURL = 'https://backportaldocliente.onrender.com';
   const [informationmenu, useInformationmenu] = useState('');
+  
 
   //Atribuindo os valores das rotas da API e o estado do modal e a função para alterar o estado do modal
   const information: props = {
