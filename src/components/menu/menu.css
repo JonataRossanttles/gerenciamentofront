@@ -92,4 +92,7 @@
   transform: rotate(180deg);
   transition: transform 0.1s ease-in-out;
 }
+#visao-prof {
+  display: none;
+}
 
