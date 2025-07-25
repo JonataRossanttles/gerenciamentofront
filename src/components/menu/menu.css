@@ -56,10 +56,11 @@
   justify-content: start;
   align-items: center;
   cursor: pointer;
-   border-left:  3px solid;
+   border-left:  3px solid transparent;
    border-top: 1px solid rgba(138, 160, 166, 0.288);
    padding: 10px 5px 10px 10px;
    background-color: rgba(0, 0, 0, 0.171);
+   text-decoration: none
 }
 #div-inicio{
   background-color: rgba(0, 0, 0, 0.521);

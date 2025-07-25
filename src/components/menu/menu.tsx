@@ -2,6 +2,7 @@
 import { use, useEffect, useRef } from 'react'
 import './menu.css'
 import { usarcontexto } from '../../context/context'
+import { Link } from 'react-router-dom';
 
 function Menu() {
   const { useinformationmenu } = usarcontexto();
@@ -37,7 +38,7 @@ function toggleconsultaprof () {
   }
 }
 
-function infooption (e: React.MouseEvent<HTMLDivElement>) {
+function infooption (e: React.MouseEvent<HTMLAnchorElement | HTMLDivElement>) {
   const target = e.target as HTMLElement;
   const divOption = target.closest('.div-option');
   if (divOption) {
@@ -95,10 +96,10 @@ function logoff() {
           <img src='/seta-down.png' alt='icon-setinha' className='icon-open-options' ref={refs.diviconcadastro}></img>
         </div>
         <div className='container-options'  ref={refs.divcadastro}>
-        <div className='div-option' onClick={infooption}><span className='text-option' >Turma</span></div>
-        <div className='div-option' onClick={infooption}><span className='text-option'>Aluno</span></div>
-        <div className='div-option' onClick={infooption}><span className='text-option' >Usuário</span></div>
-        <div className='div-option' onClick={infooption}><span className='text-option'>Disciplina</span></div>
+      <Link to={'cadastrar-turma'} className='div-option' onClick={infooption}><span className='text-option' >Turma</span></Link>  
+        <Link to={'cadastrar-aluno'} className='div-option' onClick={infooption}><span className='text-option'>Aluno</span></Link>
+        <Link to={'cadastrar-usuario'} className='div-option' onClick={infooption}><span className='text-option' >Usuário</span></Link>
+        <Link to={'cadastrar-disciplina'} className='div-option' onClick={infooption}><span className='text-option'>Disciplina</span></Link>
       </div>
 
       <div className='option-principal' onClick={toggleconsulta}>
@@ -109,14 +110,14 @@ function logoff() {
           <img src='/seta-down.png' alt='icon-setinha' className='icon-open-options' ref={refs.diviconconsulta} /> 
         </div>
         <div className='container-options'  ref={refs.divconsulta}>
-           <div className='div-option' onClick={infooption}><span className='text-option' >Turmas</span></div>
-        <div className='div-option' onClick={infooption}><span className='text-option'>Alunos</span></div>
-        <div className='div-option' onClick={infooption}><span className='text-option' >Usuários</span></div>
-        <div className='div-option' onClick={infooption}><span className='text-option'>Disciplinas</span></div>
-        <div className='div-option' onClick={infooption} ><span className='text-option'>Alunos na turma</span></div>
-        <div className='div-option' onClick={infooption} ><span className='text-option'>Professor(a)s na turma</span></div>
-        <div className='div-option' onClick={infooption} ><span className='text-option' >Disciplinas na turma</span></div>
-        <div className='div-option' onClick={infooption} ><span className='text-option'>Situação cadastral - Alunos</span></div>
+          <Link to={'consultar-turmas'} className='div-option' onClick={infooption}><span className='text-option' >Turmas</span></Link>
+       <Link to={'consultar-alunos'} className='div-option' onClick={infooption}><span className='text-option'>Alunos</span></Link>
+       <Link to={'consultar-usuarios'} className='div-option' onClick={infooption}><span className='text-option' >Usuários</span></Link>
+       <Link to={'consultar-disciplinas'} className='div-option' onClick={infooption}><span className='text-option'>Disciplinas</span></Link>
+       <Link to={'consultar-alunos-na-turma'} className='div-option' onClick={infooption}><span className='text-option'>Alunos na turma</span></Link>
+       <Link to={'consultar-professores-na-turma'} className='div-option' onClick={infooption}><span className='text-option'>Professor(a)s na turma</span></Link>
+       <Link to={'consultar-disciplinas-na-turma'} className='div-option' onClick={infooption}><span className='text-option'>Disciplinas na turma</span></Link>
+       <Link to={'consultar-situacao-cadastral-alunos'} className='div-option' onClick={infooption}><span className='text-option'>Situação cadastral - Alunos</span></Link>
       </div>
 
       <div className='option-principal' onClick={toggleconsultaprof} id='visao-prof'>

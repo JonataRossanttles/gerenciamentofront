@@ -1,7 +1,8 @@
 import './geral.css'
 import Menu from '../../components/menu/menu';
 import Header from '../../components/header/header';
-import Main from '../../components/main/main';
+import { Outlet } from 'react-router-dom';
+
 
 function Geral() {
  
@@ -12,7 +13,7 @@ function Geral() {
       <Menu />
       <div className='container-geral'>
       <Header />
-      <Main />
+      <Outlet />
       </div>
       
       

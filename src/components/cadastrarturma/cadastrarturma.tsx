@@ -1,10 +1,10 @@
 
 
-import './main.css'
+import './cadastrarturma.css'
 
 
 
-function Main() {
+function cadastrarturma() {
   
   return (
     <>
@@ -36,4 +36,4 @@ function Main() {
   )
 }
 
-export default Main
+export default cadastrarturma
