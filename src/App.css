@@ -15,3 +15,38 @@
   height: 100vh;
 }
 
+.container-response{
+    position: absolute;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width: 350px;
+    height: 60px;
+    border-radius: 5px;
+    
+}
+.close-response{
+    width: 15px;
+    height: 15px;
+    cursor: pointer;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
+.information-response{
+    color: white;
+    text-align: center;
+    font-size: 16px;
+    margin-right: 20px;
+}
+.erroresponse{
+  background-color: rgb(214, 24, 24);
+}
+.sucessoresponse{
+  background-color: rgb(24, 214, 24);
+}
+

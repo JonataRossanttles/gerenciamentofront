@@ -16,7 +16,7 @@
   transition: all 0.1s ease;
 }
 .option-selected{
-  border-left: #29B6C5 3px solid !important;
+  border-left:#259FE7  3px solid !important;
   background-color: rgba(0, 0, 0, 0.521) !important;
 }
 .container-option-principal{

@@ -27,7 +27,7 @@ export const Providerapi = ({ children }: { children: ReactNode }) => {
   );
 };
 
-// Hook para usar que os filhos consigam usar as rotas
+// Hook para  que os filhos consigam usar as rotas
 export const usarcontextoapi = () => {
   const contexto = useContext(Context);
   if (!contexto) {

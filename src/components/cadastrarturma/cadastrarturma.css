@@ -1,11 +1,43 @@
-.main{
+.form-cadastrar-turma{
+    width: 400px;
     display: flex;
-    flex: 1;
+    flex-direction: column;
     padding: 30px;
+}
+.form-cadastrar-turma>:not(:last-child){
+    margin-bottom: 20px;
+}
+.main{
+    width: 100%;
+    flex: 1;
 }
 .container-input{
     display: flex;
     flex-direction: column;
     width: 100%;
     gap: 5px;
+    
+    
+}
+.input-cadastrar-turma{
+    width: 100%;
+    height: 30px;
+    border-radius: 5px;
+    padding: 0 10px;
+    border: 1px solid #ccc;
+}
+.btn-cadastrar{
+    width: 100%;
+    height: 40px;
+    cursor: pointer;
+    background-image: linear-gradient(to bottom, #3f98e0, #1A73E8);
+    color: white;
+    border-radius: 5px;
+    border: 1px solid black;
+    box-shadow: 1px 3px 2px  rgba(0, 0, 0, 0.205);
+}
+.span-cadastrar-turma{
+    display: inline;
+    font-weight: bold;
+    color: #333;
 }

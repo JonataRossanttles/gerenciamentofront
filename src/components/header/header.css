@@ -8,3 +8,8 @@
   border-bottom: rgba(0, 0, 0, 0.349) 1px solid;
   
 }
+.text-header{
+  font-size: 30px;
+  font-weight: bold;
+  color: #333;
+}

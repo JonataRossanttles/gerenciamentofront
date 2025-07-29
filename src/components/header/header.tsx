@@ -15,7 +15,7 @@ function Header() {
   return (
     <>
     <div className="container-header">
-      <h2>{informationmenu}</h2>
+      <h2 className='text-header'>{informationmenu}</h2>
     
   </div>
    
