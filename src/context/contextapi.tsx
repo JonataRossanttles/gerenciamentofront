@@ -5,6 +5,7 @@ import type { ReactNode } from 'react';
 type props = {
   rotaLogin: string,
   rotacriarturma: string,
+  rotacriaraluno: string
 
 };
 // Criando o contexto para as rotas da API
@@ -17,7 +18,8 @@ export const Providerapi = ({ children }: { children: ReactNode }) => {
   //Atribuindo os valores das rotas da API 
   const rotas: props = {
     rotaLogin: `${baseURL}/login`,
-    rotacriarturma: `${baseURL}/turma/criar`
+    rotacriarturma: `${baseURL}/turma/criar`,
+    rotacriaraluno: `${baseURL}/aluno/criar`
   };
 
   return (

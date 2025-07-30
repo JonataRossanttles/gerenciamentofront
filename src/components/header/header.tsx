@@ -3,15 +3,20 @@
 import './header.css'
 import { usarcontexto } from '../../context/context'
 import { useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 
 
 function Header() {
-  
+  const path = useLocation().pathname;
+  console.log(path)
   const { informationmenu,useinformationmenu } = usarcontexto();
  useEffect(()=>{
-  useinformationmenu("Início")
-  
- },[])
+ if(path === "/adm/cadastrar-turma")  useinformationmenu("Cadastrar Turma")
+ if(path === "/adm/cadastrar-aluno")  useinformationmenu("Cadastrar Aluno")
+ if(path === "/adm/cadastrar-usuario")  useinformationmenu("Cadastrar Usuário")
+ if(path === "/adm/cadastrar-disciplina")  useinformationmenu("Cadastrar Disciplina")
+ if(path === "/adm")  useinformationmenu("Início")
+ },[path])
   return (
     <>
     <div className="container-header">

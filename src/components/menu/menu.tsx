@@ -2,11 +2,11 @@
 import { use, useEffect, useRef } from 'react'
 import './menu.css'
 import { usarcontexto } from '../../context/context'
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
 function Menu() {
-  const { useinformationmenu } = usarcontexto();
-  useEffect(()=>{useinformationmenu('Inicio')},[])
+  const path = useLocation().pathname;
+  
 
   const refs = {
     divcadastro: useRef<HTMLDivElement>(null),
@@ -38,9 +38,10 @@ function toggleconsultaprof () {
   }
 }
 
-function infooption (e: React.MouseEvent<HTMLAnchorElement | HTMLDivElement>) {
-  const target = e.target as HTMLElement;
-  const divOption = target.closest('.div-option');
+function infooption (element:  HTMLDivElement | HTMLAnchorElement) {
+  const divOption = element.closest('.div-option') as HTMLElement;
+
+  if (!divOption) return;
   if (divOption) {
     const options = document.querySelectorAll('.div-option');
     const divinicio = refs.divinicio.current;
@@ -52,10 +53,6 @@ function infooption (e: React.MouseEvent<HTMLAnchorElement | HTMLDivElement>) {
     }
     divOption.classList.add('option-selected');
     
-    const span = divOption.querySelector('span');
-    if (span) {
-      useinformationmenu(span.textContent);
-    }
 }}
 
 function infoinicio(){
@@ -67,27 +64,40 @@ function infoinicio(){
 
   if (divinicio) {
     divinicio.id = 'div-inicio';
-
-  useinformationmenu('Início');
-
   }
   
 }
+
 function logoff() {
   console.log('Logoff clicked');
 }
+
+useEffect(()=>{
+if(path === '/adm/cadastrar/turma'){
+  if(refs.divcadastro.current) {
+  infooption(refs.divcadastro.current);
+  }
+ 
+}
+
+
+},[path])
 
   return (
     <>
     <div className='container-geral-menu'>
       <img  src='/logo.png' alt='logo' className='logo'></img>
+     
       <div className='container-option-principal'>
-        <div className='option-principal'  id='div-inicio' ref={refs.divinicio} onClick={infoinicio}>
-          <div className='container-icon-option' >
-            <img src='/home.png' alt='home' className='icon-option'></img>
+        <Link to={'/adm'}  className='link-option-principal'   onClick={infoinicio} >
+          <div   ref={refs.divinicio} className='option-principal' id='div-inicio' onClick={infoinicio}>
+            <div className='container-icon-option' >
+              <img src='/home.png' alt='home' className='icon-option'></img>
             <span className='text-option-principal' >Inicio</span>
           </div>
-        </div>
+          </div>
+        </Link>
+       
         <div className='option-principal' onClick={togglecadastro}>
           <div className='container-icon-option'>
             <img src='/icon-cadastro.png' alt='home' className='icon-option'></img>
@@ -96,10 +106,10 @@ function logoff() {
           <img src='/seta-down.png' alt='icon-setinha' className='icon-open-options' ref={refs.diviconcadastro}></img>
         </div>
         <div className='container-options'  ref={refs.divcadastro}>
-      <Link to={'cadastrar-turma'} className='div-option' onClick={infooption}><span className='text-option' >Turma</span></Link>  
-        <Link to={'cadastrar-aluno'} className='div-option' onClick={infooption}><span className='text-option'>Aluno</span></Link>
-        <Link to={'cadastrar-usuario'} className='div-option' onClick={infooption}><span className='text-option' >Usuário</span></Link>
-        <Link to={'cadastrar-disciplina'} className='div-option' onClick={infooption}><span className='text-option'>Disciplina</span></Link>
+      <Link to={'cadastrar-turma'} className='div-option' onClick={(e) => infooption(e.currentTarget)}><span className='text-option' id='cadastrar-turma' >Turma</span></Link>  
+        <Link to={'cadastrar-aluno'} className='div-option' onClick={(e) => infooption(e.currentTarget)}><span className='text-option'>Aluno</span></Link>
+        <Link to={'cadastrar-usuario'} className='div-option' onClick={(e) => infooption(e.currentTarget)}><span className='text-option' >Usuário</span></Link>
+        <Link to={'cadastrar-disciplina'} className='div-option' onClick={(e) => infooption(e.currentTarget)}><span className='text-option'>Disciplina</span></Link>
       </div>
 
       <div className='option-principal' onClick={toggleconsulta}>
@@ -110,14 +120,14 @@ function logoff() {
           <img src='/seta-down.png' alt='icon-setinha' className='icon-open-options' ref={refs.diviconconsulta} /> 
         </div>
         <div className='container-options'  ref={refs.divconsulta}>
-          <Link to={'consultar-turmas'} className='div-option' onClick={infooption}><span className='text-option' >Turmas</span></Link>
-       <Link to={'consultar-alunos'} className='div-option' onClick={infooption}><span className='text-option'>Alunos</span></Link>
-       <Link to={'consultar-usuarios'} className='div-option' onClick={infooption}><span className='text-option' >Usuários</span></Link>
-       <Link to={'consultar-disciplinas'} className='div-option' onClick={infooption}><span className='text-option'>Disciplinas</span></Link>
-       <Link to={'consultar-alunos-na-turma'} className='div-option' onClick={infooption}><span className='text-option'>Alunos na turma</span></Link>
-       <Link to={'consultar-professores-na-turma'} className='div-option' onClick={infooption}><span className='text-option'>Professor(a)s na turma</span></Link>
-       <Link to={'consultar-disciplinas-na-turma'} className='div-option' onClick={infooption}><span className='text-option'>Disciplinas na turma</span></Link>
-       <Link to={'consultar-situacao-cadastral-alunos'} className='div-option' onClick={infooption}><span className='text-option'>Situação cadastral - Alunos</span></Link>
+          <Link to={'consultar-turmas'} className='div-option' onClick={(e) => infooption(e.currentTarget)}><span className='text-option' >Turmas</span></Link>
+       <Link to={'consultar-alunos'} className='div-option' onClick={(e) => infooption(e.currentTarget)}><span className='text-option'>Alunos</span></Link>
+       <Link to={'consultar-usuarios'} className='div-option' onClick={(e) => infooption(e.currentTarget)}><span className='text-option' >Usuários</span></Link>
+       <Link to={'consultar-disciplinas'} className='div-option' onClick={(e) => infooption(e.currentTarget)}><span className='text-option'>Disciplinas</span></Link>
+       <Link to={'consultar-alunos-na-turma'} className='div-option' onClick={(e) => infooption(e.currentTarget)}><span className='text-option'>Alunos na turma</span></Link>
+       <Link to={'consultar-professores-na-turma'} className='div-option' onClick={(e) => infooption(e.currentTarget)}><span className='text-option'>Professor(a)s na turma</span></Link>
+       <Link to={'consultar-disciplinas-na-turma'} className='div-option' onClick={(e) => infooption(e.currentTarget)}><span className='text-option'>Disciplinas na turma</span></Link>
+       <Link to={'consultar-situacao-cadastral-alunos'} className='div-option' onClick={(e) => infooption(e.currentTarget)}><span className='text-option'>Situação cadastral - Alunos</span></Link>
       </div>
 
       <div className='option-principal' onClick={toggleconsultaprof} id='visao-prof'>
@@ -128,8 +138,8 @@ function logoff() {
           <img src='/seta-down.png' alt='icon-setinha' className='icon-open-options' ref={refs.diviconconsultaprof} /> 
         </div>
         <div className='container-options'  ref={refs.divconsultaprof} >
-        <div className='div-option' onClick={infooption} ><span className='text-option'>Minhas turmas</span></div>
-        <div className='div-option' onClick={infooption} ><span className='text-option'>Minhas disciplinas</span></div>
+        <div className='div-option' onClick={(e) => infooption(e.currentTarget)} ><span className='text-option'>Minhas turmas</span></div>
+        <div className='div-option' onClick={(e) => infooption(e.currentTarget)} ><span className='text-option'>Minhas disciplinas</span></div>
       </div>
 
       </div>

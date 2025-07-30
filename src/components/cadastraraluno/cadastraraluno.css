@@ -1,0 +1,57 @@
+.form-cadastrar-aluno{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: 30px;
+}
+.form-cadastrar-aluno>:not(:last-child){
+    margin-bottom: 20px;
+}
+.main-cadastrar-aluno{
+    width: 100%;
+    flex: 1;
+}
+.container-input{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: 5px;
+}
+.input-cadastrar-aluno{
+    width: 100%;
+    height: 30px;
+    border-radius: 5px;
+    padding: 0 10px;
+    border: 1px solid #ccc;
+}
+.btn-cadastrar{
+    width: 100%;
+    height: 40px;
+    cursor: pointer;
+    background-image: linear-gradient(to bottom, #3f98e0, #1A73E8);
+    color: white;
+    border-radius: 5px;
+    border: 1px solid black;
+    box-shadow: 1px 3px 2px  rgba(0, 0, 0, 0.205);
+}
+.span-cadastrar-aluno{
+    display: inline;
+    font-weight: bold;
+    color: #333;
+}
+
+.form-information-cadastrar-aluno{
+    display: flex;
+    gap: 10px;
+    width: 100%;
+}
+.container-1, .container-2, .container-3{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+.container-1>:not(:last-child),
+.container-2>:not(:last-child),
+.container-3>:not(:last-child) {
+    margin-bottom: 10px;
+}

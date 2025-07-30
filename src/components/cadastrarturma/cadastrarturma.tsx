@@ -82,12 +82,12 @@ sala.current.value = '';
     divresponse.current?.classList.remove('erroresponse');
     divresponse.current?.classList.add('sucessoresponse');
  }
-}, [statusmsgerro]);
+}, [statusmsgerro, statusresponse]);
 
 function closeresponse() {
   setStatusresponse(false);
   setStatusreq('');
-  setStatusmsgerro(false);
+ 
 }
 
 
@@ -97,24 +97,24 @@ function closeresponse() {
     <form className='form-cadastrar-turma' onSubmit={cadastrar_turma}>
       <div className='container-input'>
         <span className='span-cadastrar-turma'>Turma:</span>
-        <input type="text" className='input-cadastrar-turma' ref={turma} />
+        <input type="text" className='input-cadastrar-turma' ref={turma} placeholder='Digite a turma'/>
       </div>
       <div className='container-input'>
         <span className='span-cadastrar-turma'>Série:</span>
-        <input type="text" className='input-cadastrar-turma' ref={serie} />
+        <input type="text" className='input-cadastrar-turma' ref={serie} placeholder='Digite a série'/>
       </div>
       <div className='container-input'>
         <span className='span-cadastrar-turma'>Turno:</span>
-        <input type="text" className='input-cadastrar-turma' ref={turno} />
+        <input type="text" className='input-cadastrar-turma' ref={turno} placeholder='Digite o turno'/>
       </div>
       <div className='container-input'>
         <span className='span-cadastrar-turma'>Ano letivo:</span>
-        <input type="number" className='input-cadastrar-turma' ref={anoLetivo} />
+        <input type="number" className='input-cadastrar-turma' ref={anoLetivo} placeholder='Digite o ano letivo'/>
       </div>
     
       <div className='container-input'>
         <span className='span-cadastrar-turma'>Sala:</span>
-        <input type="text" className='input-cadastrar-turma' ref={sala} />
+        <input type="text" className='input-cadastrar-turma' ref={sala} placeholder='Digite a sala'/>
       </div>
       <button className='btn-cadastrar'>Cadastrar</button>
 
