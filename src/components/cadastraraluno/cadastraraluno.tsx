@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from 'react';
 import './cadastraraluno.css'
 import { usarcontextoapi } from '../../context/contextapi.tsx';
 import { useNavigate } from 'react-router-dom';
+import Loading from '../loading/loading.tsx';
 
 
 
@@ -26,6 +27,7 @@ const estado = useRef<HTMLInputElement>(null);
 const cep = useRef<HTMLInputElement>(null);
 const divresponse = useRef<HTMLDivElement>(null);
 const navigate = useNavigate();
+const [loading,setLoading] = useState<boolean>()
 
 async function cadastrar_aluno(e: React.FormEvent<HTMLFormElement>) {
   e.preventDefault();
@@ -52,8 +54,9 @@ const dados = {
       cep: cep.current.value
   }
   }
-  
-const response = await fetch(rotacriaraluno, {
+  try {
+    setLoading(true)
+  const response = await fetch(rotacriaraluno, {
   method: 'POST',
   headers: {
     'Content-Type': 'application/json',
@@ -65,15 +68,18 @@ const response = await fetch(rotacriaraluno, {
 const information = await response.json();
 
 if(response.status === 401) {
+  setLoading(false)
  navigate('/login');
  return;
 }
 if(!response.ok){
+  setLoading(false)
  setStatusreq(information.msg);
  setStatusresponse(true);
  setStatusmsgerro(true);
  return;
 }
+setLoading(false)
 setStatusresponse(true);
 setStatusreq(information.msg);
 setStatusmsgerro(false);
@@ -109,6 +115,12 @@ setStatusmsgerro(false);
     estado.current.value = '';
   if (cep.current)
     cep.current.value = '';
+  } catch (error) {
+    setLoading(false)
+    setStatusreq('Erro no servidor!');
+    setStatusresponse(true);
+    setStatusmsgerro(true);
+  }
 
   }
 }
@@ -197,7 +209,7 @@ function closeresponse() {
     </div>
     
  </div>
-<button className='btn-cadastrar'>Cadastrar</button>
+<button className='btn-cadastrar-aluno'>Cadastrar</button>
     </form>
    </section>
    {statusresponse && (
@@ -206,6 +218,7 @@ function closeresponse() {
        <img src='/close.png' className='close-response' onClick={closeresponse}></img>
      </div>
    )}
+{loading && <Loading/>}
     </>
   )
 

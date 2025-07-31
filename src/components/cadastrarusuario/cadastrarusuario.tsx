@@ -1,43 +1,40 @@
 
 
 import { useEffect, useRef, useState } from 'react';
-import './cadastrarturma.css'
+import './cadastrarusuario.css'
 import { usarcontextoapi } from '../../context/contextapi.tsx';
 import { useNavigate } from 'react-router-dom';
 import Loading from '../loading/loading.tsx';
 
 
 
-function cadastrarturma() {
-const {rotacriarturma} = usarcontextoapi();
+function Cadastrarusuario() {
+const {rotacriarusuario} = usarcontextoapi();
 const [statusreq, setStatusreq] = useState<string>(); // Indica a mensagem recebida pelo backend.
 const [statusmsgerro, setStatusmsgerro] = useState<boolean>(); // Indica se é uma mensagem de erro ou não
 const [statusresponse, setStatusresponse] = useState<boolean>(false);  // Indica se a caixa de resposta deve ser exibida ou não
-const turma = useRef<HTMLInputElement>(null);
-const serie = useRef<HTMLInputElement>(null);
-const turno = useRef<HTMLInputElement>(null);
-const anoLetivo = useRef<HTMLInputElement>(null);
-const sala = useRef<HTMLInputElement>(null);
+const nome = useRef<HTMLInputElement>(null);
+const email = useRef<HTMLInputElement>(null);
 const divresponse = useRef<HTMLDivElement>(null);
+const tipo = useRef<HTMLSelectElement>(null);
 const navigate = useNavigate();
 const [loading,setLoading] = useState<boolean>()
 
 
-async function cadastrar_turma(e: React.FormEvent<HTMLFormElement>) {
+async function cadastrar_usuario(e: React.FormEvent<HTMLFormElement>) {
   e.preventDefault();
-  if(!turma.current || !serie.current || !turno.current || !anoLetivo.current || !sala.current) {
+  if(!nome.current || !email.current || !tipo.current ) {
     return;
   }
   const dados = {
-    turma: turma.current.value,
-    serie: serie.current.value,
-    turno: turno.current.value,
-    anoLetivo: Number(anoLetivo.current.value),
-    sala: sala.current.value
+    nome: nome.current.value,
+    email: email.current.value,
+    tipo: tipo.current.value,
+   
   };
 try {
   setLoading(true)
-  const response = await fetch(rotacriarturma, {
+  const response = await fetch(rotacriarusuario, {
   method: 'POST',
   headers: {
     'Content-Type': 'application/json',
@@ -69,14 +66,10 @@ setStatusmsgerro(false);
    divresponse.current.classList.remove('erroresponse');
    divresponse.current.classList.add('sucessoresponse');
  }
- 
  // Limpar os campos do formulário
-  if (turma.current)
-turma.current.value = '';
-serie.current.value = '';
-turno.current.value = '';
-anoLetivo.current.value = '';
-sala.current.value = '';
+nome.current.value = '';
+email.current.value = '';
+tipo.current.value = '';
 } catch (error) {
   setLoading(false)
   setStatusreq('Erro no servidor!');
@@ -107,31 +100,27 @@ function closeresponse() {
   return (
     <>
     <section className='main'>
-    <form className='form-cadastrar-turma' onSubmit={cadastrar_turma}>
+    <form className='form-cadastrar-usuario' onSubmit={cadastrar_usuario}>
       <div className='container-input'>
-        <span className='span-cadastrar-turma'>Turma:</span>
-        <input type="text" className='input-cadastrar-turma' ref={turma} placeholder='Digite a turma'/>
+        <span className='span-cadastrar-usuario'>Nome:</span>
+        <input type="text" className='input-cadastrar-usuario' ref={nome} placeholder='Digite o nome'/>
       </div>
       <div className='container-input'>
-        <span className='span-cadastrar-turma'>Série:</span>
-        <input type="text" className='input-cadastrar-turma' ref={serie} placeholder='Digite a série'/>
+        <span className='span-cadastrar-usuario'>E-mail:</span>
+        <input type="email" className='input-cadastrar-usuario' ref={email} placeholder='Digite o E-mail'/>
       </div>
       <div className='container-input'>
-        <span className='span-cadastrar-turma'>Turno:</span>
-        <input type="text" className='input-cadastrar-turma' ref={turno} placeholder='Digite o turno'/>
+         <span className='span-cadastrar-usuario'>Tipo:</span>
+        <select className='input-cadastrar-usuario' ref={tipo} defaultValue="">
+            <option value="" disabled selected hidden style={{ color: '#888' }}>Selecione o tipo</option>
+            <option value="admin">Administrador</option>
+            <option value="prof">Professor</option>
+            
+          </select>
       </div>
-      <div className='container-input'>
-        <span className='span-cadastrar-turma'>Ano letivo:</span>
-        <input type="number" className='input-cadastrar-turma' ref={anoLetivo} placeholder='Digite o ano letivo'/>
-      </div>
-    
-      <div className='container-input'>
-        <span className='span-cadastrar-turma'>Sala:</span>
-        <input type="text" className='input-cadastrar-turma' ref={sala} placeholder='Digite a sala'/>
-      </div>
+     
       <button className='btn-cadastrar'>Cadastrar</button>
 
-     
     </form>
    </section>
    {statusresponse && (
@@ -146,4 +135,4 @@ function closeresponse() {
 
 }
 
-export default cadastrarturma
+export default Cadastrarusuario

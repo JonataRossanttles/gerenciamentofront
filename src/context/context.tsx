@@ -4,8 +4,10 @@ import type { ReactNode } from 'react';
 
 type props = {
   informationmenu: string,
-  useinformationmenu: (info: string) => void
- 
+  useinformationmenu: (info: string) => void,
+  authenticated: boolean,
+  setAuthenticated: (value: boolean) => void
+
 };
 // Criando o contexto para as rotas da API
 const Context = createContext<props | undefined>(undefined);
@@ -13,12 +15,14 @@ const Context = createContext<props | undefined>(undefined);
 // Provider para fornecer as rotas da API
 export const Provider = ({ children }: { children: ReactNode }) => {
   const [informationmenu, useInformationmenu] = useState('');
-  
+  const [authenticated, setAuthenticated] = useState(false);
 
   //Atribuindo os valores das rotas da API e o estado do modal e a função para alterar o estado do modal
   const information: props = {
     informationmenu,
-    useinformationmenu: useInformationmenu
+    useinformationmenu: useInformationmenu,
+    authenticated,
+    setAuthenticated
   };
 
   return (

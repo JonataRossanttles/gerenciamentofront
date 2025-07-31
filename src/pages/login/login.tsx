@@ -1,11 +1,13 @@
 import { useRef , useState} from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { usarcontextoapi } from '../../context/contextapi';
+import { usarcontexto } from '../../context/context';
 import './login.css'
 import Loading from '../../components/loading/loading';
 
 function Login() {
   const { rotaLogin } = usarcontextoapi();
+  const { setAuthenticated } = usarcontexto();
   const inputEmail = useRef<HTMLInputElement>(null);
   const inputSenha = useRef<HTMLInputElement>(null);
   const navigate = useNavigate();
@@ -26,11 +28,13 @@ function Login() {
       const dados = await resposta.json()
       if(!resposta.ok) {
         setStatusloading(false)
+        setAuthenticated(false);
         return alert(dados.msg);
       }
       else{
         localStorage.setItem('infouser',JSON.stringify(dados))
         setStatusloading(false)
+        setAuthenticated(true);
         return navigate('/adm');
       }
     

@@ -8,7 +8,6 @@ import { useLocation } from 'react-router-dom';
 
 function Header() {
   const path = useLocation().pathname;
-  console.log(path)
   const { informationmenu,useinformationmenu } = usarcontexto();
  useEffect(()=>{
  if(path === "/adm/cadastrar-turma")  useinformationmenu("Cadastrar Turma")
