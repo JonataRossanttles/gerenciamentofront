@@ -1,7 +1,6 @@
 
-import { use, useEffect, useRef } from 'react'
+import {useEffect, useRef } from 'react'
 import './menu.css'
-import { usarcontexto } from '../../context/context'
 import { Link, useLocation } from 'react-router-dom';
 
 function Menu() {

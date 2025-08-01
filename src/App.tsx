@@ -32,6 +32,14 @@ const {authenticated} = usarcontexto()
           <Route path='cadastrar-aluno' element={<Cadastraraluno />} />
           <Route path='cadastrar-usuario' element={<Cadastrarusuario/>}/>
           <Route path='cadastrar-disciplina' element={<Cadastrardisciplina/>}/>
+          <Route path='consultar-turmas' element={<h1>Consultar turmas</h1>}/>
+          <Route path='consultar-alunos' element={<h1>Consultar Alunos</h1>}/>
+          <Route path='consultar-usuarios' element={<h1>Consultar Usuários</h1>}/>
+          <Route path='consultar-disciplinas' element={<h1>Consultar Disciplinas</h1>}/>
+          <Route path='consultar-alunos-na-turma' element={<h1>Consultar Alunos na turma</h1>}/>
+          <Route path='consultar-professores-na-turma' element={<h1>Consultar professores na turma</h1>}/>
+          <Route path='consultar-disciplinas-na-turma' element={<h1>Consultar disciplinas na turma</h1>}/>
+          <Route path='consultar-situacao-cadastral-alunos' element={<h1>Consultar situação cadastral dos alunos</h1>}/>
           </Route>
         </Route>
       </Routes>
