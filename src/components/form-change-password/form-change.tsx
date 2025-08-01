@@ -1,16 +1,19 @@
-import { useRef, useState } from 'react';
+import { useRef, useState,useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import './form-change.css'
 import Loading from '../loading/loading';
 import { usarcontextoapi } from '../../context/contextapi';
 
-function Formchange() {
-const navigate = useNavigate()
+function Formchangepassword() {
+
 const {rotachangepassword}= usarcontextoapi()
+ const divresponse = useRef<HTMLDivElement>(null);
+  const [statusresponse, setStatusresponse] = useState<boolean>(false); 
+  const [msgreq, setmsgreq] = useState<string>(); // Indica a mensagem recebida pelo backend.
+const [statusmsgerro,setstatusmsgerro] = useState<boolean>(); // Indica se é uma mensagem de erro ou não
 const emailref = useRef<HTMLInputElement>(null);
-const [statusErro, setStatusErro] = useState<boolean>(false);
-const [textErro, setTextErro] = useState<string>('');
+
 const [statusloading,setStatusloading] = useState<boolean>(false)
 
 
@@ -19,9 +22,11 @@ const [statusloading,setStatusloading] = useState<boolean>(false)
    setStatusloading(true)
    const email = emailref.current?.value.toLowerCase();
    if(!email){
-     setStatusloading(false)
-      setStatusErro(true);
-      setTextErro('Por favor, preencha o seu E-mail.');
+   
+      setStatusloading(false)
+      setStatusresponse(true)
+      setstatusmsgerro(true)
+      setmsgreq('Por favor, preencha o seu E-mail.')
       return;
    }
    
@@ -33,17 +38,41 @@ const [statusloading,setStatusloading] = useState<boolean>(false)
     })
     const dados = await resposta.json()
     if(!resposta.ok) {
-      setStatusloading(false)
-      return alert(dados.msg)
+     setStatusloading(false)
+      setStatusresponse(true)
+      setstatusmsgerro(true)
+      setmsgreq(`${dados.msg}`)
+      return  
     }
     setStatusloading(false)
-    navigate('/success')  
+    setStatusresponse(true)
+    setstatusmsgerro(false)
+    setmsgreq(`${dados.msg} Acesse o seu e-mail para troca de senha.`)
+    if(emailref.current) emailref.current.value = ''
+    return 
    } catch (error) {
-    alert(error)
+     setStatusloading(false)
+    setStatusresponse(true)
+    setmsgreq('Erro no servidor!')
    }
    
   }
-
+// Adicionando a cor a div de resposta com base no status da mensagem de erro
+   useEffect(() => {
+  if(statusmsgerro && divresponse.current) {
+    divresponse.current.classList.add('erroresponse');
+    divresponse.current.classList.remove('sucessoresponse');
+  }else{
+     divresponse.current?.classList.remove('erroresponse');
+     divresponse.current?.classList.add('sucessoresponse');
+  }
+ }, [statusmsgerro, statusresponse]);
+ 
+ function closeresponse() {
+   setStatusresponse(false);
+   setmsgreq('');
+  
+ }
 
   return (
     <>
@@ -53,18 +82,21 @@ const [statusloading,setStatusloading] = useState<boolean>(false)
         <div className='container-input-change-password'>
           <input type="email" placeholder="E-mail" className='input-change-password'  ref={emailref} />
           <button type="submit" className='button-change-password'>Enviar</button> 
-         
-          
+  
         </div>
-    {statusErro && <p className='status-erro-change-password'>{textErro}</p>} 
       </form>
-
     </div>
     {statusloading && <Loading/> }
+    {statusresponse && (
+     <div className='container-response' ref={divresponse}>
+       <span className='information-response'>{msgreq}</span>
+       <img src='/close.png' className='close-response' onClick={closeresponse}></img>
+     </div>
+   )}
     
      
     </>
   )
 }
 
-export default Formchange
+export default Formchangepassword

@@ -8,7 +8,8 @@ type props = {
   rotacriaraluno: string,
   rotavalidartoken: string,
   rotacriarusuario:string,
-  rotachangepassword:string
+  rotachangepassword:string,
+  rotaResetpassword:string
 
 };
 // Criando o contexto para as rotas da API
@@ -25,7 +26,9 @@ export const Providerapi = ({ children }: { children: ReactNode }) => {
     rotacriaraluno: `${baseURL}/aluno/criar`,
     rotavalidartoken: `${baseURL}/validartoken`,
     rotacriarusuario:`${baseURL}/criaruser`,
-    rotachangepassword: `${baseURL}/changepassword`
+    rotachangepassword: `${baseURL}/changepassword`,
+    rotaResetpassword:`${baseURL}/resetpassword`
+    
 
   };
 

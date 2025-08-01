@@ -9,6 +9,8 @@ import Inicio from './components/inicio/inicio'
 import Rotaprivada from './components/rotaprivada/rotaprivada'
 import { usarcontexto } from './context/context'
 import Cadastrarusuario from './components/cadastrarusuario/cadastrarusuario'
+import Changepassword from './pages/changepassword/changepassword'
+import Resetpassword from './pages/resetpassword/resetpassword'
 
 
 function App() {
@@ -20,6 +22,8 @@ const {authenticated} = usarcontexto()
  <BrowserRouter>
       <Routes>
         <Route path='/login' element={<Login />} />
+        <Route path='/change-password' element={<Changepassword/>} />
+        <Route path='/resetpassword/:token' element={<Resetpassword/>} />
         <Route path='/adm' element={<Rotaprivada authenticated={authenticated} />}>
          <Route element={<Geral />}> 
           <Route index element={<Inicio />} />
