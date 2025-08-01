@@ -6,11 +6,12 @@
     align-items: center;
 }
 .form-cadastrar-aluno>:not(:last-child){
-    margin-bottom: 20px;
+    margin-bottom: 10px;
 }
 .main-cadastrar-aluno{
     width: 100%;
     flex: 1;
+    background-color: rgba(128, 128, 128, 0.048);
 }
 .container-input{
     display: flex;
@@ -34,6 +35,7 @@
     border-radius: 5px;
     border: 1px solid black;
     box-shadow: 1px 3px 2px  rgba(0, 0, 0, 0.205);
+     margin-top: 10px;
 }
 .span-cadastrar-aluno{
     display: inline;

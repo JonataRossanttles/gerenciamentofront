@@ -11,6 +11,7 @@ import { usarcontexto } from './context/context'
 import Cadastrarusuario from './components/cadastrarusuario/cadastrarusuario'
 import Changepassword from './pages/changepassword/changepassword'
 import Resetpassword from './pages/resetpassword/resetpassword'
+import Cadastrardisciplina from './components/cadastrardisciplina/cadastrardisciplina'
 
 
 function App() {
@@ -30,6 +31,7 @@ const {authenticated} = usarcontexto()
           <Route path='cadastrar-turma' element={ <Cadastrarturma />  } />
           <Route path='cadastrar-aluno' element={<Cadastraraluno />} />
           <Route path='cadastrar-usuario' element={<Cadastrarusuario/>}/>
+          <Route path='cadastrar-disciplina' element={<Cadastrardisciplina/>}/>
           </Route>
         </Route>
       </Routes>
