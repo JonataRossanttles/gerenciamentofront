@@ -2,16 +2,12 @@
     width: 400px;
     display: flex;
     flex-direction: column;
-    padding: 30px;
+
 }
 .form-cadastrar-disciplina>:not(:last-child){
     margin-bottom: 10px;
 }
-.main{
-    width: 100%;
-    flex: 1;
-     background-color: rgba(128, 128, 128, 0.048);
-}
+
 .container-input{
     display: flex;
     flex-direction: column;

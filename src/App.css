@@ -14,7 +14,23 @@
   width: 100%;
  height: 100vh;
 }
-
+.main{
+    width: 100%;
+    flex: 1;
+     background-color: rgba(128, 128, 128, 0.048);
+     padding: 30px;
+}
+.modal{
+  position: fixed;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.719);
+}
 .container-response{
     position: absolute;
     top: 20px;

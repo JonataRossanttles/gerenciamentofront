@@ -12,6 +12,7 @@ import Cadastrarusuario from './components/cadastrarusuario/cadastrarusuario'
 import Changepassword from './pages/changepassword/changepassword'
 import Resetpassword from './pages/resetpassword/resetpassword'
 import Cadastrardisciplina from './components/cadastrardisciplina/cadastrardisciplina'
+import Consultarturmas from './components/consultarturmas/consultarturmas'
 
 
 function App() {
@@ -32,7 +33,7 @@ const {authenticated} = usarcontexto()
           <Route path='cadastrar-aluno' element={<Cadastraraluno />} />
           <Route path='cadastrar-usuario' element={<Cadastrarusuario/>}/>
           <Route path='cadastrar-disciplina' element={<Cadastrardisciplina/>}/>
-          <Route path='consultar-turmas' element={<h1>Consultar turmas</h1>}/>
+          <Route path='consultar-turmas' element={<Consultarturmas/>}/>
           <Route path='consultar-alunos' element={<h1>Consultar Alunos</h1>}/>
           <Route path='consultar-usuarios' element={<h1>Consultar Usuários</h1>}/>
           <Route path='consultar-disciplinas' element={<h1>Consultar Disciplinas</h1>}/>

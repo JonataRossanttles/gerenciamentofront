@@ -1,0 +1,100 @@
+.form-modal-turma{
+    width: 400px;
+   position: relative;
+    padding: 30px;
+    background-color: rgba(128, 128, 128, 0.514);
+    border-radius: 5px;
+}
+.form-modal-turma>:not(:last-child){
+    margin-bottom: 10px;
+}
+.close{
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    position: absolute;
+    right: 15px;
+    top: 10px;
+}
+#form-modal-turma{
+display: flex;
+flex-direction: column;
+}
+.container-modal{
+    display: flex;
+    align-items: end;
+    margin-bottom: 10px;
+}
+#filtro-turma{
+    margin-right: 0px;
+}
+.container-input-modal-turmas{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: 5px;
+    margin-right: 20px;
+    
+}
+.input-modal-turma{
+    width: 100%;
+    height: 30px;
+    border-radius: 5px;
+    padding: 0 10px;
+    border: 1px solid #ccc;
+}
+.btn-modal{
+    width: 100%;
+    height: 40px;
+    cursor: pointer;
+    background-image: linear-gradient(to bottom, #3f98e0, #1A73E8);
+    color: white;
+    border-radius: 5px;
+    border: 1px solid black;
+    box-shadow: 1px 3px 2px  rgba(0, 0, 0, 0.205);
+    
+}
+.span-modal-turma{
+    display: inline;
+    font-weight: bold;
+    color: white;
+}
+   
+.table-modal{
+    width: 100%;
+}
+.line-table{
+    border: 1px solid black;
+}
+.information-table{
+    padding: 10px;
+    text-align: center;
+    max-width: 150px;           /* limite opcional */
+  white-space: nowrap;        /* impede quebra de linha */
+  overflow: hidden;           /* esconde o conteúdo que passar */
+  text-overflow: ellipsis;
+}
+.table-header{
+    padding: 10px;
+    color: white;
+    background-color: #1561c5f1;
+}
+
+
+.table-modal tbody tr:nth-child(even) {
+  background-color: white; /* cinza claro */
+}
+
+.table-modal tbody tr:nth-child(odd) {
+  background-color:  #ececec; /* branco */
+}
+
+.icon-editar,.icon-ver{
+    width: 25px;
+    height: 25px;
+    cursor: pointer;
+}
+.icon-ver{
+    width: 30px;
+    height: 30px;
+}

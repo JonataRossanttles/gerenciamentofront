@@ -2,7 +2,7 @@
     width: 100%;
     display: flex;
     flex-direction: column;
-    padding: 30px;
+   
     align-items: center;
 }
 .form-cadastrar-aluno>:not(:last-child){
@@ -12,6 +12,7 @@
     width: 100%;
     flex: 1;
     background-color: rgba(128, 128, 128, 0.048);
+    padding: 30px;
 }
 .container-input{
     display: flex;
