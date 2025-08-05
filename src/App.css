@@ -19,6 +19,7 @@
     flex: 1;
      background-color: rgba(128, 128, 128, 0.048);
      padding: 30px;
+     overflow: scroll;
 }
 .modal{
   position: fixed;

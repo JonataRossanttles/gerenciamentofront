@@ -38,10 +38,37 @@ flex-direction: column;
 }
 .input-modal-turma{
     width: 100%;
+    font-weight: bold;
     height: 30px;
     border-radius: 5px;
     padding: 0 10px;
-    border: 1px solid #ccc;
+    border: 1px solid #e4e4e4;
+    background-color: #e0e0e0;
+  color: #7a7a7a;
+  cursor: not-allowed;
+}
+.input-ativo{
+    background-color: white;
+    color: black;
+    cursor: auto;
+}
+
+.container-icon-modal{
+    display: flex;
+    margin-left: 10px;
+}
+.container-icon-modal>.icon-modal:not(:last-child){
+    margin-right: 5px ;
+}
+.container-input-icon-modal{
+    display: flex;
+    justify-content: space-between;
+    
+}
+.icon-modal{
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
 }
 .btn-modal{
     width: 100%;

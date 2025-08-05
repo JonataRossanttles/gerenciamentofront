@@ -7,8 +7,8 @@ import { usarcontexto } from '../../context/context.tsx';
 
 
 function Modal_consultar_turma() {
-const {rotaconsultarturmas} = usarcontextoapi();
-const {setStatusmodal}=usarcontexto()
+const {rotaatualizarturma} = usarcontextoapi();
+const {setStatusmodal,turmaSelecionada}=usarcontexto()
 const [statusreq, setStatusreq] = useState<string>(); // Indica a mensagem recebida pelo backend.
 const [statusmsgerro, setStatusmsgerro] = useState<boolean>(); // Indica se é uma mensagem de erro ou não
 const [statusresponse, setStatusresponse] = useState<boolean>(false);  // Indica se a caixa de resposta deve ser exibida ou não
@@ -20,20 +20,30 @@ const sala = useRef<HTMLInputElement>(null);
 const divresponse = useRef<HTMLDivElement>(null);
 const navigate = useNavigate();
 const [loading,setLoading] = useState<boolean>()
+const [turmaupdate,setTurmaupdate] = useState()
+const [editando,setEditando] = useState({
+  turma:false,
+  serie:false,
+  turno:false,
+  anoLetivo:false,
+  sala:false
+})
 
-
-
-async function editar_turma(e: React.FormEvent<HTMLFormElement>) {
+async function atualizar_turma(e: React.FormEvent<HTMLFormElement>) {
   e.preventDefault();
-  if (!anoLetivo.current)  return
-   
+     
   const dados = {
-    anoLetivo: Number(anoLetivo.current.value),
-  };
+    turma: turma.current?.value,
+    serie: serie.current?.value,
+    turno: turno.current?.value,
+    anoLetivo: anoLetivo.current?.value,
+    sala: sala.current?.value,
+    turmaId: turmaSelecionada.turmaId
+  }
 try {
   setLoading(true)
-  const response = await fetch(rotaconsultarturmas, {
-  method: 'GET',
+  const response = await fetch(rotaatualizarturma, {
+  method: 'POST',
   headers: {
     'Content-Type': 'application/json',
   },
@@ -57,15 +67,12 @@ setLoading(false)
 setStatusresponse(true);
 setStatusreq(information.msg);
 setStatusmsgerro(false);
+
  
- // Limpar os campos do formulário após o cadastro
  if (divresponse.current) {
    divresponse.current.classList.remove('erroresponse');
    divresponse.current.classList.add('sucessoresponse');
  }
- // Limpar os campos do formulário
-
-anoLetivo.current.value = '';
 
 } catch (error) {
   setLoading(false)
@@ -98,36 +105,103 @@ setStatusmodal(false)
  
 }
 
+useEffect(()=>{
+  if(editando.turma === true){
+     turma.current?.classList.add('input-ativo')
+  } else{
+  turma.current?.classList.remove('input-ativo')
+  }
+  if(editando.serie === true){
+     serie.current?.classList.add('input-ativo')
+  } else{
+  serie.current?.classList.remove('input-ativo')
+  }
+  if(editando.turno === true){
+     turno.current?.classList.add('input-ativo')
+  } else{
+  turno.current?.classList.remove('input-ativo')
+  }
+  if(editando.anoLetivo === true){
+     anoLetivo.current?.classList.add('input-ativo')
+  } else{
+  anoLetivo.current?.classList.remove('input-ativo')
+  }
+  if(editando.sala === true){
+     sala.current?.classList.add('input-ativo')
+  } else{
+  sala.current?.classList.remove('input-ativo')
+  }
+
+},[editando])
+
+
+
 
   return (
     <>
     <div className='modal'>
    
    
-    <form className='form-modal-turma' onSubmit={editar_turma}>
+    <form className='form-modal-turma' onSubmit={atualizar_turma}>
       <img src='/close.png' alt='fechar' className='close' onClick={closemodal}></img>
       <div className='container-input'>
         <span className='span-modal-turma'>Turma:</span>
-        <input type="text" className='input-modal-turma' ref={turma} disabled />
+        <div className='container-input-icon-modal'>
+          <input type="text" className='input-modal-turma' ref={turma} disabled={!editando.turma} defaultValue={turmaSelecionada?.turma || ''}/> 
+          <div className='container-icon-modal'>
+            <img src='/icon-editar.png' alt='Editar'className='icon-modal' onClick={() => setEditando(prev => ({ ...prev, turma: true }))} ></img>
+            <img src='/icon-salvar.png' alt='Salvar' className='icon-modal' onClick={() => setEditando(prev => ({ ...prev, turma: false }))}></img>
+          </div>
+            
+        </div>  
+        
       </div>
       <div className='container-input'>
         <span className='span-modal-turma'>Série:</span>
-        <input type="text" className='input-modal-turma' ref={serie} disabled />
+        <div className='container-input-icon-modal'>
+          <input type="text" className='input-modal-turma' ref={serie} disabled={!editando.serie} defaultValue={turmaSelecionada?.serie}/> 
+          <div className='container-icon-modal'>
+            <img src='/icon-editar.png' alt='Editar'className='icon-modal' onClick={() => setEditando(prev => ({ ...prev, serie: true }))} ></img>
+            <img src='/icon-salvar.png' alt='Salvar' className='icon-modal' onClick={() => setEditando(prev => ({ ...prev, serie: false }))}></img>
+          </div>
+            
+        </div>  
       </div>
       <div className='container-input'>
         <span className='span-modal-turma'>Turno:</span>
-        <input type="text" className='input-modal-turma' ref={turno} disabled />
+        <div className='container-input-icon-modal'>
+          <input type="text" className='input-modal-turma' ref={turno} disabled={!editando.turno} defaultValue={turmaSelecionada?.turno}/> 
+          <div className='container-icon-modal'>
+            <img src='/icon-editar.png' alt='Editar'className='icon-modal'onClick={() => setEditando(prev => ({ ...prev, turno: true }))} ></img>
+            <img src='/icon-salvar.png' alt='Salvar' className='icon-modal' onClick={() => setEditando(prev => ({ ...prev, turno: false }))}></img>
+          </div>
+            
+        </div>  
       </div>
       <div className='container-input'>
         <span className='span-modal-turma'>Ano letivo:</span>
-        <input type="number" className='input-modal-turma' ref={anoLetivo} disabled/>
+          <div className='container-input-icon-modal'>
+          <input type="text" className='input-modal-turma' ref={anoLetivo} disabled={!editando.anoLetivo} defaultValue={turmaSelecionada?.anoLetivo}/> 
+          <div className='container-icon-modal'>
+            <img src='/icon-editar.png' alt='Editar'className='icon-modal'onClick={() => setEditando(prev => ({ ...prev, anoLetivo: true }))} ></img>
+            <img src='/icon-salvar.png' alt='Salvar' className='icon-modal' onClick={() => setEditando(prev => ({ ...prev, anoLetivo: false }))} ></img>
+          </div>
+            
+        </div>  
       </div>
     
       <div className='container-input'>
         <span className='span-modal-turma'>Sala:</span>
-        <input type="text" className='input-modal-turma' ref={sala}disabled />
+          <div className='container-input-icon-modal'>
+          <input type="text" className='input-modal-turma' ref={sala} disabled={!editando.sala} defaultValue={turmaSelecionada?.sala}/> 
+          <div className='container-icon-modal'>
+            <img src='/icon-editar.png' alt='Editar'className='icon-modal' onClick={() => setEditando(prev => ({ ...prev, sala: true }))} ></img>
+            <img src='/icon-salvar.png' alt='Salvar' className='icon-modal' onClick={() => setEditando(prev => ({ ...prev, sala: false }))} ></img>
+          </div>
+            
+        </div>  
       </div>
-      <button className='btn-modal'>Atualizar</button>
+      <button className='btn-modal' type='submit'>Atualizar</button>
 
     </form>
 

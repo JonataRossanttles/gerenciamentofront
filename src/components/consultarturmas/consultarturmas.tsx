@@ -10,21 +10,17 @@ import { usarcontexto } from '../../context/context.tsx';
 
 
 function Consultarturmas() {
-const {rotacriarturma} = usarcontextoapi();
-const {statusmodal,setStatusmodal} = usarcontexto()
+const {rotaconsultarturmas} = usarcontextoapi();
+const {statusmodal,setStatusmodal,turmaSelecionada,setTurmaselecionada,arrayTurmas,setArrayturmas} = usarcontexto()
 const [statusreq, setStatusreq] = useState<string>(); // Indica a mensagem recebida pelo backend.
 const [statusmsgerro, setStatusmsgerro] = useState<boolean>(); // Indica se é uma mensagem de erro ou não
 const [statusresponse, setStatusresponse] = useState<boolean>(false);  // Indica se a caixa de resposta deve ser exibida ou não
 const turma = useRef<HTMLInputElement>(null);
-const serie = useRef<HTMLInputElement>(null);
-const turno = useRef<HTMLInputElement>(null);
 const anoLetivo = useRef<HTMLInputElement>(null);
-const sala = useRef<HTMLInputElement>(null);
 const divresponse = useRef<HTMLDivElement>(null);
 const navigate = useNavigate();
 const [loading,setLoading] = useState<boolean>()
-
-
+const [tabelaturma , setTabelaturma] = useState<[]>([])
 
 async function consultar_turma(e: React.FormEvent<HTMLFormElement>) {
   e.preventDefault();
@@ -35,7 +31,7 @@ async function consultar_turma(e: React.FormEvent<HTMLFormElement>) {
   };
 try {
   setLoading(true)
-  const response = await fetch(rotacriarturma, {
+  const response = await fetch(rotaconsultarturmas, {
   method: 'POST',
   headers: {
     'Content-Type': 'application/json',
@@ -58,17 +54,29 @@ if(!response.ok){
  setStatusmsgerro(true);
  return;
 }
+setLoading(false) 
+if(information.msg.length === 0){
+  setLoading(false)
+ setStatusreq("Não existem turmas para esse ano letivo!");
+ setStatusresponse(true);
+ setStatusmsgerro(true);
+}
+
+const arrayturmas = information.msg.map((element:any)=>{
+  return(
+    <tr className='line-table'>
+            <td className='information-table'>{element.turma}</td>
+            <td className='information-table'>{element.serie}</td>
+            <td className='information-table'>{element.turno}</td>
+            <td className='information-table'>{element.sala}</td>
+            <td className='information-table'>{element.anoLetivo}</td>
+             <td className='information-table'><img alt='Icone de visualização' src='/icon-ver.png' className='icon-ver' id={element.turmaId} onClick={(e) => abrir_modal(e.currentTarget.id)} ></img></td>
+      </tr>
+             )
+})
+setTabelaturma(arrayturmas)
+setArrayturmas(information.msg)
 console.log(information.msg)
-setLoading(false)
-setStatusresponse(true);
-setStatusreq(information.msg);
-setStatusmsgerro(false);
- 
- // Limpar os campos do formulário após o cadastro
- if (divresponse.current) {
-   divresponse.current.classList.remove('erroresponse');
-   divresponse.current.classList.add('sucessoresponse');
- }
  // Limpar os campos do formulário
 anoLetivo.current.value = '';
 } catch (error) {
@@ -96,10 +104,17 @@ function closeresponse() {
  
 }
 
-function abrir_modal(){
+function abrir_modal(id: string){
+  console.log(id)
 setStatusmodal(true)
-console.log('clicked')
+const turmaselecionada =  arrayTurmas.find((element) => element.turmaId === id)
+console.log(turmaselecionada)
+setTurmaselecionada(turmaselecionada)
 }
+useEffect(()=>{
+console.log(arrayTurmas)
+},[arrayTurmas])
+
 
   return (
     <>
@@ -132,22 +147,7 @@ console.log('clicked')
         </tr>
         </thead>
         <tbody>
-          <tr className='line-table'>
-            <td className='information-table'>Turma A</td>
-            <td className='information-table'>1º ano</td>
-            <td className='information-table'>Manhã</td>
-            <td className='information-table'>205</td>
-            <td className='information-table'>2025</td>
-             <td className='information-table'><img alt='Icone de visualização' src='/icon-ver.png' className='icon-ver' onClick={abrir_modal}></img></td>
-          </tr>
-         <tr className='line-table' >
-            <td className='information-table'>Turma B</td>
-            <td className='information-table'>2º ano</td>
-            <td className='information-table'>Tarde</td>
-              <td className='information-table'>101</td>
-              <td className='information-table'>2025</td>
-            <td className='information-table'><img src='/icon-ver.png' className='icon-ver' onClick={abrir_modal}></img></td>
-          </tr>
+          {tabelaturma}
           
         </tbody>
       </table>

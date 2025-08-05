@@ -1,6 +1,7 @@
 import  { createContext, useContext,useState } from 'react';
 import type { ReactNode } from 'react';
 
+type obj = Record<string,any>
 
 type props = {
   informationmenu: string,
@@ -8,7 +9,13 @@ type props = {
   authenticated: boolean,
   setAuthenticated: (value: boolean) => void,
   statusmodal:boolean,
-  setStatusmodal: (value:boolean) => void
+  setStatusmodal: (value:boolean) => void,
+  arrayTurmas:any[],
+  setArrayturmas: (value:any[])=>void,
+  turmaSelecionada:obj,
+  setTurmaselecionada:React.Dispatch<React.SetStateAction<obj>>
+
+
 
 };
 // Criando o contexto para as rotas da API
@@ -19,6 +26,8 @@ export const Provider = ({ children }: { children: ReactNode }) => {
   const [informationmenu, useInformationmenu] = useState('');
   const [authenticated, setAuthenticated] = useState(false);
   const [statusmodal, setStatusmodal] = useState(false);
+  const [arrayTurmas, setArrayturmas] = useState<any[]>([]);
+  const [turmaSelecionada, setTurmaselecionada] = useState<obj>({});
 
   //Atribuindo os valores das rotas da API e o estado do modal e a função para alterar o estado do modal
   const information: props = {
@@ -27,7 +36,11 @@ export const Provider = ({ children }: { children: ReactNode }) => {
     authenticated,
     setAuthenticated,
     statusmodal,
-    setStatusmodal
+    setStatusmodal,
+    arrayTurmas,
+    setArrayturmas,
+    turmaSelecionada,
+    setTurmaselecionada
   };
 
   return (
