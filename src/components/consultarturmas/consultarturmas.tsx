@@ -76,9 +76,9 @@ const arrayturmas = information.msg.map((element:any)=>{
 })
 setTabelaturma(arrayturmas)
 setArrayturmas(information.msg)
-console.log(information.msg)
- // Limpar os campos do formulário
-anoLetivo.current.value = '';
+localStorage.setItem('turmas', JSON.stringify(information.msg))
+
+
 } catch (error) {
   setLoading(false)
   setStatusreq('Erro no servidor!');
@@ -106,10 +106,11 @@ function closeresponse() {
 
 function abrir_modal(id: string){
   console.log(id)
-setStatusmodal(true)
-const turmaselecionada =  arrayTurmas.find((element) => element.turmaId === id)
-console.log(turmaselecionada)
+  console.log(arrayTurmas)
+  const turmas = JSON.parse(localStorage.getItem('turmas') || '[]')
+const turmaselecionada =  turmas.find((element:any) => element.turmaId === id)
 setTurmaselecionada(turmaselecionada)
+setStatusmodal(true)
 }
 useEffect(()=>{
 console.log(arrayTurmas)

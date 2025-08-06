@@ -20,7 +20,7 @@ const sala = useRef<HTMLInputElement>(null);
 const divresponse = useRef<HTMLDivElement>(null);
 const navigate = useNavigate();
 const [loading,setLoading] = useState<boolean>()
-const [turmaupdate,setTurmaupdate] = useState()
+const [turmaInfo, setTurmaInfo] = useState<any>(null);
 const [editando,setEditando] = useState({
   turma:false,
   serie:false,
@@ -134,7 +134,9 @@ useEffect(()=>{
 
 },[editando])
 
-
+useEffect(() => {
+  console.log(turmaSelecionada)
+}, []);
 
 
   return (
