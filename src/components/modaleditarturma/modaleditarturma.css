@@ -1,12 +1,27 @@
-.form-consultar-turma{
+.form-modal-turma{
     width: 400px;
-    margin-bottom: 30px;
+   position: relative;
+    padding: 30px;
+    background-color:  rgb(233, 233, 233);
+    border-radius: 15px;
 }
-#form-consultar-turma{
+.form-modal-turma>:not(:last-child){
+    margin-bottom: 10px;
+}
+.close-modal{
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+    position: absolute;
+    right: 15px;
+    top: 12px;
+}
+#form-modal-turma{
 display: flex;
 flex-direction: column;
+
 }
-.container-consultar{
+.container-modal{
     display: flex;
     align-items: end;
     margin-bottom: 10px;
@@ -14,7 +29,7 @@ flex-direction: column;
 #filtro-turma{
     margin-right: 0px;
 }
-.container-input-consultar-turmas{
+.container-input-modal-turmas{
     display: flex;
     flex-direction: column;
     width: 100%;
@@ -22,43 +37,58 @@ flex-direction: column;
     margin-right: 20px;
     
 }
-.input-consultar-turma{
+.input-modal-turma{
     width: 100%;
+    font-weight: bold;
     height: 30px;
     border-radius: 5px;
     padding: 0 10px;
-    border: 1px solid #ccc;
+    border: 1px solid #e7e7e78c;
+    background-color: rgb(189, 189, 189);
+  color: #919090;
+  cursor: not-allowed;
 }
-.input-filtrar-turma{
-     width: 100%;
-    height: 30px;
-    border-radius: 5px;
-    padding: 0 10px;
-    border: 1px solid #ccc;
-    cursor: not-allowed;
+.input-ativo{
+    background-color: white;
+    color: black;
+    cursor: auto;
 }
-.input-filtrar-turma-liberado{
+
+.container-icon-modal{
+    display: flex;
+    margin-left: 10px;
+}
+.container-icon-modal>.icon-modal:not(:last-child){
+    margin-right: 5px ;
+}
+.container-input-icon-modal{
+    display: flex;
+    justify-content: space-between;
     
-    cursor:text;
 }
-.btn-consultar{
-    width: 100%;
+.icon-modal{
+    width: 30px;
     height: 30px;
+    cursor: pointer;
+}
+.btn-modal{
+    width: 100%;
+    height: 40px;
     cursor: pointer;
     background-image: linear-gradient(to bottom, #3f98e0, #1A73E8);
     color: white;
     border-radius: 5px;
     border: 1px solid black;
     box-shadow: 1px 3px 2px  rgba(0, 0, 0, 0.205);
-    
+    margin-top: 12px;
 }
-.span-consultar-turma{
+.span-modal-turma{
     display: inline;
     font-weight: bold;
-    color: #333;
+    color: black;
 }
    
-.table-consultar{
+.table-modal{
     width: 100%;
 }
 .line-table{
@@ -79,11 +109,11 @@ flex-direction: column;
 }
 
 
-.table-consultar tbody tr:nth-child(even) {
+.table-modal tbody tr:nth-child(even) {
   background-color: white; /* cinza claro */
 }
 
-.table-consultar tbody tr:nth-child(odd) {
+.table-modal tbody tr:nth-child(odd) {
   background-color:  #ececec; /* branco */
 }
 

@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import './modalconsultarturmas.css'
+import './modaleditarturma.css'
 import { usarcontextoapi } from '../../context/contextapi.tsx';
 import { useNavigate } from 'react-router-dom';
 import Loading from '../loading/loading.tsx';
@@ -20,7 +20,6 @@ const sala = useRef<HTMLInputElement>(null);
 const divresponse = useRef<HTMLDivElement>(null);
 const navigate = useNavigate();
 const [loading,setLoading] = useState<boolean>()
-const [turmaInfo, setTurmaInfo] = useState<any>(null);
 const [editando,setEditando] = useState({
   turma:false,
   serie:false,
@@ -143,9 +142,8 @@ useEffect(() => {
     <>
     <div className='modal'>
    
-   
     <form className='form-modal-turma' onSubmit={atualizar_turma}>
-      <img src='/close.png' alt='fechar' className='close' onClick={closemodal}></img>
+      <img src='/close-modal.png' alt='fechar' className='close-modal' onClick={closemodal}></img>
       <div className='container-input'>
         <span className='span-modal-turma'>Turma:</span>
         <div className='container-input-icon-modal'>
@@ -183,7 +181,7 @@ useEffect(() => {
       <div className='container-input'>
         <span className='span-modal-turma'>Ano letivo:</span>
           <div className='container-input-icon-modal'>
-          <input type="text" className='input-modal-turma' ref={anoLetivo} disabled={!editando.anoLetivo} defaultValue={turmaSelecionada?.anoLetivo}/> 
+          <input type="number" className='input-modal-turma' ref={anoLetivo} disabled={!editando.anoLetivo} defaultValue={turmaSelecionada?.anoLetivo}/> 
           <div className='container-icon-modal'>
             <img src='/icon-editar.png' alt='Editar'className='icon-modal'onClick={() => setEditando(prev => ({ ...prev, anoLetivo: true }))} ></img>
             <img src='/icon-salvar.png' alt='Salvar' className='icon-modal' onClick={() => setEditando(prev => ({ ...prev, anoLetivo: false }))} ></img>

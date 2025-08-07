@@ -13,7 +13,11 @@ type props = {
   arrayTurmas:any[],
   setArrayturmas: (value:any[])=>void,
   turmaSelecionada:obj,
-  setTurmaselecionada:React.Dispatch<React.SetStateAction<obj>>
+  setTurmaselecionada:React.Dispatch<React.SetStateAction<obj>>,
+  arrayAlunos:any[],
+  setArrayalunos: (value:any[])=>void,
+  alunoSelecionado:obj,
+  setAlunoselecionado:React.Dispatch<React.SetStateAction<obj>>
 
 
 
@@ -28,6 +32,8 @@ export const Provider = ({ children }: { children: ReactNode }) => {
   const [statusmodal, setStatusmodal] = useState(false);
   const [arrayTurmas, setArrayturmas] = useState<any[]>([]);
   const [turmaSelecionada, setTurmaselecionada] = useState<obj>({});
+  const [arrayAlunos, setArrayalunos] = useState<any[]>([]);
+  const [alunoSelecionado, setAlunoselecionado] = useState<obj>({});
 
   //Atribuindo os valores das rotas da API e o estado do modal e a função para alterar o estado do modal
   const information: props = {
@@ -40,7 +46,11 @@ export const Provider = ({ children }: { children: ReactNode }) => {
     arrayTurmas,
     setArrayturmas,
     turmaSelecionada,
-    setTurmaselecionada
+    setTurmaselecionada,
+    arrayAlunos,
+    setArrayalunos,
+    alunoSelecionado,
+    setAlunoselecionado
   };
 
   return (

@@ -5,22 +5,24 @@ import './consultarturmas.css'
 import { usarcontextoapi } from '../../context/contextapi.tsx';
 import { useNavigate } from 'react-router-dom';
 import Loading from '../loading/loading.tsx';
-import Modal_consultar_turma from '../modalconsultarturmas/modalconsultarturmas.tsx';
+import Modal_consultar_turma from '../modaleditarturma/modaleditarturma.tsx';
 import { usarcontexto } from '../../context/context.tsx';
 
 
 function Consultarturmas() {
 const {rotaconsultarturmas} = usarcontextoapi();
-const {statusmodal,setStatusmodal,turmaSelecionada,setTurmaselecionada,arrayTurmas,setArrayturmas} = usarcontexto()
+const {statusmodal,setStatusmodal,setTurmaselecionada,arrayTurmas,setArrayturmas} = usarcontexto()
 const [statusreq, setStatusreq] = useState<string>(); // Indica a mensagem recebida pelo backend.
 const [statusmsgerro, setStatusmsgerro] = useState<boolean>(); // Indica se é uma mensagem de erro ou não
 const [statusresponse, setStatusresponse] = useState<boolean>(false);  // Indica se a caixa de resposta deve ser exibida ou não
 const turma = useRef<HTMLInputElement>(null);
 const anoLetivo = useRef<HTMLInputElement>(null);
 const divresponse = useRef<HTMLDivElement>(null);
+const inputFilter = useRef<HTMLInputElement>(null);
 const navigate = useNavigate();
 const [loading,setLoading] = useState<boolean>()
-const [tabelaturma , setTabelaturma] = useState<[]>([])
+const [disable,setDisable] = useState<boolean>(false)
+const [tabelaturma , setTabelaturma] = useState<React.ReactElement[]>([])
 
 async function consultar_turma(e: React.FormEvent<HTMLFormElement>) {
   e.preventDefault();
@@ -62,7 +64,9 @@ if(information.msg.length === 0){
  setStatusmsgerro(true);
 }
 
-const arrayturmas = information.msg.map((element:any)=>{
+const arrayturmasraw = information.msg
+setArrayturmas(arrayturmasraw)
+setTabelaturma(arrayturmasraw.map((element:any)=>{
   return(
     <tr className='line-table'>
             <td className='information-table'>{element.turma}</td>
@@ -70,13 +74,14 @@ const arrayturmas = information.msg.map((element:any)=>{
             <td className='information-table'>{element.turno}</td>
             <td className='information-table'>{element.sala}</td>
             <td className='information-table'>{element.anoLetivo}</td>
-             <td className='information-table'><img alt='Icone de visualização' src='/icon-ver.png' className='icon-ver' id={element.turmaId} onClick={(e) => abrir_modal(e.currentTarget.id)} ></img></td>
+             <td className='information-table'><img alt='Icone de visualização' src='/icon-ver.png' className='icon-ver' id={element.turmaId} onClick={()=>{setTurmaselecionada(element)
+              setStatusmodal(true)
+             }} ></img></td>
       </tr>
              )
-})
-setTabelaturma(arrayturmas)
-setArrayturmas(information.msg)
-localStorage.setItem('turmas', JSON.stringify(information.msg))
+}))
+setDisable(true)
+inputFilter.current?.classList.add('input-filtrar-turma-liberado')
 
 
 } catch (error) {
@@ -104,18 +109,25 @@ function closeresponse() {
  
 }
 
-function abrir_modal(id: string){
-  console.log(id)
-  console.log(arrayTurmas)
-  const turmas = JSON.parse(localStorage.getItem('turmas') || '[]')
-const turmaselecionada =  turmas.find((element:any) => element.turmaId === id)
-setTurmaselecionada(turmaselecionada)
-setStatusmodal(true)
-}
-useEffect(()=>{
-console.log(arrayTurmas)
-},[arrayTurmas])
+function filtrarturmas(){
+  const turma = inputFilter.current?.value?.toLowerCase() || ''
+const arrayfilter = arrayTurmas.filter((element)=>{ return  element.turma.toLowerCase().includes(turma)})
+setTabelaturma(arrayfilter.map((element:any)=>{
+  return(
+    <tr className='line-table'>
+            <td className='information-table'>{element.turma}</td>
+            <td className='information-table'>{element.serie}</td>
+            <td className='information-table'>{element.turno}</td>
+            <td className='information-table'>{element.sala}</td>
+            <td className='information-table'>{element.anoLetivo}</td>
+             <td className='information-table'><img alt='Icone de visualização' src='/icon-ver.png' className='icon-ver' id={element.turmaId} onClick={()=>{setTurmaselecionada(element)
+              setStatusmodal(true)
+             }} ></img></td>
+      </tr>
+             )
+}))
 
+}
 
   return (
     <>
@@ -130,8 +142,8 @@ console.log(arrayTurmas)
         </div>
     
       <div className='container-input-consultar-turmas' id='filtro-turma'>
-        <span className='span-consultar-turma'>Filtrar pelo nome da turma:</span>
-        <input type="number" className='input-consultar-turma' disabled ref={turma} placeholder='Digite o nome da turma'/>
+        <span className='span-consultar-turma' >Filtrar pelo nome da turma:</span>
+        <input type="text" className='input-filtrar-turma' ref={inputFilter} onChange={filtrarturmas} disabled={!disable}  placeholder='Digite o nome da turma'/>
       </div>
       
       </form>
@@ -143,7 +155,7 @@ console.log(arrayTurmas)
         <th className='table-header' >Turno</th>
         <th className='table-header' >Sala</th>
         <th className='table-header' >Ano letivo</th>
-        <th className='table-header' >Detalhe</th>
+        <th className='table-header' >Detalhes</th>
         
         </tr>
         </thead>
