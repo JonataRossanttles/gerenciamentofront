@@ -15,7 +15,6 @@ const {statusmodal,setStatusmodal,setTurmaselecionada,arrayTurmas,setArrayturmas
 const [statusreq, setStatusreq] = useState<string>(); // Indica a mensagem recebida pelo backend.
 const [statusmsgerro, setStatusmsgerro] = useState<boolean>(); // Indica se é uma mensagem de erro ou não
 const [statusresponse, setStatusresponse] = useState<boolean>(false);  // Indica se a caixa de resposta deve ser exibida ou não
-const turma = useRef<HTMLInputElement>(null);
 const anoLetivo = useRef<HTMLInputElement>(null);
 const divresponse = useRef<HTMLDivElement>(null);
 const inputFilter = useRef<HTMLInputElement>(null);

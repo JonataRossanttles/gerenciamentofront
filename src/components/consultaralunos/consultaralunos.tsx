@@ -12,7 +12,7 @@ import Modal_editar_aluno from '../modaleditaraluno/modaleditaraluno.tsx';
 
 function Consultaralunos() {
 const {rotaconsultaralunos} = usarcontextoapi();
-const {statusmodal,setStatusmodal,arrayAlunos,setArrayalunos,alunoSelecionado,setAlunoselecionado} = usarcontexto()
+const {statusmodal,setStatusmodal,arrayAlunos,setArrayalunos,setAlunoselecionado} = usarcontexto()
 const [statusreq, setStatusreq] = useState<string>(); // Indica a mensagem recebida pelo backend.
 const [statusmsgerro, setStatusmsgerro] = useState<boolean>(); // Indica se é uma mensagem de erro ou não
 const [statusresponse, setStatusresponse] = useState<boolean>(false);  // Indica se a caixa de resposta deve ser exibida ou não
