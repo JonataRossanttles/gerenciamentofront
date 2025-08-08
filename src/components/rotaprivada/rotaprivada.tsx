@@ -44,7 +44,7 @@ useEffect(()=>{
   validarToken();
 },[])
   if(loading) return <Loading/>
-  return authenticated ? <Outlet /> : <Navigate to="/login" />;
+  return authenticated ? <Outlet /> : <Navigate to="/" />;
 
 };
 

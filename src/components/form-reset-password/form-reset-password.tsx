@@ -43,7 +43,7 @@ if (!resposta.ok){
 }
   alert(dados.msg)
   setStatusformreset(false)
-  navigate('/login')
+  navigate('/')
   return
 
 } catch (error) {

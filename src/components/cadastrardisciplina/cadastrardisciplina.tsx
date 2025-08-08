@@ -47,7 +47,7 @@ try {
 const information = await response.json();
 
 if(response.status === 401) {
- navigate('/login');
+ navigate('/');
  return;
 }
 if(!response.ok){

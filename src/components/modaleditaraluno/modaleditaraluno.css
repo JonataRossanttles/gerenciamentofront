@@ -1,9 +1,25 @@
 .form-modal-aluno{
-    width: 400px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+   
    position: relative;
     padding: 30px;
     background-color: rgb(233, 233, 233);
     border-radius: 10px;
+}
+.container-editar-aluno{
+    display: flex;
+    width: 500px;
+}
+.container-1-editar-aluno{
+    margin-right: 10px;
+}
+.container-1-editar-aluno>:not(:last-child){
+    margin-bottom: 10px;
+}
+.container-2-editar-aluno>:not(:last-child){
+    margin-bottom: 10px;
 }
 .form-modal-aluno>:not(:last-child){
     margin-bottom: 10px;

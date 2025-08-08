@@ -1,7 +1,7 @@
 
 
 import { useEffect, useRef, useState } from 'react';
-import './consultarturmas.css'
+import './consultarusuarios.css'
 import { usarcontextoapi } from '../../context/contextapi.tsx';
 import { useNavigate } from 'react-router-dom';
 import Loading from '../loading/loading.tsx';
@@ -9,13 +9,13 @@ import Modal_consultar_turma from '../modaleditarturma/modaleditarturma.tsx';
 import { usarcontexto } from '../../context/context.tsx';
 
 
-function Consultarturmas() {
-const {rotaconsultarturmas} = usarcontextoapi();
+function Consultarusuarios() {
+const {rotaconsultarusuarios} = usarcontextoapi();
 const {statusmodal,setStatusmodal,setSelectionmodal,arrayConsulta,setArrayconsulta} = usarcontexto()
 const [statusreq, setStatusreq] = useState<string>(); // Indica a mensagem recebida pelo backend.
 const [statusmsgerro, setStatusmsgerro] = useState<boolean>(); // Indica se é uma mensagem de erro ou não
 const [statusresponse, setStatusresponse] = useState<boolean>(false);  // Indica se a caixa de resposta deve ser exibida ou não
-const anoLetivo = useRef<HTMLInputElement>(null);
+const selectStatus = useRef<HTMLSelectElement>(null);
 const divresponse = useRef<HTMLDivElement>(null);
 const inputFilter = useRef<HTMLInputElement>(null);
 const navigate = useNavigate();
@@ -25,14 +25,14 @@ const [tabelaturma , setTabelaturma] = useState<React.ReactElement[]>([])
 
 async function consultar_turma(e: React.FormEvent<HTMLFormElement>) {
   e.preventDefault();
-  if (!anoLetivo.current)  return
+  if (!selectStatus.current)  return
    
   const dados = {
-    anoLetivo: Number(anoLetivo.current.value),
+    status: selectStatus.current.value
   };
 try {
   setLoading(true)
-  const response = await fetch(rotaconsultarturmas, {
+  const response = await fetch(rotaconsultarusuarios, {
   method: 'POST',
   headers: {
     'Content-Type': 'application/json',
@@ -58,21 +58,20 @@ if(!response.ok){
 setLoading(false) 
 if(information.msg.length === 0){
   setLoading(false)
- setStatusreq("Não existem turmas para esse ano letivo!");
+ setStatusreq("Não existem usuarios para esse ano letivo!");
  setStatusresponse(true);
  setStatusmsgerro(true);
 }
 
-const arrayturmasraw = information.msg
-setArrayconsulta(arrayturmasraw)
-setTabelaturma(arrayturmasraw.map((element:any)=>{
+const arrayusuariosraw = information.msg
+setArrayconsulta(arrayusuariosraw)
+setTabelaturma(arrayusuariosraw.map((element:any)=>{
   return(
     <tr className='line-table'>
-            <td className='information-table'>{element.turma}</td>
-            <td className='information-table'>{element.serie}</td>
-            <td className='information-table'>{element.turno}</td>
-            <td className='information-table'>{element.sala}</td>
-            <td className='information-table'>{element.anoLetivo}</td>
+            <td className='information-table'>{element.nome}</td>
+            <td className='information-table'>{element.email}</td>
+            <td className='information-table'>{element.tipo}</td>
+            <td className='information-table'>{element.status ? "ATIVO" : "INATIVO"}</td>
              <td className='information-table'><img alt='Icone de visualização' src='/icon-ver.png' className='icon-ver' id={element.turmaId} onClick={()=>{setSelectionmodal(element)
               setStatusmodal(true)
              }} ></img></td>
@@ -108,17 +107,16 @@ function closeresponse() {
  
 }
 
-function filtrarturmas(){
+function filtrarusuarios(){
   const turma = inputFilter.current?.value?.toLowerCase() || ''
 const arrayfilter = arrayConsulta.filter((element)=>{ return  element.turma.toLowerCase().includes(turma)})
 setTabelaturma(arrayfilter.map((element:any)=>{
   return(
     <tr className='line-table'>
-            <td className='information-table'>{element.turma}</td>
-            <td className='information-table'>{element.serie}</td>
-            <td className='information-table'>{element.turno}</td>
-            <td className='information-table'>{element.sala}</td>
-            <td className='information-table'>{element.anoLetivo}</td>
+             <td className='information-table'>{element.nome}</td>
+            <td className='information-table'>{element.email}</td>
+            <td className='information-table'>{element.tipo}</td>
+            <td className='information-table'>{element.status ? "ATIVO" : "INATIVO" }</td>
              <td className='information-table'><img alt='Icone de visualização' src='/icon-ver.png' className='icon-ver' id={element.turmaId} onClick={()=>{setSelectionmodal(element)
               setStatusmodal(true)
              }} ></img></td>
@@ -133,16 +131,21 @@ setTabelaturma(arrayfilter.map((element:any)=>{
     <section className='main'>
        <form className='form-consultar-turma' id='form-consultar-turma' onSubmit={consultar_turma}>
         <div className='container-consultar'>
-          <div className='container-input-consultar-turmas'>
+          <div className='container-input-consultar-usuarios'>
           <span className='span-consultar-turma'>Ano letivo:</span>
-          <input type="number" className='input-consultar-turma' ref={anoLetivo} placeholder='Digite o ano letivo'/>
+          <select className='input-consultar-alunos' defaultValue={""} ref={selectStatus}>
+            <option value="" disabled hidden> Selecione uma opção</option>
+            <option value={'ativo'}>Ativo</option>
+            <option value={'inativo'}>Inativo</option>           
+            <option value={'todos'}>Todos</option>
+          </select>
       </div>
       <button className='btn-consultar'>Consultar</button>
         </div>
     
-      <div className='container-input-consultar-turmas' id='filtro-turma'>
+      <div className='container-input-consultar-usuarios' id='filtro-turma'>
         <span className='span-consultar-turma' >Filtrar pelo nome da turma:</span>
-        <input type="text" className='input-filtrar-turma' ref={inputFilter} onChange={filtrarturmas} disabled={!disable}  placeholder='Digite o nome da turma'/>
+        <input type="text" className='input-filtrar-turma' ref={inputFilter} onChange={filtrarusuarios} disabled={!disable}  placeholder='Digite o nome da turma'/>
       </div>
       
       </form>
@@ -150,10 +153,9 @@ setTabelaturma(arrayfilter.map((element:any)=>{
         <thead>
         <tr>
         <th className='table-header'>Nome</th>
-        <th className='table-header'>Série</th>
-        <th className='table-header' >Turno</th>
-        <th className='table-header' >Sala</th>
-        <th className='table-header' >Ano letivo</th>
+        <th className='table-header'>Email</th>
+        <th className='table-header' >Tipo</th>
+        <th className='table-header' >Status</th>
         <th className='table-header' >Detalhes</th>
         
         </tr>
@@ -177,4 +179,4 @@ setTabelaturma(arrayfilter.map((element:any)=>{
 
 }
 
-export default Consultarturmas
+export default Consultarusuarios

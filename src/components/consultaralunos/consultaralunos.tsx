@@ -12,7 +12,7 @@ import Modal_editar_aluno from '../modaleditaraluno/modaleditaraluno.tsx';
 
 function Consultaralunos() {
 const {rotaconsultaralunos} = usarcontextoapi();
-const {statusmodal,setStatusmodal,arrayAlunos,setArrayalunos,setAlunoselecionado} = usarcontexto()
+const {statusmodal,setStatusmodal,arrayConsulta,setArrayconsulta,setSelectionmodal} = usarcontexto()
 const [statusreq, setStatusreq] = useState<string>(); // Indica a mensagem recebida pelo backend.
 const [statusmsgerro, setStatusmsgerro] = useState<boolean>(); // Indica se é uma mensagem de erro ou não
 const [statusresponse, setStatusresponse] = useState<boolean>(false);  // Indica se a caixa de resposta deve ser exibida ou não
@@ -44,7 +44,7 @@ try {
 const information = await response.json();
 
 if(response.status === 401) {
- navigate('/login');
+ navigate('/');
  return;
 }
 if(!response.ok){
@@ -64,7 +64,7 @@ if(information.msg.length === 0){
 }
 
 const arrayalunossraw = information.msg
-setArrayalunos(arrayalunossraw)
+setArrayconsulta(arrayalunossraw)
 setTabelaalunos(arrayalunossraw.map((element:any)=>{
   return(
     <tr className='line-table'>
@@ -72,7 +72,7 @@ setTabelaalunos(arrayalunossraw.map((element:any)=>{
             <td className='information-table'>{element.nome}</td>
             <td className='information-table'>{element.situacao.toUpperCase()}</td>
             <td className='information-table'>{element.nomeResponsavel}</td>
-             <td className='information-table'><img alt='Icone de visualização' src='/icon-ver.png' className='icon-ver' id={element.alunoId} onClick={()=>{setAlunoselecionado(element)
+             <td className='information-table'><img alt='Icone de visualização' src='/icon-ver.png' className='icon-ver' id={element.alunoId} onClick={()=>{setSelectionmodal(element)
               setStatusmodal(true)
              }} ></img></td>
       </tr>
@@ -109,7 +109,7 @@ function closeresponse() {
 
 function filtraralunos(){
   const nome = inputFilter.current?.value?.toLowerCase() || ''
-const arrayfilter = arrayAlunos.filter((element)=>{ return  element.nome.toLowerCase().includes(nome)})
+const arrayfilter = arrayConsulta.filter((element)=>{ return  element.nome.toLowerCase().includes(nome)})
 setTabelaalunos(arrayfilter.map((element:any)=>{
   return(
     <tr className='line-table'>
@@ -117,7 +117,7 @@ setTabelaalunos(arrayfilter.map((element:any)=>{
             <td className='information-table'>{element.nome}</td>
             <td className='information-table'>{element.situacao.toUpperCase()}</td>
             <td className='information-table'>{element.nomeResponsavel}</td>
-             <td className='information-table'><img alt='Icone de visualização' src='/icon-ver.png' className='icon-ver' id={element.alunoId} onClick={()=>{setAlunoselecionado(element)
+             <td className='information-table'><img alt='Icone de visualização' src='/icon-ver.png' className='icon-ver' id={element.alunoId} onClick={()=>{setSelectionmodal(element)
               setStatusmodal(true)
              }} ></img></td>
       </tr>

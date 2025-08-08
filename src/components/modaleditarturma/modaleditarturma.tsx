@@ -8,7 +8,7 @@ import { usarcontexto } from '../../context/context.tsx';
 
 function Modal_consultar_turma() {
 const {rotaatualizarturma} = usarcontextoapi();
-const {setStatusmodal,turmaSelecionada}=usarcontexto()
+const {setStatusmodal,Selectionmodal}=usarcontexto()
 const [statusreq, setStatusreq] = useState<string>(); // Indica a mensagem recebida pelo backend.
 const [statusmsgerro, setStatusmsgerro] = useState<boolean>(); // Indica se é uma mensagem de erro ou não
 const [statusresponse, setStatusresponse] = useState<boolean>(false);  // Indica se a caixa de resposta deve ser exibida ou não
@@ -37,7 +37,7 @@ async function atualizar_turma(e: React.FormEvent<HTMLFormElement>) {
     turno: turno.current?.value,
     anoLetivo: anoLetivo.current?.value,
     sala: sala.current?.value,
-    turmaId: turmaSelecionada.turmaId
+    turmaId: Selectionmodal.turmaId
   }
 try {
   setLoading(true)
@@ -52,7 +52,7 @@ try {
 const information = await response.json();
 
 if(response.status === 401) {
- navigate('/login');
+ navigate('/');
  return;
 }
 if(!response.ok){
@@ -134,7 +134,7 @@ useEffect(()=>{
 },[editando])
 
 useEffect(() => {
-  console.log(turmaSelecionada)
+  console.log(Selectionmodal)
 }, []);
 
 
@@ -147,7 +147,7 @@ useEffect(() => {
       <div className='container-input'>
         <span className='span-modal-turma'>Turma:</span>
         <div className='container-input-icon-modal'>
-          <input type="text" className='input-modal-turma' ref={turma} disabled={!editando.turma} defaultValue={turmaSelecionada?.turma || ''}/> 
+          <input type="text" className='input-modal-turma' ref={turma} disabled={!editando.turma} defaultValue={Selectionmodal?.turma || ''}/> 
           <div className='container-icon-modal'>
             <img src='/icon-editar.png' alt='Editar'className='icon-modal' onClick={() => setEditando(prev => ({ ...prev, turma: true }))} ></img>
             <img src='/icon-salvar.png' alt='Salvar' className='icon-modal' onClick={() => setEditando(prev => ({ ...prev, turma: false }))}></img>
@@ -159,7 +159,7 @@ useEffect(() => {
       <div className='container-input'>
         <span className='span-modal-turma'>Série:</span>
         <div className='container-input-icon-modal'>
-          <input type="text" className='input-modal-turma' ref={serie} disabled={!editando.serie} defaultValue={turmaSelecionada?.serie}/> 
+          <input type="text" className='input-modal-turma' ref={serie} disabled={!editando.serie} defaultValue={Selectionmodal?.serie}/> 
           <div className='container-icon-modal'>
             <img src='/icon-editar.png' alt='Editar'className='icon-modal' onClick={() => setEditando(prev => ({ ...prev, serie: true }))} ></img>
             <img src='/icon-salvar.png' alt='Salvar' className='icon-modal' onClick={() => setEditando(prev => ({ ...prev, serie: false }))}></img>
@@ -170,7 +170,7 @@ useEffect(() => {
       <div className='container-input'>
         <span className='span-modal-turma'>Turno:</span>
         <div className='container-input-icon-modal'>
-          <input type="text" className='input-modal-turma' ref={turno} disabled={!editando.turno} defaultValue={turmaSelecionada?.turno}/> 
+          <input type="text" className='input-modal-turma' ref={turno} disabled={!editando.turno} defaultValue={Selectionmodal?.turno}/> 
           <div className='container-icon-modal'>
             <img src='/icon-editar.png' alt='Editar'className='icon-modal'onClick={() => setEditando(prev => ({ ...prev, turno: true }))} ></img>
             <img src='/icon-salvar.png' alt='Salvar' className='icon-modal' onClick={() => setEditando(prev => ({ ...prev, turno: false }))}></img>
@@ -181,7 +181,7 @@ useEffect(() => {
       <div className='container-input'>
         <span className='span-modal-turma'>Ano letivo:</span>
           <div className='container-input-icon-modal'>
-          <input type="number" className='input-modal-turma' ref={anoLetivo} disabled={!editando.anoLetivo} defaultValue={turmaSelecionada?.anoLetivo}/> 
+          <input type="number" className='input-modal-turma' ref={anoLetivo} disabled={!editando.anoLetivo} defaultValue={Selectionmodal?.anoLetivo}/> 
           <div className='container-icon-modal'>
             <img src='/icon-editar.png' alt='Editar'className='icon-modal'onClick={() => setEditando(prev => ({ ...prev, anoLetivo: true }))} ></img>
             <img src='/icon-salvar.png' alt='Salvar' className='icon-modal' onClick={() => setEditando(prev => ({ ...prev, anoLetivo: false }))} ></img>
@@ -193,7 +193,7 @@ useEffect(() => {
       <div className='container-input'>
         <span className='span-modal-turma'>Sala:</span>
           <div className='container-input-icon-modal'>
-          <input type="text" className='input-modal-turma' ref={sala} disabled={!editando.sala} defaultValue={turmaSelecionada?.sala}/> 
+          <input type="text" className='input-modal-turma' ref={sala} disabled={!editando.sala} defaultValue={Selectionmodal?.sala}/> 
           <div className='container-icon-modal'>
             <img src='/icon-editar.png' alt='Editar'className='icon-modal' onClick={() => setEditando(prev => ({ ...prev, sala: true }))} ></img>
             <img src='/icon-salvar.png' alt='Salvar' className='icon-modal' onClick={() => setEditando(prev => ({ ...prev, sala: false }))} ></img>

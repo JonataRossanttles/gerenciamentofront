@@ -10,16 +10,10 @@ type props = {
   setAuthenticated: (value: boolean) => void,
   statusmodal:boolean,
   setStatusmodal: (value:boolean) => void,
-  arrayTurmas:any[],
-  setArrayturmas: (value:any[])=>void,
-  turmaSelecionada:obj,
-  setTurmaselecionada:React.Dispatch<React.SetStateAction<obj>>,
-  arrayAlunos:any[],
-  setArrayalunos: (value:any[])=>void,
-  alunoSelecionado:obj,
-  setAlunoselecionado:React.Dispatch<React.SetStateAction<obj>>
-
-
+  arrayConsulta:any[],
+  setArrayconsulta: (value:any[])=>void,
+  Selectionmodal:obj,
+  setSelectionmodal:React.Dispatch<React.SetStateAction<obj>>
 
 };
 // Criando o contexto para as rotas da API
@@ -30,10 +24,10 @@ export const Provider = ({ children }: { children: ReactNode }) => {
   const [informationmenu, useInformationmenu] = useState('');
   const [authenticated, setAuthenticated] = useState(false);
   const [statusmodal, setStatusmodal] = useState(false);
-  const [arrayTurmas, setArrayturmas] = useState<any[]>([]);
-  const [turmaSelecionada, setTurmaselecionada] = useState<obj>({});
-  const [arrayAlunos, setArrayalunos] = useState<any[]>([]);
-  const [alunoSelecionado, setAlunoselecionado] = useState<obj>({});
+ const [arrayConsulta, setArrayconsulta] = useState<any[]>([]);
+  const [Selectionmodal, setSelectionmodal] = useState<obj>({});
+//  const [arrayAlunos, setArrayalunos] = useState<any[]>([]);
+//  const [arrayUsuarios, setArrayusuarios] = useState<any[]>([]);
 
   //Atribuindo os valores das rotas da API e o estado do modal e a função para alterar o estado do modal
   const information: props = {
@@ -43,14 +37,11 @@ export const Provider = ({ children }: { children: ReactNode }) => {
     setAuthenticated,
     statusmodal,
     setStatusmodal,
-    arrayTurmas,
-    setArrayturmas,
-    turmaSelecionada,
-    setTurmaselecionada,
-    arrayAlunos,
-    setArrayalunos,
-    alunoSelecionado,
-    setAlunoselecionado
+    arrayConsulta,
+    setArrayconsulta,
+    Selectionmodal,
+    setSelectionmodal,
+ 
   };
 
   return (

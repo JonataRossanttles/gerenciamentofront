@@ -8,36 +8,62 @@ import { usarcontexto } from '../../context/context.tsx';
 
 function Modal_editar_aluno() {
 const {rotaeditaraluno} = usarcontextoapi();
-const {setStatusmodal,alunoSelecionado}=usarcontexto()
+const {setStatusmodal,Selectionmodal}=usarcontexto()
 const [statusreq, setStatusreq] = useState<string>(); // Indica a mensagem recebida pelo backend.
 const [statusmsgerro, setStatusmsgerro] = useState<boolean>(); // Indica se é uma mensagem de erro ou não
 const [statusresponse, setStatusresponse] = useState<boolean>(false);  // Indica se a caixa de resposta deve ser exibida ou não
-const aluno = useRef<HTMLInputElement>(null);
-const serie = useRef<HTMLInputElement>(null);
-const turno = useRef<HTMLInputElement>(null);
-const anoLetivo = useRef<HTMLInputElement>(null);
-const sala = useRef<HTMLInputElement>(null);
+const nome = useRef<HTMLInputElement>(null);
+const dataNascimento = useRef<HTMLInputElement>(null);
+const sexo = useRef<HTMLSelectElement>(null);
+const nomeResponsavel = useRef<HTMLInputElement>(null);
+const telefoneResponsavel = useRef<HTMLInputElement>(null);
+const emailResponsavel = useRef<HTMLInputElement>(null);
+const rua = useRef<HTMLInputElement>(null);
+const numero = useRef<HTMLInputElement>(null);
+const bairro = useRef<HTMLInputElement>(null);
+const cidade = useRef<HTMLInputElement>(null);
+const estado = useRef<HTMLInputElement>(null);
+const cep = useRef<HTMLInputElement>(null);
+const situacao = useRef<HTMLSelectElement>(null);
 const divresponse = useRef<HTMLDivElement>(null);
 const navigate = useNavigate();
 const [loading,setLoading] = useState<boolean>()
 const [editando,setEditando] = useState({
-  aluno:false,
-  serie:false,
-  turno:false,
-  anoLetivo:false,
-  sala:false
+  nome:false,
+  dataNascimento:false,
+  sexo:false,
+  nomeResponsavel:false,
+  telefoneResponsavel:false,
+  emailResponsavel:false,
+  cep:false,
+  rua:false,
+  numero:false,
+  bairro:false,
+  cidade:false,
+  estado:false,
+  situacao:false,
 })
 
 async function atualizar_aluno(e: React.FormEvent<HTMLFormElement>) {
   e.preventDefault();
      
   const dados = {
-    aluno: aluno.current?.value,
-    serie: serie.current?.value,
-    turno: turno.current?.value,
-    anoLetivo: anoLetivo.current?.value,
-    sala: sala.current?.value,
-    alunoId: alunoSelecionado.alunoId
+    nome: nome.current?.value,
+    dataNascimento: dataNascimento.current?.value,
+    sexo: sexo.current?.value,
+    nomeResponsavel: nomeResponsavel.current?.value,
+    telefoneResponsavel: telefoneResponsavel.current?.value,
+    emailResponsavel: emailResponsavel.current?.value,
+    situacao: situacao.current?.value,
+    endereco:{
+      cep: cep.current?.value,
+      rua: rua.current?.value,
+      numero: numero.current?.value,
+      bairro: bairro.current?.value,
+      cidade: cidade.current?.value,
+      estado: estado.current?.value,
+    },
+    alunoId: Selectionmodal.alunoId
   }
 try {
   setLoading(true)
@@ -52,7 +78,7 @@ try {
 const information = await response.json();
 
 if(response.status === 401) {
- navigate('/login');
+ navigate('/');
  return;
 }
 if(!response.ok){
@@ -105,36 +131,76 @@ setStatusmodal(false)
 }
 
 useEffect(()=>{
-  if(editando.aluno === true){
-     aluno.current?.classList.add('input-ativo')
+  if(editando.nome === true){
+     nome.current?.classList.add('input-ativo')
   } else{
-  aluno.current?.classList.remove('input-ativo')
+  nome.current?.classList.remove('input-ativo')
   }
-  if(editando.serie === true){
-     serie.current?.classList.add('input-ativo')
+  if(editando.dataNascimento === true){
+     dataNascimento.current?.classList.add('input-ativo')
   } else{
-  serie.current?.classList.remove('input-ativo')
+  dataNascimento.current?.classList.remove('input-ativo')
   }
-  if(editando.turno === true){
-     turno.current?.classList.add('input-ativo')
+  if(editando.sexo === true){
+     sexo.current?.classList.add('input-ativo')
   } else{
-  turno.current?.classList.remove('input-ativo')
+  sexo.current?.classList.remove('input-ativo')
   }
-  if(editando.anoLetivo === true){
-     anoLetivo.current?.classList.add('input-ativo')
+  if(editando.nomeResponsavel === true){
+     nomeResponsavel.current?.classList.add('input-ativo')
   } else{
-  anoLetivo.current?.classList.remove('input-ativo')
+  nomeResponsavel.current?.classList.remove('input-ativo')
   }
-  if(editando.sala === true){
-     sala.current?.classList.add('input-ativo')
+  if(editando.telefoneResponsavel === true){
+     telefoneResponsavel.current?.classList.add('input-ativo')
   } else{
-  sala.current?.classList.remove('input-ativo')
+  telefoneResponsavel.current?.classList.remove('input-ativo')
+  }
+  if(editando.emailResponsavel === true){
+     emailResponsavel.current?.classList.add('input-ativo')
+  } else{
+  emailResponsavel.current?.classList.remove('input-ativo')
+  }
+  if(editando.cep === true){
+     cep.current?.classList.add('input-ativo')
+  } else{
+  cep.current?.classList.remove('input-ativo')
+  }
+  if(editando.rua === true){
+     rua.current?.classList.add('input-ativo')
+  } else{
+  rua.current?.classList.remove('input-ativo')
+  }
+  if(editando.numero === true){
+     numero.current?.classList.add('input-ativo')
+  } else{
+  numero.current?.classList.remove('input-ativo')
+  }
+  if(editando.bairro === true){
+     bairro.current?.classList.add('input-ativo')
+  } else{
+  bairro.current?.classList.remove('input-ativo')
+  }
+  if(editando.cidade === true){
+     cidade.current?.classList.add('input-ativo')
+  } else{
+  cidade.current?.classList.remove('input-ativo')
+  }
+  if(editando.estado === true){
+     estado.current?.classList.add('input-ativo')
+  } else{
+  estado.current?.classList.remove('input-ativo')
+  }
+  if(editando.situacao === true){
+     situacao.current?.classList.add('input-ativo')
+  } else{
+  situacao.current?.classList.remove('input-ativo')
   }
 
 },[editando])
 
 useEffect(() => {
-  console.log(alunoSelecionado)
+  console.log(Selectionmodal)
 }, []);
 
 
@@ -144,63 +210,173 @@ useEffect(() => {
    
     <form className='form-modal-aluno' onSubmit={atualizar_aluno}>
       <img src='/close-modal.png' alt='fechar' className='close-modal' onClick={closemodal}></img>
+      <div className='container-editar-aluno'>
+
+      <div className='container-1-editar-aluno'>
+
       <div className='container-input'>
-        <span className='span-modal-aluno'>aluno:</span>
+        <span className='span-modal-aluno'>Nome:</span>
         <div className='container-input-icon-modal'>
-          <input type="text" className='input-modal-aluno' ref={aluno} disabled={!editando.aluno} defaultValue={alunoSelecionado?.aluno || ''}/> 
+          <input type="text" className='input-modal-aluno' ref={nome} disabled={!editando.nome} defaultValue={Selectionmodal?.nome || ''}/> 
           <div className='container-icon-modal'>
-            <img src='/icon-editar.png' alt='Editar'className='icon-modal' onClick={() => setEditando(prev => ({ ...prev, aluno: true }))} ></img>
-            <img src='/icon-salvar.png' alt='Salvar' className='icon-modal' onClick={() => setEditando(prev => ({ ...prev, aluno: false }))}></img>
+            <img src='/icon-editar.png' alt='Editar'className='icon-modal' onClick={() => setEditando(prev => ({ ...prev, nome: true }))} ></img>
+            <img src='/icon-salvar.png' alt='Salvar' className='icon-modal' onClick={() => setEditando(prev => ({ ...prev, nome: false }))}></img>
           </div>
             
         </div>  
         
       </div>
       <div className='container-input'>
-        <span className='span-modal-aluno'>Série:</span>
+        <span className='span-modal-aluno'>Data de nascimento:</span>
         <div className='container-input-icon-modal'>
-          <input type="text" className='input-modal-aluno' ref={serie} disabled={!editando.serie} defaultValue={alunoSelecionado?.serie}/> 
+          <input type="text" className='input-modal-aluno' ref={dataNascimento} disabled={!editando.dataNascimento} defaultValue={Selectionmodal?.dataNascimento}/> 
           <div className='container-icon-modal'>
-            <img src='/icon-editar.png' alt='Editar'className='icon-modal' onClick={() => setEditando(prev => ({ ...prev, serie: true }))} ></img>
-            <img src='/icon-salvar.png' alt='Salvar' className='icon-modal' onClick={() => setEditando(prev => ({ ...prev, serie: false }))}></img>
+            <img src='/icon-editar.png' alt='Editar'className='icon-modal' onClick={() => setEditando(prev => ({ ...prev, dataNascimento: true }))} ></img>
+            <img src='/icon-salvar.png' alt='Salvar' className='icon-modal' onClick={() => setEditando(prev => ({ ...prev, dataNascimento: false }))}></img>
           </div>
             
         </div>  
       </div>
       <div className='container-input'>
-        <span className='span-modal-aluno'>Turno:</span>
+        <span className='span-modal-aluno'>Sexo:</span>
         <div className='container-input-icon-modal'>
-          <input type="text" className='input-modal-aluno' ref={turno} disabled={!editando.turno} defaultValue={alunoSelecionado?.turno}/> 
+          <select  className='input-modal-aluno' ref={sexo} disabled={!editando.sexo} defaultValue={Selectionmodal?.sexo}> 
+            <option>Masculino</option>
+            <option>Feminino</option>
+            </select> 
           <div className='container-icon-modal'>
-            <img src='/icon-editar.png' alt='Editar'className='icon-modal'onClick={() => setEditando(prev => ({ ...prev, turno: true }))} ></img>
-            <img src='/icon-salvar.png' alt='Salvar' className='icon-modal' onClick={() => setEditando(prev => ({ ...prev, turno: false }))}></img>
+            <img src='/icon-editar.png' alt='Editar'className='icon-modal'onClick={() => setEditando(prev => ({ ...prev, sexo: true }))} ></img>
+            <img src='/icon-salvar.png' alt='Salvar' className='icon-modal' onClick={() => setEditando(prev => ({ ...prev, sexo: false }))}></img>
           </div>
             
         </div>  
       </div>
       <div className='container-input'>
-        <span className='span-modal-aluno'>Ano letivo:</span>
+        <span className='span-modal-aluno'>Nome do responsável:</span>
           <div className='container-input-icon-modal'>
-          <input type="number" className='input-modal-aluno' ref={anoLetivo} disabled={!editando.anoLetivo} defaultValue={alunoSelecionado?.anoLetivo}/> 
+          <input type="text" className='input-modal-aluno' ref={nomeResponsavel} disabled={!editando.nomeResponsavel} defaultValue={Selectionmodal?.nomeResponsavel}/> 
           <div className='container-icon-modal'>
-            <img src='/icon-editar.png' alt='Editar'className='icon-modal'onClick={() => setEditando(prev => ({ ...prev, anoLetivo: true }))} ></img>
-            <img src='/icon-salvar.png' alt='Salvar' className='icon-modal' onClick={() => setEditando(prev => ({ ...prev, anoLetivo: false }))} ></img>
+            <img src='/icon-editar.png' alt='Editar'className='icon-modal'onClick={() => setEditando(prev => ({ ...prev, nomeResponsavel: true }))} ></img>
+            <img src='/icon-salvar.png' alt='Salvar' className='icon-modal' onClick={() => setEditando(prev => ({ ...prev, nomeResponsavel: false }))} ></img>
           </div>
             
         </div>  
       </div>
     
       <div className='container-input'>
-        <span className='span-modal-aluno'>Sala:</span>
+        <span className='span-modal-aluno'>Tel. do responsável:</span>
           <div className='container-input-icon-modal'>
-          <input type="text" className='input-modal-aluno' ref={sala} disabled={!editando.sala} defaultValue={alunoSelecionado?.sala}/> 
+          <input type="text" className='input-modal-aluno' ref={telefoneResponsavel} disabled={!editando.telefoneResponsavel} defaultValue={Selectionmodal?.telefoneResponsavel}/> 
           <div className='container-icon-modal'>
-            <img src='/icon-editar.png' alt='Editar'className='icon-modal' onClick={() => setEditando(prev => ({ ...prev, sala: true }))} ></img>
-            <img src='/icon-salvar.png' alt='Salvar' className='icon-modal' onClick={() => setEditando(prev => ({ ...prev, sala: false }))} ></img>
+            <img src='/icon-editar.png' alt='Editar'className='icon-modal' onClick={() => setEditando(prev => ({ ...prev, telefoneResponsavel: true }))} ></img>
+            <img src='/icon-salvar.png' alt='Salvar' className='icon-modal' onClick={() => setEditando(prev => ({ ...prev, telefoneResponsavel: false }))} ></img>
           </div>
             
         </div>  
       </div>
+      <div className='container-input'>
+        <span className='span-modal-aluno'>E-mail do responsável:</span>
+          <div className='container-input-icon-modal'>
+          <input type="text" className='input-modal-aluno' ref={emailResponsavel} disabled={!editando.emailResponsavel} defaultValue={Selectionmodal?.emailResponsavel}/> 
+          <div className='container-icon-modal'>
+            <img src='/icon-editar.png' alt='Editar'className='icon-modal' onClick={() => setEditando(prev => ({ ...prev, emailResponsavel: true }))} ></img>
+            <img src='/icon-salvar.png' alt='Salvar' className='icon-modal' onClick={() => setEditando(prev => ({ ...prev, emailResponsavel: false }))} ></img>
+          </div>
+            
+        </div>  
+      </div>
+      <div className='container-input'>
+        <span className='span-modal-aluno'>Situação escolar:</span>
+          <div className='container-input-icon-modal'>
+          <select  className='input-modal-aluno' ref={situacao} disabled={!editando.situacao} defaultValue={Selectionmodal?.situacao.toUpperCase()}>
+            <option value={'ativo'}>Ativo</option>
+            <option value={'cancelado'}>Cancelado</option>
+            <option value={'trancado'}>Trancado</option>
+            <option value={'abandono'}>Abandono</option>
+            <option value={'concluido'}>Concluido</option>
+            <option value={'pre-matriculado'}>Pré-matriculado</option>
+             </select>
+          <div className='container-icon-modal'>
+            <img src='/icon-editar.png' alt='Editar'className='icon-modal' onClick={() => setEditando(prev => ({ ...prev, situacao: true }))} ></img>
+            <img src='/icon-salvar.png' alt='Salvar' className='icon-modal' onClick={() => setEditando(prev => ({ ...prev, situacao: false }))} ></img>
+          </div>
+            
+        </div>  
+      </div>
+ </div>
+
+      <div className='container-2-editar-aluno'>
+
+<div className='container-input'>
+        <span className='span-modal-aluno'>CEP:</span>
+          <div className='container-input-icon-modal'>
+          <input type="text" className='input-modal-aluno' ref={cep} disabled={!editando.cep} defaultValue={Selectionmodal?.endereco.cep}/> 
+          <div className='container-icon-modal'>
+            <img src='/icon-editar.png' alt='Editar'className='icon-modal' onClick={() => setEditando(prev => ({ ...prev, cep: true }))} ></img>
+            <img src='/icon-salvar.png' alt='Salvar' className='icon-modal' onClick={() => setEditando(prev => ({ ...prev, cep: false }))} ></img>
+          </div>
+        </div> 
+         </div>
+      
+<div className='container-input'>
+        <span className='span-modal-aluno'>Rua:</span>
+          <div className='container-input-icon-modal'>
+          <input type="text" className='input-modal-aluno' ref={rua} disabled={!editando.rua} defaultValue={Selectionmodal?.endereco.rua}/> 
+          <div className='container-icon-modal'>
+            <img src='/icon-editar.png' alt='Editar'className='icon-modal' onClick={() => setEditando(prev => ({ ...prev, rua: true }))} ></img>
+            <img src='/icon-salvar.png' alt='Salvar' className='icon-modal' onClick={() => setEditando(prev => ({ ...prev, rua: false }))} ></img>
+          </div>
+        </div> 
+         </div>
+
+<div className='container-input'>
+        <span className='span-modal-aluno'>Número:</span>
+          <div className='container-input-icon-modal'>
+          <input type="text" className='input-modal-aluno' ref={numero} disabled={!editando.numero} defaultValue={Selectionmodal?.endereco.numero}/> 
+          <div className='container-icon-modal'>
+            <img src='/icon-editar.png' alt='Editar'className='icon-modal' onClick={() => setEditando(prev => ({ ...prev, numero: true }))} ></img>
+            <img src='/icon-salvar.png' alt='Salvar' className='icon-modal' onClick={() => setEditando(prev => ({ ...prev, numero: false }))} ></img>
+          </div>
+        </div> 
+         </div>
+<div className='container-input'>
+        <span className='span-modal-aluno'>Bairro:</span>
+          <div className='container-input-icon-modal'>
+          <input type="text" className='input-modal-aluno' ref={bairro} disabled={!editando.bairro} defaultValue={Selectionmodal?.endereco.bairro}/> 
+          <div className='container-icon-modal'>
+            <img src='/icon-editar.png' alt='Editar'className='icon-modal' onClick={() => setEditando(prev => ({ ...prev, bairro: true }))} ></img>
+            <img src='/icon-salvar.png' alt='Salvar' className='icon-modal' onClick={() => setEditando(prev => ({ ...prev, bairro: false }))} ></img>
+          </div>
+        </div> 
+         </div>
+
+<div className='container-input'>
+        <span className='span-modal-aluno'>Cidade:</span>
+          <div className='container-input-icon-modal'>
+          <input type="text" className='input-modal-aluno' ref={cidade} disabled={!editando.cidade} defaultValue={Selectionmodal?.endereco.cidade}/> 
+          <div className='container-icon-modal'>
+            <img src='/icon-editar.png' alt='Editar'className='icon-modal' onClick={() => setEditando(prev => ({ ...prev, cidade: true }))} ></img>
+            <img src='/icon-salvar.png' alt='Salvar' className='icon-modal' onClick={() => setEditando(prev => ({ ...prev, cidade: false }))} ></img>
+          </div>
+        </div> 
+         </div>
+
+      <div className='container-input'>
+        <span className='span-modal-aluno'>Estado:</span>
+          <div className='container-input-icon-modal'>
+          <input type="text" className='input-modal-aluno' ref={estado} disabled={!editando.estado} defaultValue={Selectionmodal?.endereco.estado}/> 
+          <div className='container-icon-modal'>
+            <img src='/icon-editar.png' alt='Editar'className='icon-modal' onClick={() => setEditando(prev => ({ ...prev, estado: true }))} ></img>
+            <img src='/icon-salvar.png' alt='Salvar' className='icon-modal' onClick={() => setEditando(prev => ({ ...prev, estado: false }))} ></img>
+          </div>
+        </div> 
+         </div>
+</div>
+ </div>
+
+
+
+
       <button className='btn-modal' type='submit'>Atualizar</button>
 
     </form>
