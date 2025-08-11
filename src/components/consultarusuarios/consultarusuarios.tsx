@@ -5,8 +5,8 @@ import './consultarusuarios.css'
 import { usarcontextoapi } from '../../context/contextapi.tsx';
 import { useNavigate } from 'react-router-dom';
 import Loading from '../loading/loading.tsx';
-import Modal_consultar_turma from '../modaleditarturma/modaleditarturma.tsx';
 import { usarcontexto } from '../../context/context.tsx';
+import Modal_editar_usuario from '../modaleditarusuario/modaleditarusuario.tsx';
 
 
 function Consultarusuarios() {
@@ -28,7 +28,7 @@ async function consultar_turma(e: React.FormEvent<HTMLFormElement>) {
   if (!selectStatus.current)  return
    
   const dados = {
-    status: selectStatus.current.value
+    status: selectStatus.current.value.toLowerCase()
   };
 try {
   setLoading(true)
@@ -58,7 +58,7 @@ if(!response.ok){
 setLoading(false) 
 if(information.msg.length === 0){
   setLoading(false)
- setStatusreq("Não existem usuarios para esse ano letivo!");
+ setStatusreq("Não existem usuarios para esse status!");
  setStatusresponse(true);
  setStatusmsgerro(true);
 }
@@ -108,8 +108,8 @@ function closeresponse() {
 }
 
 function filtrarusuarios(){
-  const turma = inputFilter.current?.value?.toLowerCase() || ''
-const arrayfilter = arrayConsulta.filter((element)=>{ return  element.turma.toLowerCase().includes(turma)})
+  const nome = inputFilter.current?.value?.toLowerCase() || ''
+const arrayfilter = arrayConsulta.filter((element)=>{ return  element.nome.toLowerCase().includes(nome)})
 setTabelaturma(arrayfilter.map((element:any)=>{
   return(
     <tr className='line-table'>
@@ -132,7 +132,7 @@ setTabelaturma(arrayfilter.map((element:any)=>{
        <form className='form-consultar-turma' id='form-consultar-turma' onSubmit={consultar_turma}>
         <div className='container-consultar'>
           <div className='container-input-consultar-usuarios'>
-          <span className='span-consultar-turma'>Ano letivo:</span>
+          <span className='span-consultar-turma'>Status:</span>
           <select className='input-consultar-alunos' defaultValue={""} ref={selectStatus}>
             <option value="" disabled hidden> Selecione uma opção</option>
             <option value={'ativo'}>Ativo</option>
@@ -144,7 +144,7 @@ setTabelaturma(arrayfilter.map((element:any)=>{
         </div>
     
       <div className='container-input-consultar-usuarios' id='filtro-turma'>
-        <span className='span-consultar-turma' >Filtrar pelo nome da turma:</span>
+        <span className='span-consultar-turma' >Filtrar pelo nome do usuário:</span>
         <input type="text" className='input-filtrar-turma' ref={inputFilter} onChange={filtrarusuarios} disabled={!disable}  placeholder='Digite o nome da turma'/>
       </div>
       
@@ -173,7 +173,7 @@ setTabelaturma(arrayfilter.map((element:any)=>{
      </div>
    )}
    {loading && <Loading/>}
-   {statusmodal &&  <Modal_consultar_turma/> } 
+   {statusmodal &&  <Modal_editar_usuario/> } 
     </>
   )
 

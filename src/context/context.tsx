@@ -6,6 +6,8 @@ type obj = Record<string,any>
 type props = {
   informationmenu: string,
   useinformationmenu: (info: string) => void,
+  statusmodalconfirm: boolean,
+  setStatusmodalconfirm: (value: boolean) => void,
   authenticated: boolean,
   setAuthenticated: (value: boolean) => void,
   statusmodal:boolean,
@@ -24,6 +26,7 @@ export const Provider = ({ children }: { children: ReactNode }) => {
   const [informationmenu, useInformationmenu] = useState('');
   const [authenticated, setAuthenticated] = useState(false);
   const [statusmodal, setStatusmodal] = useState(false);
+  const [statusmodalconfirm, setStatusmodalconfirm] = useState(false);
  const [arrayConsulta, setArrayconsulta] = useState<any[]>([]);
   const [Selectionmodal, setSelectionmodal] = useState<obj>({});
 //  const [arrayAlunos, setArrayalunos] = useState<any[]>([]);
@@ -41,6 +44,8 @@ export const Provider = ({ children }: { children: ReactNode }) => {
     setArrayconsulta,
     Selectionmodal,
     setSelectionmodal,
+    statusmodalconfirm,
+    setStatusmodalconfirm
  
   };
 

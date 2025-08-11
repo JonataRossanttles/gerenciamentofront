@@ -7,11 +7,13 @@ import { useNavigate } from 'react-router-dom';
 import Loading from '../loading/loading.tsx';
 import Modal_consultar_turma from '../modaleditarturma/modaleditarturma.tsx';
 import { usarcontexto } from '../../context/context.tsx';
+import Modal_confirm from '../modalconfirm/modalconfirm.tsx';
 
 
 function Consultarturmas() {
 const {rotaconsultarturmas} = usarcontextoapi();
-const {statusmodal,setStatusmodal,setSelectionmodal,arrayConsulta,setArrayconsulta} = usarcontexto()
+const {statusmodal,setStatusmodal,setSelectionmodal,arrayConsulta,setArrayconsulta,
+  statusmodalconfirm,setStatusmodalconfirm} = usarcontexto()
 const [statusreq, setStatusreq] = useState<string>(); // Indica a mensagem recebida pelo backend.
 const [statusmsgerro, setStatusmsgerro] = useState<boolean>(); // Indica se é uma mensagem de erro ou não
 const [statusresponse, setStatusresponse] = useState<boolean>(false);  // Indica se a caixa de resposta deve ser exibida ou não
@@ -21,6 +23,7 @@ const inputFilter = useRef<HTMLInputElement>(null);
 const navigate = useNavigate();
 const [loading,setLoading] = useState<boolean>()
 const [disable,setDisable] = useState<boolean>(false)
+
 const [tabelaturma , setTabelaturma] = useState<React.ReactElement[]>([])
 
 async function consultar_turma(e: React.FormEvent<HTMLFormElement>) {
@@ -73,9 +76,17 @@ setTabelaturma(arrayturmasraw.map((element:any)=>{
             <td className='information-table'>{element.turno}</td>
             <td className='information-table'>{element.sala}</td>
             <td className='information-table'>{element.anoLetivo}</td>
-             <td className='information-table'><img alt='Icone de visualização' src='/icon-ver.png' className='icon-ver' id={element.turmaId} onClick={()=>{setSelectionmodal(element)
+             <td className='information-table'>
+              <div className='container-icon-detalhes'>
+               <img alt='Icone de visualização' src='/icon-ver.png' className='icon-ver' onClick={()=>{setSelectionmodal(element)
               setStatusmodal(true)
-             }} ></img></td>
+             }} ></img>
+             <img alt='Icone de exclusão' src='/icon-excluir.png' className='icon-excluir' onClick={()=>{setSelectionmodal(element)
+              setStatusmodalconfirm(true)
+             }}></img>
+              </div>
+
+             </td>
       </tr>
              )
 }))
@@ -119,9 +130,13 @@ setTabelaturma(arrayfilter.map((element:any)=>{
             <td className='information-table'>{element.turno}</td>
             <td className='information-table'>{element.sala}</td>
             <td className='information-table'>{element.anoLetivo}</td>
-             <td className='information-table'><img alt='Icone de visualização' src='/icon-ver.png' className='icon-ver' id={element.turmaId} onClick={()=>{setSelectionmodal(element)
+             <td className='information-table'>
+              <div className='container-icon-detalhes'>
+               <img alt='Icone de visualização' src='/icon-ver.png' className='icon-ver' onClick={()=>{setSelectionmodal(element)
               setStatusmodal(true)
-             }} ></img></td>
+             }} ></img>
+             <img alt='Icone de exclusão' src='/icon-excluir.png' className='icon-excluir' onClick={()=>setSelectionmodal(element)}></img>
+              </div></td>
       </tr>
              )
 }))
@@ -170,6 +185,7 @@ setTabelaturma(arrayfilter.map((element:any)=>{
        <img src='/close.png' className='close-response' onClick={closeresponse}></img>
      </div>
    )}
+   {statusmodalconfirm && <Modal_confirm/>}
    {loading && <Loading/>}
    {statusmodal &&  <Modal_consultar_turma/> } 
     </>

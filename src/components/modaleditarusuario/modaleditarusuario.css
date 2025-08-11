@@ -1,38 +1,15 @@
-.form-modal-aluno{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-   
+.form-modal-usuario{
+    width: 400px;
    position: relative;
     padding: 30px;
-    background-color: rgb(233, 233, 233);
-    border-radius: 10px;
+    background-color:  rgb(233, 233, 233);
+    border-radius: 15px;
 }
-.container-editar-aluno{
-    display: flex;
-    width: 500px;
-}
-.container-1-editar-aluno{
-    margin-right: 10px;
-}
-.container-1-editar-aluno>:not(:last-child){
+.form-modal-usuario>:not(:last-child){
     margin-bottom: 10px;
 }
-.container-2-editar-aluno>:not(:last-child){
-    margin-bottom: 10px;
-}
-.form-modal-aluno>:not(:last-child){
-    margin-bottom: 10px;
-}
-.close{
-    width: 20px;
-    height: 20px;
-    cursor: pointer;
-    position: absolute;
-    right: 15px;
-    top: 15px;
-}
-#form-modal-aluno{
+
+#form-modal-usuario{
 display: flex;
 flex-direction: column;
 
@@ -42,10 +19,10 @@ flex-direction: column;
     align-items: end;
     margin-bottom: 10px;
 }
-#filtro-aluno{
+#filtro-usuario{
     margin-right: 0px;
 }
-.container-input-modal-alunos{
+.container-input-modal-usuarios{
     display: flex;
     flex-direction: column;
     width: 100%;
@@ -53,7 +30,7 @@ flex-direction: column;
     margin-right: 20px;
     
 }
-.input-modal-aluno{
+.input-modal-usuario{
     width: 100%;
     font-weight: bold;
     height: 30px;
@@ -73,7 +50,6 @@ flex-direction: column;
 .container-icon-modal{
     display: flex;
     margin-left: 10px;
-    align-items: center;
 }
 .container-icon-modal>.icon-modal:not(:last-child){
     margin-right: 5px ;
@@ -95,7 +71,7 @@ flex-direction: column;
     box-shadow: 1px 3px 2px  rgba(0, 0, 0, 0.205);
     margin-top: 12px;
 }
-.span-modal-aluno{
+.span-modal-usuario{
     display: inline;
     font-weight: bold;
     color: black;
@@ -134,4 +110,8 @@ flex-direction: column;
     width: 25px;
     height: 25px;
     cursor: pointer;
+}
+.icon-ver{
+    width: 30px;
+    height: 30px;
 }
