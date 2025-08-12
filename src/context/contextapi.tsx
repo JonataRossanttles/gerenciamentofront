@@ -12,11 +12,18 @@ type props = {
   rotachangepassword:string,
   rotaResetpassword:string,
   rotaconsultarturmas:string,
-  rotaatualizarturma:string,
   rotaconsultaralunos:string,
-  rotaeditaraluno:string,
   rotaconsultarusuarios:string,
-  rotaeditarusuario:string
+  rotaconsultardisciplinas:string,
+  rotaeditarturma:string,
+  rotaeditaraluno:string,
+  rotaeditarusuario:string,
+  rotaeditardisciplina:string,
+  rotaexcluirturma:string,
+  rotaexcluiraluno:string,
+  rotaexcluirusuario:string,
+  rotaexcluirdisciplina:string,
+  
 
 };
 // Criando o contexto para as rotas da API
@@ -37,11 +44,17 @@ export const Providerapi = ({ children }: { children: ReactNode }) => {
     rotachangepassword: `${baseURL}/changepassword`,
     rotaResetpassword:`${baseURL}/resetpassword`,
     rotaconsultarturmas:`${baseURL}/consultar/turmas`,
-    rotaatualizarturma:`${baseURL}/editar/turma`,
     rotaconsultaralunos:`${baseURL}/consultar/alunos`,
-    rotaeditaraluno:`${baseURL}/editar/aluno`,
     rotaconsultarusuarios:`${baseURL}/consultar/usuarios`,
+    rotaconsultardisciplinas:`${baseURL}/consultar/disciplinas`,
+    rotaeditarturma:`${baseURL}/editar/turma`,
+    rotaeditaraluno:`${baseURL}/editar/aluno`,
     rotaeditarusuario:`${baseURL}/editar/usuario`,
+    rotaeditardisciplina:`${baseURL}/editar/usuario`,
+    rotaexcluirturma:`${baseURL}/excluir/turma`,
+    rotaexcluiraluno:`${baseURL}/excluir/aluno`,
+    rotaexcluirusuario:`${baseURL}/excluir/usuario`,
+    rotaexcluirdisciplina:`${baseURL}/excluir/disciplina`,
 
     
 

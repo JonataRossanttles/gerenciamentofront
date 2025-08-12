@@ -7,11 +7,13 @@ import { useNavigate } from 'react-router-dom';
 import Loading from '../loading/loading.tsx';
 import { usarcontexto } from '../../context/context.tsx';
 import Modal_editar_usuario from '../modaleditarusuario/modaleditarusuario.tsx';
+import Modal_confirm from '../modalconfirm/modalconfirm.tsx';
 
 
 function Consultarusuarios() {
-const {rotaconsultarusuarios} = usarcontextoapi();
-const {statusmodal,setStatusmodal,setSelectionmodal,arrayConsulta,setArrayconsulta} = usarcontexto()
+const {rotaconsultarusuarios,rotaexcluirusuario} = usarcontextoapi();
+const {statusmodal,setStatusmodal,setSelectionmodal,arrayConsulta,setArrayconsulta,
+  statusmodalconfirm,setStatusmodalconfirm,Selectionmodal} = usarcontexto()
 const [statusreq, setStatusreq] = useState<string>(); // Indica a mensagem recebida pelo backend.
 const [statusmsgerro, setStatusmsgerro] = useState<boolean>(); // Indica se é uma mensagem de erro ou não
 const [statusresponse, setStatusresponse] = useState<boolean>(false);  // Indica se a caixa de resposta deve ser exibida ou não
@@ -72,9 +74,16 @@ setTabelaturma(arrayusuariosraw.map((element:any)=>{
             <td className='information-table'>{element.email}</td>
             <td className='information-table'>{element.tipo}</td>
             <td className='information-table'>{element.status ? "ATIVO" : "INATIVO"}</td>
-             <td className='information-table'><img alt='Icone de visualização' src='/icon-ver.png' className='icon-ver' id={element.turmaId} onClick={()=>{setSelectionmodal(element)
+             <td className='information-table'>
+              <div className='container-icon-detalhes'>
+               <img alt='Icone de visualização' src='/icon-ver.png' className='icon-ver' onClick={()=>{setSelectionmodal(element)
               setStatusmodal(true)
-             }} ></img></td>
+             }} ></img>
+             <img alt='Icone de exclusão' src='/icon-excluir.png' className='icon-excluir' onClick={()=>{setSelectionmodal(element)
+              setStatusmodalconfirm(true)
+             }}></img>
+              </div>
+             </td>
       </tr>
              )
 }))
@@ -117,14 +126,72 @@ setTabelaturma(arrayfilter.map((element:any)=>{
             <td className='information-table'>{element.email}</td>
             <td className='information-table'>{element.tipo}</td>
             <td className='information-table'>{element.status ? "ATIVO" : "INATIVO" }</td>
-             <td className='information-table'><img alt='Icone de visualização' src='/icon-ver.png' className='icon-ver' id={element.turmaId} onClick={()=>{setSelectionmodal(element)
+             <td className='information-table'>
+             <div className='container-icon-detalhes'>
+               <img alt='Icone de visualização' src='/icon-ver.png' className='icon-ver' onClick={()=>{setSelectionmodal(element)
               setStatusmodal(true)
-             }} ></img></td>
+             }} ></img>
+             <img alt='Icone de exclusão' src='/icon-excluir.png' className='icon-excluir' onClick={()=>{setSelectionmodal(element)
+              setStatusmodalconfirm(true)
+             }}></img>
+              </div>
+             </td>
       </tr>
              )
 }))
 
 }
+
+async function excluir_usuario() {
+  console.log(Selectionmodal)
+  const dados = {
+    userId: Selectionmodal.userId
+  }
+try {
+  setLoading(true)
+  const response = await fetch(rotaexcluirusuario, {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+  },
+  credentials: 'include',
+  body:JSON.stringify({dados})
+})
+const information = await response.json();
+
+if(response.status === 401) {
+ navigate('/');
+ return;
+}
+if(!response.ok){
+ setLoading(false)
+ setStatusreq(information.msg);
+ setStatusresponse(true);
+ setStatusmsgerro(true);
+
+ return;
+}
+setLoading(false)
+setStatusresponse(true);
+setStatusreq(information.msg);
+setStatusmsgerro(false);
+setStatusmodalconfirm(false)
+ 
+ if (divresponse.current) {
+   divresponse.current.classList.remove('erroresponse');
+   divresponse.current.classList.add('sucessoresponse');
+ }
+
+} catch (error) {
+  setLoading(false)
+  setStatusreq('Erro no servidor!');
+ setStatusresponse(true);
+ setStatusmsgerro(true);
+}
+ 
+  }
+
+
 
   return (
     <>
@@ -172,6 +239,7 @@ setTabelaturma(arrayfilter.map((element:any)=>{
        <img src='/close.png' className='close-response' onClick={closeresponse}></img>
      </div>
    )}
+   {statusmodalconfirm && <Modal_confirm excluir={excluir_usuario} />}
    {loading && <Loading/>}
    {statusmodal &&  <Modal_editar_usuario/> } 
     </>

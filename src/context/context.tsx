@@ -29,8 +29,6 @@ export const Provider = ({ children }: { children: ReactNode }) => {
   const [statusmodalconfirm, setStatusmodalconfirm] = useState(false);
  const [arrayConsulta, setArrayconsulta] = useState<any[]>([]);
   const [Selectionmodal, setSelectionmodal] = useState<obj>({});
-//  const [arrayAlunos, setArrayalunos] = useState<any[]>([]);
-//  const [arrayUsuarios, setArrayusuarios] = useState<any[]>([]);
 
   //Atribuindo os valores das rotas da API e o estado do modal e a função para alterar o estado do modal
   const information: props = {

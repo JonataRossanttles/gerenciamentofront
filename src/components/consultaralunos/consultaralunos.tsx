@@ -8,11 +8,14 @@ import Loading from '../loading/loading.tsx';
 
 import { usarcontexto } from '../../context/context.tsx';
 import Modal_editar_aluno from '../modaleditaraluno/modaleditaraluno.tsx';
+import Modal_confirm from '../modalconfirm/modalconfirm.tsx';
 
 
 function Consultaralunos() {
-const {rotaconsultaralunos} = usarcontextoapi();
-const {statusmodal,setStatusmodal,arrayConsulta,setArrayconsulta,setSelectionmodal} = usarcontexto()
+const {rotaconsultaralunos,rotaexcluiraluno} = usarcontextoapi();
+const {statusmodal,setStatusmodal,arrayConsulta,setArrayconsulta,setSelectionmodal,
+  statusmodalconfirm,setStatusmodalconfirm,Selectionmodal
+} = usarcontexto()
 const [statusreq, setStatusreq] = useState<string>(); // Indica a mensagem recebida pelo backend.
 const [statusmsgerro, setStatusmsgerro] = useState<boolean>(); // Indica se é uma mensagem de erro ou não
 const [statusresponse, setStatusresponse] = useState<boolean>(false);  // Indica se a caixa de resposta deve ser exibida ou não
@@ -72,9 +75,16 @@ setTabelaalunos(arrayalunossraw.map((element:any)=>{
             <td className='information-table'>{element.nome}</td>
             <td className='information-table'>{element.situacao.toUpperCase()}</td>
             <td className='information-table'>{element.nomeResponsavel}</td>
-             <td className='information-table'><img alt='Icone de visualização' src='/icon-ver.png' className='icon-ver' id={element.alunoId} onClick={()=>{setSelectionmodal(element)
+             <td className='information-table'>
+             <div className='container-icon-detalhes'>
+               <img alt='Icone de visualização' src='/icon-ver.png' className='icon-ver' onClick={()=>{setSelectionmodal(element)
               setStatusmodal(true)
-             }} ></img></td>
+             }} ></img>
+             <img alt='Icone de exclusão' src='/icon-excluir.png' className='icon-excluir' onClick={()=>{setSelectionmodal(element)
+              setStatusmodalconfirm(true)
+             }}></img>
+              </div>
+             </td>
       </tr>
              )
 }))
@@ -117,14 +127,70 @@ setTabelaalunos(arrayfilter.map((element:any)=>{
             <td className='information-table'>{element.nome}</td>
             <td className='information-table'>{element.situacao.toUpperCase()}</td>
             <td className='information-table'>{element.nomeResponsavel}</td>
-             <td className='information-table'><img alt='Icone de visualização' src='/icon-ver.png' className='icon-ver' id={element.alunoId} onClick={()=>{setSelectionmodal(element)
+             <td className='information-table'>
+              <div className='container-icon-detalhes'>
+               <img alt='Icone de visualização' src='/icon-ver.png' className='icon-ver' onClick={()=>{setSelectionmodal(element)
               setStatusmodal(true)
-             }} ></img></td>
+             }} ></img>
+             <img alt='Icone de exclusão' src='/icon-excluir.png' className='icon-excluir' onClick={()=>{setSelectionmodal(element)
+              setStatusmodalconfirm(true)
+             }}></img>
+              </div>
+             </td>
       </tr>
              )
 }))
 
 }
+
+async function excluir_aluno() {
+     console.log(Selectionmodal)
+  const dados = {
+    alunoId: Selectionmodal.alunoId
+  }
+try {
+  setLoading(true)
+  const response = await fetch(rotaexcluiraluno, {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+  },
+  credentials: 'include',
+  body:JSON.stringify({dados})
+})
+const information = await response.json();
+
+if(response.status === 401) {
+ navigate('/');
+ return;
+}
+if(!response.ok){
+ setLoading(false)
+ setStatusreq(information.msg);
+ setStatusresponse(true);
+ setStatusmsgerro(true);
+
+ return;
+}
+setLoading(false)
+setStatusresponse(true);
+setStatusreq(information.msg);
+setStatusmsgerro(false);
+setStatusmodalconfirm(false)
+ 
+ if (divresponse.current) {
+   divresponse.current.classList.remove('erroresponse');
+   divresponse.current.classList.add('sucessoresponse');
+ }
+
+} catch (error) {
+  setLoading(false)
+  setStatusreq('Erro no servidor!');
+ setStatusresponse(true);
+ setStatusmsgerro(true);
+}
+ 
+  }
 
   return (
     <>
@@ -176,6 +242,7 @@ setTabelaalunos(arrayfilter.map((element:any)=>{
        <img src='/close.png' className='close-response' onClick={closeresponse}></img>
      </div>
    )}
+   {statusmodalconfirm && <Modal_confirm excluir={excluir_aluno}/>}
    {loading && <Loading/>}
    {statusmodal &&  <Modal_editar_aluno/> } 
     </>

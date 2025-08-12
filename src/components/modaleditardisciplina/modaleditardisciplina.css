@@ -1,0 +1,117 @@
+.form-modal-disciplina{
+    width: 400px;
+   position: relative;
+    padding: 30px;
+    background-color:  rgb(233, 233, 233);
+    border-radius: 15px;
+}
+.form-modal-disciplina>:not(:last-child){
+    margin-bottom: 10px;
+}
+
+#form-modal-disciplina{
+display: flex;
+flex-direction: column;
+
+}
+.container-modal{
+    display: flex;
+    align-items: end;
+    margin-bottom: 10px;
+}
+#filtro-disciplina{
+    margin-right: 0px;
+}
+.container-input-modal-disciplinas{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: 5px;
+    margin-right: 20px;
+    
+}
+.input-modal-disciplina{
+    width: 100%;
+    font-weight: bold;
+    height: 30px;
+    border-radius: 5px;
+    padding: 0 10px;
+    border: 1px solid #e7e7e78c;
+    background-color: rgb(189, 189, 189);
+  color: #919090;
+  cursor: not-allowed;
+}
+.input-ativo{
+    background-color: white;
+    color: black;
+    cursor: auto;
+}
+
+.container-icon-modal{
+    display: flex;
+    margin-left: 10px;
+}
+.container-icon-modal>.icon-modal:not(:last-child){
+    margin-right: 5px ;
+}
+.container-input-icon-modal{
+    display: flex;
+    justify-content: space-between;
+    
+}
+
+.btn-modal{
+    width: 100%;
+    height: 40px;
+    cursor: pointer;
+    background-image: linear-gradient(to bottom, #3f98e0, #1A73E8);
+    color: white;
+    border-radius: 5px;
+    border: 1px solid black;
+    box-shadow: 1px 3px 2px  rgba(0, 0, 0, 0.205);
+    margin-top: 12px;
+}
+.span-modal-disciplina{
+    display: inline;
+    font-weight: bold;
+    color: black;
+}
+   
+.table-modal{
+    width: 100%;
+}
+.line-table{
+    border: 1px solid black;
+}
+.information-table{
+    padding: 10px;
+    text-align: center;
+    max-width: 150px;           /* limite opcional */
+  white-space: nowrap;        /* impede quebra de linha */
+  overflow: hidden;           /* esconde o conteúdo que passar */
+  text-overflow: ellipsis;
+}
+.table-header{
+    padding: 10px;
+    color: white;
+    background-color: #1561c5f1;
+}
+
+
+.table-modal tbody tr:nth-child(even) {
+  background-color: white; /* cinza claro */
+}
+
+.table-modal tbody tr:nth-child(odd) {
+  background-color:  #ececec; /* branco */
+}
+
+.icon-editar,.icon-ver{
+    width: 25px;
+    height: 25px;
+    cursor: pointer;
+}
+.icon-ver{
+    width: 30px;
+    height: 30px;
+}

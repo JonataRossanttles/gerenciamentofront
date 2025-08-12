@@ -1,17 +1,18 @@
 
 
 import { useEffect, useRef, useState } from 'react';
-import './consultarturmas.css'
+import './consultardisciplinas.css'
 import { usarcontextoapi } from '../../context/contextapi.tsx';
 import { useNavigate } from 'react-router-dom';
 import Loading from '../loading/loading.tsx';
-import Modal_consultar_turma from '../modaleditarturma/modaleditarturma.tsx';
+
 import { usarcontexto } from '../../context/context.tsx';
 import Modal_confirm from '../modalconfirm/modalconfirm.tsx';
+import Modal_editar_disciplina from '../modaleditardisciplina/modaleditardisciplina.tsx';
 
 
-function Consultarturmas() {
-const {rotaconsultarturmas,rotaexcluirturma} = usarcontextoapi();
+function Consultardisciplinas() {
+const {rotaconsultardisciplinas,rotaexcluirdisciplina} = usarcontextoapi();
 const {statusmodal,setStatusmodal,Selectionmodal,setSelectionmodal,arrayConsulta,setArrayconsulta,
   statusmodalconfirm,setStatusmodalconfirm} = usarcontexto()
 const [statusreq, setStatusreq] = useState<string>(); // Indica a mensagem recebida pelo backend.
@@ -24,9 +25,9 @@ const navigate = useNavigate();
 const [loading,setLoading] = useState<boolean>()
 const [disable,setDisable] = useState<boolean>(false)
 
-const [tabelaturma , setTabelaturma] = useState<React.ReactElement[]>([])
+const [tabeladisciplina , setTabeladisciplina] = useState<React.ReactElement[]>([])
 
-async function consultar_turma(e: React.FormEvent<HTMLFormElement>) {
+async function consultar_disciplina(e: React.FormEvent<HTMLFormElement>) {
   e.preventDefault();
   if (!anoLetivo.current)  return
    
@@ -35,7 +36,7 @@ async function consultar_turma(e: React.FormEvent<HTMLFormElement>) {
   };
 try {
   setLoading(true)
-  const response = await fetch(rotaconsultarturmas, {
+  const response = await fetch(rotaconsultardisciplinas, {
   method: 'POST',
   headers: {
     'Content-Type': 'application/json',
@@ -61,21 +62,20 @@ if(!response.ok){
 setLoading(false) 
 if(information.msg.length === 0){
   setLoading(false)
- setStatusreq("Não existem turmas para esse ano letivo!");
+ setStatusreq("Não existem disciplinas para esse ano letivo!");
  setStatusresponse(true);
  setStatusmsgerro(true);
 }
 
-const arrayturmasraw = information.msg
-setArrayconsulta(arrayturmasraw)
-setTabelaturma(arrayturmasraw.map((element:any)=>{
+const arraydisciplinasraw = information.msg
+setArrayconsulta(arraydisciplinasraw)
+setTabeladisciplina(arraydisciplinasraw.map((element:any)=>{
   return(
     <tr className='line-table'>
-            <td className='information-table'>{element.turma}</td>
-            <td className='information-table'>{element.serie}</td>
-            <td className='information-table'>{element.turno}</td>
-            <td className='information-table'>{element.sala}</td>
-            <td className='information-table'>{element.anoLetivo}</td>
+            <td className='information-table'>{element.codigo}</td>
+            <td className='information-table'>{element.nome}</td>
+            <td className='information-table'>{element.cargaHoraria}</td>
+            <td className='information-table' title={element.descricao}>{element.descricao}</td>
              <td className='information-table'>
               <div className='container-icon-detalhes'>
                <img alt='Icone de visualização' src='/icon-ver.png' className='icon-ver' onClick={()=>{setSelectionmodal(element)
@@ -91,7 +91,7 @@ setTabelaturma(arrayturmasraw.map((element:any)=>{
              )
 }))
 setDisable(true)
-inputFilter.current?.classList.add('input-filtrar-turma-liberado')
+inputFilter.current?.classList.add('input-filtrar-disciplina-liberado')
 
 
 } catch (error) {
@@ -119,17 +119,16 @@ function closeresponse() {
  
 }
 
-function filtrarturmas(){
-  const turma = inputFilter.current?.value?.toLowerCase() || ''
-const arrayfilter = arrayConsulta.filter((element)=>{ return  element.turma.toLowerCase().includes(turma)})
-setTabelaturma(arrayfilter.map((element:any)=>{
+function filtrardisciplinas(){
+  const disciplina = inputFilter.current?.value?.toLowerCase() || ''
+const arrayfilter = arrayConsulta.filter((element)=>{ return  element.nome.toLowerCase().includes(disciplina)})
+setTabeladisciplina(arrayfilter.map((element:any)=>{
   return(
     <tr className='line-table'>
-            <td className='information-table'>{element.turma}</td>
-            <td className='information-table'>{element.serie}</td>
-            <td className='information-table'>{element.turno}</td>
-            <td className='information-table'>{element.sala}</td>
-            <td className='information-table'>{element.anoLetivo}</td>
+               <td className='information-table'>{element.codigo}</td>
+            <td className='information-table'>{element.nome}</td>
+            <td className='information-table'>{element.cargaHoraria}</td>
+            <td className='information-table' title={element.descricao}>{element.descricao}</td>
              <td className='information-table'>
               <div className='container-icon-detalhes'>
                <img alt='Icone de visualização' src='/icon-ver.png' className='icon-ver' onClick={()=>{setSelectionmodal(element)
@@ -143,14 +142,14 @@ setTabelaturma(arrayfilter.map((element:any)=>{
 
 }
 
-async function excluir_turma() {
+async function excluir_disciplina() {
      console.log(Selectionmodal)
   const dados = {
-    turmaId: Selectionmodal.turmaId
+    disciplinaId: Selectionmodal.disciplinaId
   }
 try {
   setLoading(true)
-  const response = await fetch(rotaexcluirturma, {
+  const response = await fetch(rotaexcluirdisciplina, {
   method: 'POST',
   headers: {
     'Content-Type': 'application/json',
@@ -196,35 +195,33 @@ setStatusmodalconfirm(false)
   return (
     <>
     <section className='main'>
-       <form className='form-consultar-turma' id='form-consultar-turma' onSubmit={consultar_turma}>
+       <form className='form-consultar-disciplina' id='form-consultar-disciplina' onSubmit={consultar_disciplina}>
         <div className='container-consultar'>
-          <div className='container-input-consultar-turmas'>
-          <span className='span-consultar-turma'>Ano letivo:</span>
-          <input type="number" min={0} className='input-consultar-turma' ref={anoLetivo} placeholder='Digite o ano letivo'/>
+          <div className='container-input-consultar-disciplinas'>
+          <span className='span-consultar-disciplina'>Ano letivo:</span>
+          <input type="number" min={0} className='input-consultar-disciplina' ref={anoLetivo} placeholder='Digite o ano letivo'/>
       </div>
       <button className='btn-consultar'>Consultar</button>
         </div>
     
-      <div className='container-input-consultar-turmas' id='filtro-turma'>
-        <span className='span-consultar-turma' >Filtrar pelo nome da turma:</span>
-        <input type="text" className='input-filtrar-turma' ref={inputFilter} onChange={filtrarturmas} disabled={!disable}  placeholder='Digite o nome da turma'/>
+      <div className='container-input-consultar-disciplinas' id='filtro-disciplina'>
+        <span className='span-consultar-disciplina' >Filtrar pelo nome da disciplina:</span>
+        <input type="text" className='input-filtrar-disciplina' ref={inputFilter} onChange={filtrardisciplinas} disabled={!disable}  placeholder='Digite o nome da disciplina'/>
       </div>
       
       </form>
       <table className='table-consultar'>
         <thead>
         <tr>
+        <th className='table-header'>Código</th>
         <th className='table-header'>Nome</th>
-        <th className='table-header'>Série</th>
-        <th className='table-header' >Turno</th>
-        <th className='table-header' >Sala</th>
-        <th className='table-header' >Ano letivo</th>
-        <th className='table-header' >Detalhes</th>
-        
+        <th className='table-header' >Carga Horária</th>
+        <th className='table-header' >Descrição</th>        
+        <th className='table-header' >Detalhes</th>        
         </tr>
         </thead>
         <tbody>
-          {tabelaturma}
+          {tabeladisciplina}
           
         </tbody>
       </table>
@@ -235,12 +232,12 @@ setStatusmodalconfirm(false)
        <img src='/close.png' className='close-response' onClick={closeresponse}></img>
      </div>
    )}
-   {statusmodalconfirm && <Modal_confirm excluir={excluir_turma}/>}
+   {statusmodalconfirm && <Modal_confirm excluir={excluir_disciplina}/>}
    {loading && <Loading/>}
-   {statusmodal &&  <Modal_consultar_turma/> } 
+   {statusmodal &&  <Modal_editar_disciplina/> } 
     </>
   )
 
 }
 
-export default Consultarturmas
+export default Consultardisciplinas

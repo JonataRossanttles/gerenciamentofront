@@ -116,12 +116,12 @@ function closeresponse() {
       </div>
       <div className='container-input'>
         <span className='span-cadastrar-disciplina'>Carga horária:</span>
-        <input type="number" className='input-cadastrar-disciplina' ref={cargaHoraria} placeholder='Digite a carga horaria'/>
+        <input type="number"min={0}  className='input-cadastrar-disciplina' ref={cargaHoraria} placeholder='Digite a carga horaria'/>
       </div>
      
       <div className='container-input'>
         <span className='span-cadastrar-disciplina'>Ano letivo:</span>
-        <input type="number" className='input-cadastrar-disciplina' ref={anoLetivo} placeholder='Digite o ano letivo'/>
+        <input type="number" min={0} className='input-cadastrar-disciplina' ref={anoLetivo} placeholder='Digite o ano letivo'/>
       </div>
     
       <button className='btn-cadastrar'>Cadastrar</button>

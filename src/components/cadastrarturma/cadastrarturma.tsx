@@ -120,7 +120,7 @@ function closeresponse() {
       </div>
       <div className='container-input'>
         <span className='span-cadastrar-turma'>Ano letivo:</span>
-        <input type="number" className='input-cadastrar-turma' ref={anoLetivo} placeholder='Digite o ano letivo'/>
+        <input type="number"min={0}  className='input-cadastrar-turma' ref={anoLetivo} placeholder='Digite o ano letivo'/>
       </div>
     
       <div className='container-input'>

@@ -7,7 +7,7 @@ import { usarcontexto } from '../../context/context.tsx';
 
 
 function Modal_consultar_turma() {
-const {rotaatualizarturma} = usarcontextoapi();
+const {rotaeditarturma} = usarcontextoapi();
 const {setStatusmodal,Selectionmodal}=usarcontexto()
 const [statusreq, setStatusreq] = useState<string>(); // Indica a mensagem recebida pelo backend.
 const [statusmsgerro, setStatusmsgerro] = useState<boolean>(); // Indica se é uma mensagem de erro ou não
@@ -41,7 +41,7 @@ async function atualizar_turma(e: React.FormEvent<HTMLFormElement>) {
   }
 try {
   setLoading(true)
-  const response = await fetch(rotaatualizarturma, {
+  const response = await fetch(rotaeditarturma, {
   method: 'POST',
   headers: {
     'Content-Type': 'application/json',
@@ -181,7 +181,7 @@ useEffect(() => {
       <div className='container-input'>
         <span className='span-modal-turma'>Ano letivo:</span>
           <div className='container-input-icon-modal'>
-          <input type="number" className='input-modal-turma' ref={anoLetivo} disabled={!editando.anoLetivo} defaultValue={Selectionmodal?.anoLetivo}/> 
+          <input type="number" min={0} className='input-modal-turma' ref={anoLetivo} disabled={!editando.anoLetivo} defaultValue={Selectionmodal?.anoLetivo}/> 
           <div className='container-icon-modal'>
             <img src='/icon-editar.png' alt='Editar'className='icon-modal'onClick={() => setEditando(prev => ({ ...prev, anoLetivo: true }))} ></img>
             <img src='/icon-salvar.png' alt='Salvar' className='icon-modal' onClick={() => setEditando(prev => ({ ...prev, anoLetivo: false }))} ></img>

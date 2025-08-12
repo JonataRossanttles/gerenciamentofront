@@ -172,7 +172,7 @@ function closeresponse() {
         </div>
         <div className='container-input'>
           <span className='span-cadastrar-aluno'>Telefone do responsável:</span>
-          <input type="number" className='input-cadastrar-aluno' ref={telefoneResponsavel} placeholder='Digite o telefone do responsável'/>
+          <input type="number" min={0}  className='input-cadastrar-aluno' ref={telefoneResponsavel} placeholder='Digite o telefone do responsável'/>
         </div>
       
         <div className='container-input'>
