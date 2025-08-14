@@ -1,28 +1,20 @@
-.form-modal-disciplina{
+.form-consultar-alunos{
     width: 400px;
-   position: relative;
-    padding: 30px;
-    background-color:  rgb(233, 233, 233);
-    border-radius: 15px;
+    margin-bottom: 30px;
 }
-.form-modal-disciplina>:not(:last-child){
-    margin-bottom: 10px;
-}
-
-#form-modal-disciplina{
+#form-consultar-alunos{
 display: flex;
 flex-direction: column;
-
 }
-.container-modal{
+.container-consultar{
     display: flex;
     align-items: end;
     margin-bottom: 10px;
 }
-#filtro-disciplina{
+#filtro-alunos{
     margin-right: 0px;
 }
-.container-input-modal-disciplinas{
+.container-input-consultar-alunos{
     display: flex;
     flex-direction: column;
     width: 100%;
@@ -30,58 +22,61 @@ flex-direction: column;
     margin-right: 20px;
     
 }
-.input-modal-disciplina{
+.input-consultar-alunos{
     width: 100%;
-    font-weight: bold;
     height: 30px;
     border-radius: 5px;
     padding: 0 10px;
-    border: 1px solid #e7e7e78c;
-    background-color: rgb(189, 189, 189);
-  color: #919090;
-  cursor: not-allowed;
+    border: 1px solid #ccc;
 }
 
-.input-modal-disciplina::-webkit-inner-spin-button{
-  -webkit-appearance: none;
-}
-.input-ativo{
-    background-color: white;
-    color: black;
-    cursor: auto;
-}
-
-.container-icon-modal{
-    display: flex;
-    margin-left: 10px;
-}
-.container-icon-modal>.icon-modal:not(:last-child){
-    margin-right: 5px ;
-}
-.container-input-icon-modal{
-    display: flex;
-    justify-content: space-between;
+.input-consultar-alunos::-webkit-inner-spin-button{
+    -webkit-appearance: none;
     
 }
-
-.btn-modal{
+.input-filtrar-alunos,.input-select-turma{
+     width: 100%;
+    height: 30px;
+    border-radius: 5px;
+    padding: 0 10px;
+    border: 1px solid #ccc;
+    cursor: not-allowed;
+}
+.input-filtrar-alunos-liberado{
+    
+    cursor:text;
+}
+.container-input-turmas{
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    gap: 5px;
+    margin-bottom: 10px;
+}
+.input-select-turmas-liberado{
+    cursor:pointer;
+}
+.btn-consultar{
     width: 100%;
-    height: 40px;
+    height: 30px;
     cursor: pointer;
     background-image: linear-gradient(to bottom, #3f98e0, #1A73E8);
     color: white;
     border-radius: 5px;
     border: 1px solid black;
     box-shadow: 1px 3px 2px  rgba(0, 0, 0, 0.205);
-    margin-top: 12px;
+    
 }
-.span-modal-disciplina{
+
+
+.span-consultar-alunos{
     display: inline;
     font-weight: bold;
-    color: black;
+    color: #333;
 }
    
-.table-modal{
+.table-consultar{
+    position: relative;
     width: 100%;
 }
 .line-table{
@@ -102,11 +97,11 @@ flex-direction: column;
 }
 
 
-.table-modal tbody tr:nth-child(even) {
+.table-consultar tbody tr:nth-child(even) {
   background-color: white; /* cinza claro */
 }
 
-.table-modal tbody tr:nth-child(odd) {
+.table-consultar tbody tr:nth-child(odd) {
   background-color:  #ececec; /* branco */
 }
 

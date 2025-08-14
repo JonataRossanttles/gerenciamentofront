@@ -143,9 +143,9 @@ setTabeladisciplina(arrayfilter.map((element:any)=>{
 }
 
 async function excluir_disciplina() {
-     console.log(Selectionmodal)
+    
   const dados = {
-    disciplinaId: Selectionmodal.disciplinaId
+    discId: Selectionmodal.discId
   }
 try {
   setLoading(true)

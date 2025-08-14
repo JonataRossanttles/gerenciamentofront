@@ -27,9 +27,9 @@ async function validarToken() {
         'Content-Type': 'application/json',
       },
     });
-
+const information = await response.json();
     if (!response.ok) {
-      console.log('Token inválido ou expirado');
+      console.log(information.msg);
       setLoading(false);
       return setAuthenticated(false);
     }
@@ -43,6 +43,7 @@ async function validarToken() {
 useEffect(()=>{
   validarToken();
 },[])
+
   if(loading) return <Loading/>
   return authenticated ? <Outlet /> : <Navigate to="/" />;
 

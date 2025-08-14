@@ -28,7 +28,6 @@ flex-direction: column;
     border-radius: 5px;
     padding: 0 10px;
     border: 1px solid #ccc;
-    -webkit-appearance: none;
 }
 
 .input-consultar-turma::-webkit-inner-spin-button,

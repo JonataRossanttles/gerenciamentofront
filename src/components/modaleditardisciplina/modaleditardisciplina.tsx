@@ -12,16 +12,18 @@ const {setStatusmodal,Selectionmodal}=usarcontexto()
 const [statusreq, setStatusreq] = useState<string>(); // Indica a mensagem recebida pelo backend.
 const [statusmsgerro, setStatusmsgerro] = useState<boolean>(); // Indica se é uma mensagem de erro ou não
 const [statusresponse, setStatusresponse] = useState<boolean>(false);  // Indica se a caixa de resposta deve ser exibida ou não
-const status = useRef<HTMLSelectElement>(null);
 const nome = useRef<HTMLInputElement>(null);
-const tipo = useRef<HTMLSelectElement>(null);
+const cargaHoraria = useRef<HTMLInputElement>(null);
+const anoLetivo = useRef<HTMLInputElement>(null);
+const descricao = useRef<HTMLTextAreaElement>(null);
 const divresponse = useRef<HTMLDivElement>(null);
 const navigate = useNavigate();
 const [loading,setLoading] = useState<boolean>()
 const [editando,setEditando] = useState({
   nome:false,
-  tipo:false,
-  status:false,
+  cargaHoraria:false,
+  anoLetivo:false,
+  descricao:false,
   
 })
 
@@ -30,9 +32,10 @@ async function atualizar_disciplina(e: React.FormEvent<HTMLFormElement>) {
      
   const dados = {
     nome: nome.current?.value.trim(),
-    status: status.current?.value ==  "ativo" ? true : false ,
-    tipo: tipo.current?.value,
-    userId:Selectionmodal.userId
+    cargaHoraria: cargaHoraria.current?.value ,
+    anoLetivo: anoLetivo.current?.value,
+    descricao: descricao.current?.value,
+    discId:Selectionmodal.discId
   
   }
 try {
@@ -106,15 +109,20 @@ useEffect(()=>{
   } else{
   nome.current?.classList.remove('input-ativo')
   }
-  if(editando.tipo === true){
-     tipo.current?.classList.add('input-ativo')
+  if(editando.cargaHoraria === true){
+     cargaHoraria.current?.classList.add('input-ativo')
   } else{
-  tipo.current?.classList.remove('input-ativo')
+  cargaHoraria.current?.classList.remove('input-ativo')
   }
-  if(editando.status === true){
-     status.current?.classList.add('input-ativo')
+  if(editando.anoLetivo === true){
+     anoLetivo.current?.classList.add('input-ativo')
   } else{
-  status.current?.classList.remove('input-ativo')
+  anoLetivo.current?.classList.remove('input-ativo')
+  }
+  if(editando.descricao === true){
+     descricao.current?.classList.add('input-ativo')
+  } else{
+  descricao.current?.classList.remove('input-ativo')
   }
   
 
@@ -144,31 +152,37 @@ useEffect(() => {
         
       </div>
       <div className='container-input'>
-        <span className='span-modal-disciplina'>Tipo:</span>
+        <span className='span-modal-disciplina'>Carga horária:</span>
         <div className='container-input-icon-modal'>
-         <select className='input-modal-disciplina'  ref={tipo} disabled={!editando.tipo}  defaultValue={Selectionmodal?.tipo}  >
-            <option value="" disabled hidden> Selecione uma opção</option>
-            <option value={'prof'}>Professor</option>
-            <option value={'admin'}>Administrador</option>           
-          </select>
+         <input className='input-modal-disciplina' type='number' min={0}  ref={cargaHoraria} disabled={!editando.cargaHoraria}  defaultValue={Selectionmodal?.cargaHoraria}  />
           <div className='container-icon-modal'>
-            <img src='/icon-editar.png' alt='Editar'className='icon-modal' onClick={() => setEditando(prev => ({ ...prev, tipo: true }))} ></img>
-            <img src='/icon-salvar.png' alt='Salvar' className='icon-modal' onClick={() => setEditando(prev => ({ ...prev, tipo: false }))}></img>
+            <img src='/icon-editar.png' alt='Editar'className='icon-modal' onClick={() => setEditando(prev => ({ ...prev, cargaHoraria: true }))} ></img>
+            <img src='/icon-salvar.png' alt='Salvar' className='icon-modal' onClick={() => setEditando(prev => ({ ...prev, cargaHoraria: false }))}></img>
           </div>
             
         </div>  
       </div>
-      <div className='container-input'>
-        <span className='span-modal-disciplina'>Status:</span>
-       <div className='container-input-icon-modal'>
-        <select className='input-modal-disciplina'  ref={status} disabled={!editando.status}  defaultValue={ Selectionmodal?.status == true ? "ativo" : "inativo" }  >
-            <option value="" disabled hidden> Selecione uma opção</option>
-            <option value={'ativo'}>Ativo</option>
-            <option value={'inativo'}>Inativo</option>           
-          </select>
+
+<div className='container-input'>
+        <span className='span-modal-disciplina'>Ano letivo:</span>
+        <div className='container-input-icon-modal'>
+         <input className='input-modal-disciplina' type='number' min={0}   ref={anoLetivo} disabled={!editando.anoLetivo}  defaultValue={Selectionmodal?.anoLetivo}  />
           <div className='container-icon-modal'>
-            <img src='/icon-editar.png' alt='Editar'className='icon-modal'onClick={() => setEditando(prev => ({ ...prev, status: true }))} ></img>
-            <img src='/icon-salvar.png' alt='Salvar' className='icon-modal' onClick={() => setEditando(prev => ({ ...prev, status: false }))}></img>
+            <img src='/icon-editar.png' alt='Editar'className='icon-modal' onClick={() => setEditando(prev => ({ ...prev, anoLetivo: true }))} ></img>
+            <img src='/icon-salvar.png' alt='Salvar' className='icon-modal' onClick={() => setEditando(prev => ({ ...prev, anoLetivo: false }))}></img>
+          </div>
+            
+        </div>  
+      </div>
+
+
+      <div className='container-input'>
+        <span className='span-modal-disciplina'>Descrição:</span>
+       <div className='container-input-icon-modal'>
+        <textarea className='input-modal-disciplina' id='text-area-modal'  ref={descricao} disabled={!editando.descricao}  defaultValue={ Selectionmodal?.descricao }  />
+          <div className='container-icon-modal'>
+            <img src='/icon-editar.png' alt='Editar'className='icon-modal'onClick={() => setEditando(prev => ({ ...prev, descricao: true }))} ></img>
+            <img src='/icon-salvar.png' alt='Salvar' className='icon-modal' onClick={() => setEditando(prev => ({ ...prev, descricao: false }))}></img>
           </div>
             
         </div>  
