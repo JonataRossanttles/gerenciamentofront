@@ -289,12 +289,12 @@ useEffect(() => {
         <span className='span-modal-aluno'>Situação escolar:</span>
           <div className='container-input-icon-modal'>
           <select  className='input-modal-aluno' ref={situacao} disabled={!editando.situacao} defaultValue={Selectionmodal?.situacao.toUpperCase()}>
-            <option value={'ativo'}>Ativo</option>
-            <option value={'cancelado'}>Cancelado</option>
-            <option value={'trancado'}>Trancado</option>
-            <option value={'abandono'}>Abandono</option>
-            <option value={'concluido'}>Concluido</option>
-            <option value={'pre-matriculado'}>Pré-matriculado</option>
+            <option value={'ATIVO'}>Ativo</option>
+            <option value={'CANCELADO'}>Cancelado</option>
+            <option value={'TRANCADO'}>Trancado</option>
+            <option value={'ABANDONO'}>Abandono</option>
+            <option value={'CONCLUIDO'}>Concluido</option>
+            <option value={'PRE-MATRICULADO'}>Pré-matriculado</option>
              </select>
           <div className='container-icon-modal'>
             <img src='/icon-editar.png' alt='Editar'className='icon-modal' onClick={() => setEditando(prev => ({ ...prev, situacao: true }))} ></img>

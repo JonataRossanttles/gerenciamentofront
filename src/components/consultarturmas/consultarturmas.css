@@ -45,7 +45,11 @@ flex-direction: column;
     cursor: not-allowed;
 }
 .input-filtrar-turma-liberado{
-    
+     width: 100%;
+    height: 30px;
+    border-radius: 5px;
+    padding: 0 10px;
+    border: 1px solid #ccc;
     cursor:text;
 }
 .btn-consultar{

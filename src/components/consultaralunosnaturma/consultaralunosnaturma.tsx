@@ -14,7 +14,7 @@ import Modal_confirm from '../modalconfirm/modalconfirm.tsx';
 function Consultar_alunos_na_turma() {
 const {rotaconsultar_turma_alunos,rotaexcluir_turma_alunos,rotaconsultarturmas} = usarcontextoapi();
 const {statusmodal,setStatusmodal,arrayConsulta,setArrayconsulta,setSelectionmodal,
-  statusmodalconfirm,setStatusmodalconfirm,Selectionmodal
+  statusmodalconfirm,setStatusmodalconfirm
 } = usarcontexto()
 const [statusreq, setStatusreq] = useState<string>(); // Indica a mensagem recebida pelo backend.
 const [statusmsgerro, setStatusmsgerro] = useState<boolean>(); // Indica se é uma mensagem de erro ou não
@@ -23,11 +23,11 @@ const divresponse = useRef<HTMLDivElement>(null);
 const inputTurmas = useRef<HTMLSelectElement>(null);
 const inputFilter = useRef<HTMLInputElement>(null);
 const anoLetivo = useRef<HTMLInputElement>(null);
+const btn_excluir = useRef<HTMLButtonElement>(null);
 const navigate = useNavigate();
 const [loading,setLoading] = useState<boolean>()
 const [disable,setDisable] = useState<boolean>(false)
 const [arrayoriginal , setArrayoriginal] = useState<any[]>([])
-const [arrayfiltrado , setArrayfiltrado] = useState<any[]>([])
 const [turmas, setTurmas] = useState<React.ReactElement[]>([])
 const [selectedIds, setSelectedIds] = useState<string[]>([]);
 const [selectAll, setSelectAll] = useState<boolean>(false);
@@ -77,8 +77,9 @@ setTurmas(information.msg.map((element:any)=>{
 }))
 
 setDisable(true)
-inputFilter.current?.classList.add('input-filtrar-alunos-liberado')
+
 inputTurmas.current?.classList.add('input-select-turmas-liberado')
+
 
 } catch (error) {
   setLoading(false)
@@ -158,7 +159,6 @@ if(information.msg.length === 0){
 console.log(information.msg[0].dadosalunos)
 
 setArrayoriginal(information.msg[0].dadosalunos)
-setArrayfiltrado(information.msg[0].dadosalunos)
 setArrayconsulta(information.msg[0].dadosalunos)
 
 setDisable(true)
@@ -244,6 +244,10 @@ function mudarcheckbox (id:string){
   }
 }
 
+useEffect(()=>{
+  setArrayconsulta([])
+
+},[])
 
   return (
     <>
@@ -260,7 +264,7 @@ function mudarcheckbox (id:string){
 
         <div className='container-input-turmas'>
           <span className='span-consultar-alunos'>Turmas:</span>
-          <select className='input-select-turma' defaultValue={""} disabled={!disable} ref={inputTurmas} onChange={turma_select}>
+          <select className={disable ? 'input-select-turmas-liberado' : 'input-select-turma'} defaultValue={""} disabled={!disable} ref={inputTurmas} onChange={turma_select}>
             <option value="" disabled hidden> Selecione uma turma...</option>
             {turmas}
           </select>
@@ -268,13 +272,15 @@ function mudarcheckbox (id:string){
       <div className='container-input-consultar-alunos' id='filtro-alunos'>
 
         <span className='span-consultar-alunos' >Filtrar pelo nome do aluno:</span>
-        <input type="text" className='input-filtrar-alunos' ref={inputFilter} onChange={filtraralunos} disabled={!disable}  placeholder='Digite o nome do aluno'/>
+        <input type="text" className={disable ? 'input-filtrar-alunos-liberado' : 'input-filtrar-alunos'} ref={inputFilter} onChange={filtraralunos} disabled={!disable}  placeholder='Digite o nome do aluno'/>
       </div>
      
       </form>
-
+      <div className='container-button-excluir'>
+       <button type='button' className={ disable ? 'btn-excluir-liberado' : 'btn-excluir-consultar' } ref={btn_excluir} onClick={()=>{setStatusmodalconfirm(true)}} disabled={!disable}>Retirar aluno(s) da turma</button>
+      </div>
       <table className='table-consultar'>
-         <button type='button' className='btn-excluir-consultar' onClick={()=>{setStatusmodalconfirm(true)}} disabled={!disable}>Retirar aluno(s) da turma</button>
+         
         <thead>
         <tr>
          <th className='table-header'><input type="checkbox" checked={selectAll} className='checkbox-selecionar-todos' onChange={selecionarTudo}/></th>
@@ -298,7 +304,7 @@ function mudarcheckbox (id:string){
       </td>
       <td className="information-table">{element.matricula}</td>
       <td className="information-table">{element.nome}</td>
-      <td className="information-table">{element.situacao.toUpperCase()}</td>
+      <td className="information-table">{element.situacao}</td>
       <td className="information-table">{element.nomeResponsavel}</td>
       <td className="information-table">
         <div className="container-icon-detalhes">

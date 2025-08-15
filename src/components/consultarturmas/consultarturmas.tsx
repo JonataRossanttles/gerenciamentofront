@@ -1,9 +1,9 @@
 
 
-import { useEffect, useRef, useState } from 'react';
+import { use, useEffect, useRef, useState } from 'react';
 import './consultarturmas.css'
 import { usarcontextoapi } from '../../context/contextapi.tsx';
-import { useNavigate } from 'react-router-dom';
+import {  useNavigate } from 'react-router-dom';
 import Loading from '../loading/loading.tsx';
 import Modal_consultar_turma from '../modaleditarturma/modaleditarturma.tsx';
 import { usarcontexto } from '../../context/context.tsx';
@@ -12,7 +12,8 @@ import Modal_confirm from '../modalconfirm/modalconfirm.tsx';
 
 function Consultarturmas() {
 const {rotaconsultarturmas,rotaexcluirturma} = usarcontextoapi();
-const {statusmodal,setStatusmodal,Selectionmodal,setSelectionmodal,arrayConsulta,setArrayconsulta,
+
+const {statusmodal,setStatusmodal,setSelectionmodal,arrayConsulta,setArrayconsulta,
   statusmodalconfirm,setStatusmodalconfirm} = usarcontexto()
 const [statusreq, setStatusreq] = useState<string>(); // Indica a mensagem recebida pelo backend.
 const [statusmsgerro, setStatusmsgerro] = useState<boolean>(); // Indica se é uma mensagem de erro ou não
@@ -20,13 +21,14 @@ const [statusresponse, setStatusresponse] = useState<boolean>(false);  // Indica
 const anoLetivo = useRef<HTMLInputElement>(null);
 const divresponse = useRef<HTMLDivElement>(null);
 const inputFilter = useRef<HTMLInputElement>(null);
+const btn_excluir = useRef<HTMLButtonElement>(null);
 const navigate = useNavigate();
 const [loading,setLoading] = useState<boolean>()
 const [disable,setDisable] = useState<boolean>(false)
 const [selectedIds, setSelectedIds] = useState<string[]>([]);
 const [selectAll, setSelectAll] = useState<boolean>(false);
 const [arrayoriginal , setArrayoriginal] = useState<any[]>([])
-const [arrayfiltrado , setArrayfiltrado] = useState<any[]>([])
+
 
 
 async function consultar_turma(e: React.FormEvent<HTMLFormElement>) {
@@ -70,11 +72,9 @@ if(information.msg.length === 0){
 }
 
 setArrayoriginal(information.msg)
-setArrayfiltrado(information.msg)
 setArrayconsulta(information.msg)
-
 setDisable(true)
-inputFilter.current?.classList.add('input-filtrar-turma-liberado')
+
 
 
 } catch (error) {
@@ -154,7 +154,6 @@ if(information.msg.length === 0){
 }
 
 setArrayoriginal(information.msg)
-setArrayfiltrado(information.msg)
 setArrayconsulta(information.msg)
 
 setDisable(true)
@@ -240,6 +239,13 @@ function mudarcheckbox (id:string){
   }
 }
 
+useEffect(()=>{
+  setArrayconsulta([])
+  
+},[])
+
+
+
   return (
     <>
     <section className='main'>
@@ -254,12 +260,14 @@ function mudarcheckbox (id:string){
     
       <div className='container-input-consultar-turmas' id='filtro-turma'>
         <span className='span-consultar-turma' >Filtrar pelo nome da turma:</span>
-        <input type="text" className='input-filtrar-turma' ref={inputFilter} onChange={filtrarturmas} disabled={!disable}  placeholder='Digite o nome da turma'/>
+        <input type="text" className={disable ? 'input-filtrar-turma-liberado' : 'input-filtrar-turma'} ref={inputFilter} onChange={filtrarturmas} disabled={!disable}  placeholder='Digite o nome da turma'/>
       </div>
       
       </form>
+      <div className='container-button-excluir'>
+        <button type='button' className={disable ? 'btn-excluir-liberado' : 'btn-excluir-consultar'} ref={btn_excluir} onClick={()=>{setStatusmodalconfirm(true)}} disabled={!disable}>Excluir turma(s) </button>
+      </div>
       <table className='table-consultar'>
-          <button type='button' className='btn-excluir-consultar' onClick={()=>{setStatusmodalconfirm(true)}} disabled={!disable}>Excluir turma(s) </button>
         <thead>
         <tr>
           <th className='table-header'><input type="checkbox" checked={selectAll} className='checkbox-selecionar-todos' onChange={selecionarTudo}/></th>

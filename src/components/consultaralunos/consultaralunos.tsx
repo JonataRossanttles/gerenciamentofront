@@ -31,7 +31,7 @@ async function consultar_alunos(e: React.FormEvent<HTMLFormElement>) {
   e.preventDefault();
    
   const dados = {
-    situacao: selectSituacao.current?.value.toLowerCase(),
+    situacao: selectSituacao.current?.value.toUpperCase(),
   };
 try {
   setLoading(true)
@@ -201,13 +201,13 @@ setStatusmodalconfirm(false)
           <span className='span-consultar-alunos'>Situação escolar:</span>
           <select className='input-consultar-alunos' defaultValue={""} ref={selectSituacao}>
             <option value="" disabled hidden> Selecione uma opção</option>
-            <option value={'ativo'}>Ativo</option>
-            <option value={'cancelado'}>Cancelado</option>
-            <option value={'trancado'}>Trancado</option>
-            <option value={'abandono'}>Abandono</option>
-            <option value={'concluido'}>Concluido</option>
-            <option value={'pre-matriculado'}>Pré-matriculado</option>
-            <option value={'todos'}>Todos</option>
+            <option value={'ATIVO'}>Ativo</option>
+            <option value={'CANCELADO'}>Cancelado</option>
+            <option value={'TRANCADO'}>Trancado</option>
+            <option value={'ABANDONO'}>Abandono</option>
+            <option value={'CONCLUIDO'}>Concluido</option>
+            <option value={'PRE-MATRICULADO'}>Pré-matriculado</option>
+            <option value={'TODOS'}>Todos</option>
           </select>
      
       </div>
