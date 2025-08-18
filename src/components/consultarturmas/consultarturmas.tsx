@@ -113,7 +113,7 @@ if(turma.trim() === ''){
  }
 
 }
-async function refresh_turma() {
+async function refresh() {
  
   if (!anoLetivo.current)  return
    
@@ -202,7 +202,7 @@ setStatusresponse(true);
 setStatusreq(information.msg);
 setStatusmsgerro(false);
 setStatusmodalconfirm(false)
-refresh_turma()
+refresh()
 
  if (divresponse.current) {
    divresponse.current.classList.remove('erroresponse');
@@ -223,10 +223,9 @@ if(selectAll){
   setSelectedIds([])
   setSelectAll(false)
 }else{
-  setSelectAll(true)
   const arrayId = arrayConsulta.map((element:any)=>element.turmaId)
   setSelectedIds(arrayId)
- setSelectAll(true)
+  setSelectAll(true)
 }
 
 
@@ -282,14 +281,16 @@ useEffect(()=>{
         </thead>
         <tbody>
        {arrayConsulta.map((element:any)=>{
+        
       return(
+      
       <tr className='line-table'>
        <td className="information-table">
         <input
           type="checkbox"
           checked={selectedIds.includes(element.turmaId)}
           onChange={() => mudarcheckbox(element.turmaId)}
-          className="checkbox-selecionar-aluno"
+          className="checkbox-table-selecionar"
         />
         </td>
             <td className='information-table'>{element.turma}</td>

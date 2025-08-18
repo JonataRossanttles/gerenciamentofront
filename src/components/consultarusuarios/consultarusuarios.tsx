@@ -20,12 +20,16 @@ const [statusresponse, setStatusresponse] = useState<boolean>(false);  // Indica
 const selectStatus = useRef<HTMLSelectElement>(null);
 const divresponse = useRef<HTMLDivElement>(null);
 const inputFilter = useRef<HTMLInputElement>(null);
+const btn_excluir = useRef<HTMLButtonElement>(null);
 const navigate = useNavigate();
 const [loading,setLoading] = useState<boolean>()
 const [disable,setDisable] = useState<boolean>(false)
-const [tabelaturma , setTabelaturma] = useState<React.ReactElement[]>([])
+const [selectedIds, setSelectedIds] = useState<string[]>([]);
+const [selectedTurmas, setSelectedTurmas] = useState<string[]>([]);
+const [selectAll, setSelectAll] = useState<boolean>(false);
+const [arrayoriginal , setArrayoriginal] = useState<any[]>([])
 
-async function consultar_turma(e: React.FormEvent<HTMLFormElement>) {
+async function consultar_usuarios(e: React.FormEvent<HTMLFormElement>) {
   e.preventDefault();
   if (!selectStatus.current)  return
    
@@ -65,28 +69,8 @@ if(information.msg.length === 0){
  setStatusmsgerro(true);
 }
 
-const arrayusuariosraw = information.msg
-setArrayconsulta(arrayusuariosraw)
-setTabelaturma(arrayusuariosraw.map((element:any)=>{
-  return(
-    <tr className='line-table'>
-            <td className='information-table'>{element.nome}</td>
-            <td className='information-table'>{element.email}</td>
-            <td className='information-table'>{element.tipo}</td>
-            <td className='information-table'>{element.status ? "ATIVO" : "INATIVO"}</td>
-             <td className='information-table'>
-              <div className='container-icon-detalhes'>
-               <img alt='Icone de visualização' src='/icon-ver.png' className='icon-ver' onClick={()=>{setSelectionmodal(element)
-              setStatusmodal(true)
-             }} ></img>
-             <img alt='Icone de exclusão' src='/icon-excluir.png' className='icon-excluir' onClick={()=>{setSelectionmodal(element)
-              setStatusmodalconfirm(true)
-             }}></img>
-              </div>
-             </td>
-      </tr>
-             )
-}))
+setArrayoriginal(information.msg)
+setArrayconsulta(information.msg)
 setDisable(true)
 inputFilter.current?.classList.add('input-filtrar-turma-liberado')
 
@@ -118,34 +102,69 @@ function closeresponse() {
 
 function filtrarusuarios(){
   const nome = inputFilter.current?.value?.toLowerCase() || ''
-const arrayfilter = arrayConsulta.filter((element)=>{ return  element.nome.toLowerCase().includes(nome)})
-setTabelaturma(arrayfilter.map((element:any)=>{
-  return(
-    <tr className='line-table'>
-             <td className='information-table'>{element.nome}</td>
-            <td className='information-table'>{element.email}</td>
-            <td className='information-table'>{element.tipo}</td>
-            <td className='information-table'>{element.status ? "ATIVO" : "INATIVO" }</td>
-             <td className='information-table'>
-             <div className='container-icon-detalhes'>
-               <img alt='Icone de visualização' src='/icon-ver.png' className='icon-ver' onClick={()=>{setSelectionmodal(element)
-              setStatusmodal(true)
-             }} ></img>
-             <img alt='Icone de exclusão' src='/icon-excluir.png' className='icon-excluir' onClick={()=>{setSelectionmodal(element)
-              setStatusmodalconfirm(true)
-             }}></img>
-              </div>
-             </td>
-      </tr>
-             )
-}))
+const arrayfilter = arrayoriginal.filter((element)=>{ return  element.nome.toLowerCase().includes(nome)})
+setArrayconsulta(arrayfilter)
 
 }
+async function refresh() {
 
+  if (!selectStatus.current)  return
+   
+  const dados = {
+    status: selectStatus.current.value.toLowerCase()
+  };
+try {
+  setLoading(true)
+  const response = await fetch(rotaconsultarusuarios, {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+  },
+  credentials: 'include',
+  body: JSON.stringify({
+    dados:dados})
+})
+const information = await response.json();
+
+if(response.status === 401) {
+ navigate('/');
+ return;
+}
+if(!response.ok){
+ console.log(information.msg)
+ setLoading(false)
+ setStatusreq(information.msg);
+ setStatusresponse(true);
+ setStatusmsgerro(true);
+ return;
+}
+setLoading(false) 
+if(information.msg.length === 0){
+  setLoading(false)
+ setStatusreq("Não existem usuarios para esse status!");
+ setStatusresponse(true);
+ setStatusmsgerro(true);
+}
+
+setArrayoriginal(information.msg)
+setArrayconsulta(information.msg)
+setDisable(true)
+inputFilter.current?.classList.add('input-filtrar-turma-liberado')
+
+
+} catch (error) {
+  setLoading(false)
+  setStatusreq('Erro no servidor!');
+ setStatusresponse(true);
+ setStatusmsgerro(true);
+}
+ 
+  }
 async function excluir_usuario() {
   console.log(Selectionmodal)
   const dados = {
-    userId: Selectionmodal.userId
+    userId: selectedIds,
+    
   }
 try {
   setLoading(true)
@@ -168,7 +187,6 @@ if(!response.ok){
  setStatusreq(information.msg);
  setStatusresponse(true);
  setStatusmsgerro(true);
-
  return;
 }
 setLoading(false)
@@ -176,7 +194,8 @@ setStatusresponse(true);
 setStatusreq(information.msg);
 setStatusmsgerro(false);
 setStatusmodalconfirm(false)
- 
+ refresh()
+
  if (divresponse.current) {
    divresponse.current.classList.remove('erroresponse');
    divresponse.current.classList.add('sucessoresponse');
@@ -190,13 +209,37 @@ setStatusmodalconfirm(false)
 }
  
   }
+function selecionarTudo(){
+  
+if(selectAll){
+  setSelectedIds([])
+  setSelectAll(false)
+}else{
+  const arrayId = arrayConsulta.map((element:any)=>element.turmaId)
+  setSelectedIds(arrayId)
+  setSelectAll(true)
+}
 
 
+}
+function mudarcheckbox (id:string){
+  console.log(id)
+  if (selectedIds.includes(id)) {
+    setSelectedIds(selectedIds.filter(item => item !== id));
+  } else {
+    setSelectedIds([...selectedIds, id]);
+  
+  }
+}
+useEffect(()=>{
+  setArrayconsulta([])
+  
+},[])
 
   return (
     <>
     <section className='main'>
-       <form className='form-consultar-turma' id='form-consultar-turma' onSubmit={consultar_turma}>
+       <form className='form-consultar-turma' id='form-consultar-turma' onSubmit={consultar_usuarios}>
         <div className='container-consultar'>
           <div className='container-input-consultar-usuarios'>
           <span className='span-consultar-turma'>Status:</span>
@@ -216,9 +259,13 @@ setStatusmodalconfirm(false)
       </div>
       
       </form>
+      <div className='container-button-excluir'>
+        <button type='button' className={disable ? 'btn-excluir-liberado' : 'btn-excluir-consultar'} ref={btn_excluir} onClick={()=>{setStatusmodalconfirm(true)}} disabled={!disable}>Excluir turma(s) </button>
+      </div>
       <table className='table-consultar'>
         <thead>
         <tr>
+          <th className='table-header'><input type="checkbox" checked={selectAll} className='checkbox-selecionar-todos' onChange={selecionarTudo}/></th>
         <th className='table-header'>Nome</th>
         <th className='table-header'>Email</th>
         <th className='table-header' >Tipo</th>
@@ -228,8 +275,30 @@ setStatusmodalconfirm(false)
         </tr>
         </thead>
         <tbody>
-          {tabelaturma}
-          
+          {arrayConsulta.map((element:any)=>{
+  return(
+    <tr className='line-table'>
+      <td className="information-table">
+        <input
+          type="checkbox"
+          checked={selectedIds.includes(element.alunoId)}
+          onChange={() => mudarcheckbox(element.alunoId)}
+          className="checkbox-table-selecionar"
+        />
+        </td>
+            <td className='information-table'>{element.nome}</td>
+            <td className='information-table'>{element.email}</td>
+            <td className='information-table'>{element.tipo}</td>
+            <td className='information-table'>{element.status ? "ATIVO" : "INATIVO"}</td>
+             <td className='information-table'>
+              <div className='container-icon-detalhes'>
+               <img alt='Icone de visualização' src='/icon-ver.png' className='icon-ver' onClick={()=>{setSelectionmodal(element)
+              setStatusmodal(true)
+             }} ></img>
+              </div>
+             </td>
+      </tr>
+             )})}
         </tbody>
       </table>
    </section>
