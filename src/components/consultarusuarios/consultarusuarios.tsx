@@ -25,7 +25,6 @@ const navigate = useNavigate();
 const [loading,setLoading] = useState<boolean>()
 const [disable,setDisable] = useState<boolean>(false)
 const [selectedIds, setSelectedIds] = useState<string[]>([]);
-const [selectedTurmas, setSelectedTurmas] = useState<string[]>([]);
 const [selectAll, setSelectAll] = useState<boolean>(false);
 const [arrayoriginal , setArrayoriginal] = useState<any[]>([])
 
@@ -215,7 +214,7 @@ if(selectAll){
   setSelectedIds([])
   setSelectAll(false)
 }else{
-  const arrayId = arrayConsulta.map((element:any)=>element.turmaId)
+  const arrayId = arrayConsulta.map((element:any)=>element.userId)
   setSelectedIds(arrayId)
   setSelectAll(true)
 }
@@ -281,8 +280,8 @@ useEffect(()=>{
       <td className="information-table">
         <input
           type="checkbox"
-          checked={selectedIds.includes(element.alunoId)}
-          onChange={() => mudarcheckbox(element.alunoId)}
+          checked={selectedIds.includes(element.userId)}
+          onChange={() => mudarcheckbox(element.userId)}
           className="checkbox-table-selecionar"
         />
         </td>

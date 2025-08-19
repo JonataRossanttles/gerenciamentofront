@@ -21,11 +21,14 @@ const [statusresponse, setStatusresponse] = useState<boolean>(false);  // Indica
 const anoLetivo = useRef<HTMLInputElement>(null);
 const divresponse = useRef<HTMLDivElement>(null);
 const inputFilter = useRef<HTMLInputElement>(null);
+const btn_excluir = useRef<HTMLButtonElement>(null);
 const navigate = useNavigate();
 const [loading,setLoading] = useState<boolean>()
 const [disable,setDisable] = useState<boolean>(false)
-
 const [tabeladisciplina , setTabeladisciplina] = useState<React.ReactElement[]>([])
+const [selectedIds, setSelectedIds] = useState<string[]>([]);
+const [selectAll, setSelectAll] = useState<boolean>(false);
+const [arrayoriginal , setArrayoriginal] = useState<any[]>([])
 
 async function consultar_disciplina(e: React.FormEvent<HTMLFormElement>) {
   e.preventDefault();
@@ -67,29 +70,9 @@ if(information.msg.length === 0){
  setStatusmsgerro(true);
 }
 
-const arraydisciplinasraw = information.msg
-setArrayconsulta(arraydisciplinasraw)
-setTabeladisciplina(arraydisciplinasraw.map((element:any)=>{
-  return(
-    <tr className='line-table'>
-            <td className='information-table'>{element.codigo}</td>
-            <td className='information-table'>{element.nome}</td>
-            <td className='information-table'>{element.cargaHoraria}</td>
-            <td className='information-table' title={element.descricao}>{element.descricao}</td>
-             <td className='information-table'>
-              <div className='container-icon-detalhes'>
-               <img alt='Icone de visualização' src='/icon-ver.png' className='icon-ver' onClick={()=>{setSelectionmodal(element)
-              setStatusmodal(true)
-             }} ></img>
-             <img alt='Icone de exclusão' src='/icon-excluir.png' className='icon-excluir' onClick={()=>{setSelectionmodal(element)
-              setStatusmodalconfirm(true)
-             }}></img>
-              </div>
+setArrayconsulta(information.msg)
+setArrayoriginal(information.msg)
 
-             </td>
-      </tr>
-             )
-}))
 setDisable(true)
 inputFilter.current?.classList.add('input-filtrar-disciplina-liberado')
 
@@ -121,31 +104,70 @@ function closeresponse() {
 
 function filtrardisciplinas(){
   const disciplina = inputFilter.current?.value?.toLowerCase() || ''
-const arrayfilter = arrayConsulta.filter((element)=>{ return  element.nome.toLowerCase().includes(disciplina)})
-setTabeladisciplina(arrayfilter.map((element:any)=>{
-  return(
-    <tr className='line-table'>
-               <td className='information-table'>{element.codigo}</td>
-            <td className='information-table'>{element.nome}</td>
-            <td className='information-table'>{element.cargaHoraria}</td>
-            <td className='information-table' title={element.descricao}>{element.descricao}</td>
-             <td className='information-table'>
-              <div className='container-icon-detalhes'>
-               <img alt='Icone de visualização' src='/icon-ver.png' className='icon-ver' onClick={()=>{setSelectionmodal(element)
-              setStatusmodal(true)
-             }} ></img>
-             <img alt='Icone de exclusão' src='/icon-excluir.png' className='icon-excluir' onClick={()=>setSelectionmodal(element)}></img>
-              </div></td>
-      </tr>
-             )
-}))
+const arrayfilter = arrayoriginal.filter((element)=>{ return  element.nome.toLowerCase().includes(disciplina)})
+setArrayconsulta(arrayfilter)
+
+}
+async function refresh() {
+
+  if (!anoLetivo.current)  return
+   
+  const dados = {
+    anoLetivo: Number(anoLetivo.current.value),
+  };
+try {
+  setLoading(true)
+  const response = await fetch(rotaconsultardisciplinas, {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+  },
+  credentials: 'include',
+  body: JSON.stringify({
+    dados:dados})
+})
+const information = await response.json();
+
+if(response.status === 401) {
+ navigate('/');
+ return;
+}
+if(!response.ok){
+ console.log(information.msg)
+ setLoading(false)
+ setStatusreq(information.msg);
+ setStatusresponse(true);
+ setStatusmsgerro(true);
+ return;
+}
+setLoading(false) 
+if(information.msg.length === 0){
+  setLoading(false)
+ setStatusreq("Não existem disciplinas para esse ano letivo!");
+ setStatusresponse(true);
+ setStatusmsgerro(true);
+}
+
+setArrayconsulta(information.msg)
+setArrayoriginal(information.msg)
+
+setDisable(true)
+inputFilter.current?.classList.add('input-filtrar-disciplina-liberado')
+
+
+} catch (error) {
+  setLoading(false)
+  setStatusreq('Erro no servidor!');
+ setStatusresponse(true);
+ setStatusmsgerro(true);
+}
 
 }
 
 async function excluir_disciplina() {
     
   const dados = {
-    discId: Selectionmodal.discId
+    discId: selectedIds
   }
 try {
   setLoading(true)
@@ -176,7 +198,8 @@ setStatusresponse(true);
 setStatusreq(information.msg);
 setStatusmsgerro(false);
 setStatusmodalconfirm(false)
- 
+refresh()
+
  if (divresponse.current) {
    divresponse.current.classList.remove('erroresponse');
    divresponse.current.classList.add('sucessoresponse');
@@ -190,6 +213,33 @@ setStatusmodalconfirm(false)
 }
  
   }
+
+function selecionarTudo(){
+  
+if(selectAll){
+  setSelectedIds([])
+  setSelectAll(false)
+}else{
+  const arrayId = arrayConsulta.map((element:any)=>element.discId)
+  setSelectedIds(arrayId)
+  setSelectAll(true)
+}
+
+
+}
+function mudarcheckbox (id:string){
+  console.log(id)
+  if (selectedIds.includes(id)) {
+    setSelectedIds(selectedIds.filter(item => item !== id));
+  } else {
+    setSelectedIds([...selectedIds, id]);
+  
+  }
+}
+useEffect(()=>{
+  setArrayconsulta([])
+  
+},[])
 
 
   return (
@@ -210,9 +260,13 @@ setStatusmodalconfirm(false)
       </div>
       
       </form>
+       <div className='container-button-excluir'>
+        <button type='button' className={disable ? 'btn-excluir-liberado' : 'btn-excluir-consultar'} ref={btn_excluir} onClick={()=>{setStatusmodalconfirm(true)}} disabled={!disable}>Excluir turma(s) </button>
+      </div>
       <table className='table-consultar'>
         <thead>
         <tr>
+         <th className='table-header'><input type="checkbox" checked={selectAll} className='checkbox-selecionar-todos' onChange={selecionarTudo}/></th> 
         <th className='table-header'>Código</th>
         <th className='table-header'>Nome</th>
         <th className='table-header' >Carga Horária</th>
@@ -221,8 +275,31 @@ setStatusmodalconfirm(false)
         </tr>
         </thead>
         <tbody>
-          {tabeladisciplina}
-          
+          {arrayConsulta.map((element:any)=>{
+  return(
+    <tr className='line-table'>
+      <td className="information-table">
+        <input
+          type="checkbox"
+          checked={selectedIds.includes(element.discId)}
+          onChange={() => mudarcheckbox(element.discId)}
+          className="checkbox-table-selecionar"
+        />
+        </td>
+            <td className='information-table'>{element.codigo}</td>
+            <td className='information-table'>{element.nome}</td>
+            <td className='information-table'>{element.cargaHoraria}</td>
+            <td className='information-table' title={element.descricao}>{element.descricao}</td>
+             <td className='information-table'>
+              <div className='container-icon-detalhes'>
+               <img alt='Icone de visualização' src='/icon-ver.png' className='icon-ver' onClick={()=>{setSelectionmodal(element)
+              setStatusmodal(true)
+             }} ></img>
+              </div>
+
+             </td>
+      </tr>
+             )})}
         </tbody>
       </table>
    </section>
