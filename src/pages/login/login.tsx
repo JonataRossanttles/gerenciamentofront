@@ -1,4 +1,4 @@
-import { useRef , useState} from 'react';
+import { useEffect, useRef , useState} from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { usarcontextoapi } from '../../context/contextapi';
 import { usarcontexto } from '../../context/context';
@@ -10,6 +10,8 @@ function Login() {
   const { setAuthenticated } = usarcontexto();
   const inputEmail = useRef<HTMLInputElement>(null);
   const inputSenha = useRef<HTMLInputElement>(null);
+  const [mostrarsenha, setMostrarsenha] = useState<boolean>(false);
+  const [typeinput, setTypeinput] = useState<string>('password');
   const navigate = useNavigate();
   const [statusloading,setStatusloading] = useState<boolean>(false)
 
@@ -44,7 +46,9 @@ function Login() {
     }
    
   }
-
+useEffect(()=>{
+setTypeinput(mostrarsenha ? 'text' : 'password');
+},[mostrarsenha])
 
   return (
     <>
@@ -55,7 +59,10 @@ function Login() {
             <form className='form-login' onSubmit={enviar}>
               <h1 className='title-login'>SISTEMA DE GERENCIAMENTO ACADÊMICO</h1>
               <input type="text" placeholder="Digite seu email" className='input-login' ref={inputEmail} />
-              <input type="password" placeholder="Digite sua senha" className='input-login' ref={inputSenha} />
+              <input type={typeinput} placeholder="Digite sua senha" className='input-login' ref={inputSenha} />
+              <button type="button" className='button-toogle-senha' onClick={() => {setMostrarsenha(!mostrarsenha)}}>
+                <img className='img-toogle-senha' src={mostrarsenha ? '/ocultar-senha.png' : '/olhar-senha.png'}></img>
+              </button>
               <button className='button-login' type="submit">Entrar</button>
             </form>
             <Link to="/change-password" className='link-change-password'>Esqueceu sua senha? Clique aqui</Link>

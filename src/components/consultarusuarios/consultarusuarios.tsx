@@ -259,7 +259,7 @@ useEffect(()=>{
       
       </form>
       <div className='container-button-excluir'>
-        <button type='button' className={disable ? 'btn-excluir-liberado' : 'btn-excluir-consultar'} ref={btn_excluir} onClick={()=>{setStatusmodalconfirm(true)}} disabled={!disable}>Excluir turma(s) </button>
+        <button type='button' className={disable ? 'btn-excluir-liberado' : 'btn-excluir-consultar'} ref={btn_excluir} onClick={()=>{setStatusmodalconfirm(true)}} disabled={!disable}>Excluir usuario(s) </button>
       </div>
       <table className='table-consultar'>
         <thead>

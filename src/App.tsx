@@ -18,6 +18,7 @@ import Consultarusuarios from './components/consultarusuarios/consultarusuarios'
 import Consultardisciplinas from './components/consultardisciplinas/consultardisciplinas'
 import Consultar_alunos_na_turma from './components/consultaralunosnaturma/consultaralunosnaturma'
 import Consultar_prof_na_turma from './components/consultarprofnaturma/consultarprofnaturma'
+import Consultar_disc_na_turma from './components/consultardiscnaturma/consultardiscnaturma'
 
 
 function App() {
@@ -44,7 +45,7 @@ const {authenticated} = usarcontexto()
           <Route path='consultar-disciplinas' element={<Consultardisciplinas/>}/>
           <Route path='consultar-alunos-na-turma' element={<Consultar_alunos_na_turma/>}/>
           <Route path='consultar-professores-na-turma' element={<Consultar_prof_na_turma/>}/>
-          <Route path='consultar-disciplinas-na-turma' element={<h1>Consultar disciplinas na turma</h1>}/>
+          <Route path='consultar-disciplinas-na-turma' element={<Consultar_disc_na_turma/>}/>
           <Route path='consultar-situacao-cadastral-alunos' element={<h1>Consultar situação cadastral dos alunos</h1>}/>
           </Route>
         </Route>

@@ -1,45 +1,47 @@
 
 
 import { useEffect, useRef, useState } from 'react';
-import './consultardisciplinas.css'
+import './consultardiscnaturma.css'
 import { usarcontextoapi } from '../../context/contextapi.tsx';
 import { useNavigate } from 'react-router-dom';
 import Loading from '../loading/loading.tsx';
 
 import { usarcontexto } from '../../context/context.tsx';
+
 import Modal_confirm from '../modalconfirm/modalconfirm.tsx';
 import Modal_editar_disciplina from '../modaleditardisciplina/modaleditardisciplina.tsx';
 
 
-function Consultardisciplinas() {
-const {rotaconsultardisciplinas,rotaexcluirdisciplina} = usarcontextoapi();
-const {statusmodal,setStatusmodal,Selectionmodal,setSelectionmodal,arrayConsulta,setArrayconsulta,
-  statusmodalconfirm,setStatusmodalconfirm} = usarcontexto()
+
+function Consultar_disc_na_turma() {
+const {rotaconsultar_turma_disciplinas,rotaexcluir_turma_disciplinas,rotaconsultarturmas} = usarcontextoapi();
+const {statusmodal,setStatusmodal,arrayConsulta,setArrayconsulta,setSelectionmodal,
+  statusmodalconfirm,setStatusmodalconfirm
+} = usarcontexto()
 const [statusreq, setStatusreq] = useState<string>(); // Indica a mensagem recebida pelo backend.
 const [statusmsgerro, setStatusmsgerro] = useState<boolean>(); // Indica se é uma mensagem de erro ou não
 const [statusresponse, setStatusresponse] = useState<boolean>(false);  // Indica se a caixa de resposta deve ser exibida ou não
-const anoLetivo = useRef<HTMLInputElement>(null);
 const divresponse = useRef<HTMLDivElement>(null);
+const inputTurmas = useRef<HTMLSelectElement>(null);
 const inputFilter = useRef<HTMLInputElement>(null);
+const anoLetivo = useRef<HTMLInputElement>(null);
 const btn_excluir = useRef<HTMLButtonElement>(null);
 const navigate = useNavigate();
 const [loading,setLoading] = useState<boolean>()
 const [disable,setDisable] = useState<boolean>(false)
-const [tabeladisciplina , setTabeladisciplina] = useState<React.ReactElement[]>([])
+const [arrayoriginal , setArrayoriginal] = useState<any[]>([])
+const [turmas, setTurmas] = useState<React.ReactElement[]>([])
 const [selectedIds, setSelectedIds] = useState<string[]>([]);
 const [selectAll, setSelectAll] = useState<boolean>(false);
-const [arrayoriginal , setArrayoriginal] = useState<any[]>([])
 
-async function consultar_disciplina(e: React.FormEvent<HTMLFormElement>) {
+async function consultar_turmas(e: React.FormEvent<HTMLFormElement>) {
   e.preventDefault();
-  if (!anoLetivo.current)  return
-   
-  const dados = {
-    anoLetivo: Number(anoLetivo.current.value),
+   const dados = {
+    anoLetivo:anoLetivo.current?.value,
   };
 try {
   setLoading(true)
-  const response = await fetch(rotaconsultardisciplinas, {
+  const response = await fetch(rotaconsultarturmas, {
   method: 'POST',
   headers: {
     'Content-Type': 'application/json',
@@ -65,21 +67,25 @@ if(!response.ok){
 setLoading(false) 
 if(information.msg.length === 0){
   setLoading(false)
- setStatusreq("Não existem disciplinas para esse ano letivo!");
+ setStatusreq("Não existem Turmas para esse período letivo");
  setStatusresponse(true);
  setStatusmsgerro(true);
 }
 
-setArrayconsulta(information.msg)
-setArrayoriginal(information.msg)
+setTurmas(information.msg.map((element:any)=>{
+  return(
+    <option key={element.turmaId} value={element.turmaId}>{element.turma}</option>
+  )
+}))
 
 setDisable(true)
-inputFilter.current?.classList.add('input-filtrar-disciplina-liberado')
+
+inputTurmas.current?.classList.add('input-select-turmas-liberado')
 
 
 } catch (error) {
   setLoading(false)
-  setStatusreq('Erro no servidor!');
+  setStatusreq('Erro no servidor! ' + error);
  setStatusresponse(true);
  setStatusmsgerro(true);
 }
@@ -102,22 +108,25 @@ function closeresponse() {
  
 }
 
-function filtrardisciplinas(){
-  const disciplina = inputFilter.current?.value?.toLowerCase() || ''
-const arrayfilter = arrayoriginal.filter((element)=>{ return  element.nome.toLowerCase().includes(disciplina)})
-setArrayconsulta(arrayfilter)
+function filtrardisc(){
+  const nome = inputFilter.current?.value?.toLowerCase() || ''
+
+ if(nome.trim() === ''){
+  setArrayconsulta(arrayoriginal)
+ }else{
+  const arrayfilter = arrayoriginal.filter((element)=>  element.nome.toLowerCase().includes(nome))
+  setArrayconsulta(arrayfilter)
+ }
 
 }
-async function refresh() {
-
-  if (!anoLetivo.current)  return
-   
-  const dados = {
-    anoLetivo: Number(anoLetivo.current.value),
+async function turma_select() {
+  setSelectAll(false)
+    const dados = {
+    turmaId:inputTurmas.current?.value,
   };
 try {
   setLoading(true)
-  const response = await fetch(rotaconsultardisciplinas, {
+  const response = await fetch(rotaconsultar_turma_disciplinas, {
   method: 'POST',
   headers: {
     'Content-Type': 'application/json',
@@ -143,35 +152,36 @@ if(!response.ok){
 setLoading(false) 
 if(information.msg.length === 0){
   setLoading(false)
- setStatusreq("Não existem disciplinas para esse ano letivo!");
+ setStatusreq("Não existem disciplinas para essa turma!");
  setStatusresponse(true);
  setStatusmsgerro(true);
 }
+console.log(information.msg[0].dadosdisciplinas)
+console.log(information.msg)
 
-setArrayconsulta(information.msg)
-setArrayoriginal(information.msg)
+setArrayoriginal(information.msg[0].dadosdisciplinas)
+setArrayconsulta(information.msg[0].dadosdisciplinas)
 
 setDisable(true)
-inputFilter.current?.classList.add('input-filtrar-disciplina-liberado')
-
+inputFilter.current?.classList.add('input-filtrar-disc-liberado')
+inputTurmas.current?.classList.add('input-select-turmas-liberado')
 
 } catch (error) {
   setLoading(false)
-  setStatusreq('Erro no servidor!');
+  setStatusreq('Erro no servidor! ' + error);
  setStatusresponse(true);
  setStatusmsgerro(true);
 }
-
-}
-
-async function excluir_disciplina() {
+  }
+async function excluir_disc_na_turma() {
     
   const dados = {
-    discId: selectedIds
+    discId: selectedIds,
+    turmaId: inputTurmas.current?.value
   }
 try {
   setLoading(true)
-  const response = await fetch(rotaexcluirdisciplina, {
+  const response = await fetch(rotaexcluir_turma_disciplinas, {
   method: 'POST',
   headers: {
     'Content-Type': 'application/json',
@@ -198,8 +208,7 @@ setStatusresponse(true);
 setStatusreq(information.msg);
 setStatusmsgerro(false);
 setStatusmodalconfirm(false)
-refresh()
-
+ turma_select()
  if (divresponse.current) {
    divresponse.current.classList.remove('erroresponse');
    divresponse.current.classList.add('sucessoresponse');
@@ -220,86 +229,100 @@ if(selectAll){
   setSelectedIds([])
   setSelectAll(false)
 }else{
+  setSelectAll(true)
   const arrayId = arrayConsulta.map((element:any)=>element.discId)
   setSelectedIds(arrayId)
-  setSelectAll(true)
+ setSelectAll(true)
 }
 
 
 }
 function mudarcheckbox (id:string){
-  console.log(id)
   if (selectedIds.includes(id)) {
     setSelectedIds(selectedIds.filter(item => item !== id));
   } else {
     setSelectedIds([...selectedIds, id]);
-  
   }
 }
+
 useEffect(()=>{
   setArrayconsulta([])
-  
-},[])
 
+},[])
 
   return (
     <>
     <section className='main'>
-       <form className='form-consultar-disciplina' id='form-consultar-disciplina' onSubmit={consultar_disciplina}>
+       <form className='form-consultar-disc' id='form-consultar-disc' onSubmit={consultar_turmas}>
         <div className='container-consultar'>
-          <div className='container-input-consultar-disciplinas'>
-          <span className='span-consultar-disciplina'>Ano letivo:</span>
-          <input type="number" min={0} className='input-consultar-disciplina' ref={anoLetivo} placeholder='Digite o ano letivo'/>
+          <div className='container-input-consultar-disc'>
+          <span className='span-consultar-disc'>Ano letivo:</span>
+          <input type='number' min={0} className='input-consultar-disc' placeholder='Digite um ano letivo' defaultValue={""} ref={anoLetivo}/>
+         
       </div>
-      <button className='btn-consultar'>Consultar</button>
+      <button type='submit' className='btn-consultar'>Consultar</button>
         </div>
-    
-      <div className='container-input-consultar-disciplinas' id='filtro-disciplina'>
-        <span className='span-consultar-disciplina' >Filtrar pelo nome da disciplina:</span>
-        <input type="text" className='input-filtrar-disciplina' ref={inputFilter} onChange={filtrardisciplinas} disabled={!disable}  placeholder='Digite o nome da disciplina'/>
+
+        <div className='container-input-turmas'>
+          <span className='span-consultar-disc'>Turmas:</span>
+          <select className={disable ? 'input-select-turmas-liberado' : 'input-select-turma'} defaultValue={""} disabled={!disable} ref={inputTurmas} onChange={turma_select}>
+            <option value="" disabled hidden> Selecione uma turma...</option>
+            {turmas}
+          </select>
       </div>
-      
+      <div className='container-input-consultar-disc' id='filtro-disc'>
+
+        <span className='span-consultar-disc' >Filtrar pelo nome do aluno:</span>
+        <input type="text" className={disable ? 'input-filtrar-disc-liberado' : 'input-filtrar-disc'} ref={inputFilter} onChange={filtrardisc} disabled={!disable}  placeholder='Digite o nome do aluno'/>
+      </div>
+     
       </form>
-       <div className='container-button-excluir'>
-        <button type='button' className={disable ? 'btn-excluir-liberado' : 'btn-excluir-consultar'} ref={btn_excluir} onClick={()=>{setStatusmodalconfirm(true)}} disabled={!disable}>Excluir disciplina(s) </button>
+      <div className='container-button-excluir'>
+       <button type='button' className={ disable ? 'btn-excluir-liberado' : 'btn-excluir-consultar' } ref={btn_excluir} onClick={()=>{setStatusmodalconfirm(true)}} disabled={!disable}>Retirar disciplina(s) da turma</button>
       </div>
       <table className='table-consultar'>
+         
         <thead>
         <tr>
-         <th className='table-header'><input type="checkbox" checked={selectAll} className='checkbox-selecionar-todos' onChange={selecionarTudo}/></th> 
+         <th className='table-header'><input type="checkbox" checked={selectAll} className='checkbox-selecionar-todos' onChange={selecionarTudo}/></th>
         <th className='table-header'>Código</th>
         <th className='table-header'>Nome</th>
-        <th className='table-header' >Carga Horária</th>
-        <th className='table-header' >Descrição</th>        
-        <th className='table-header' >Detalhes</th>        
+        <th className='table-header' >Carga Horária</th>      
+        <th className='table-header' >Descrição</th>      
+        <th className='table-header' >Detalhes</th>       
         </tr>
         </thead>
         <tbody>
-          {arrayConsulta.map((element:any)=>{
-  return(
-    <tr className='line-table'>
+          {arrayConsulta.map((element: any) => (
+    <tr key={element.alunoId} className="line-table">
       <td className="information-table">
         <input
           type="checkbox"
           checked={selectedIds.includes(element.discId)}
           onChange={() => mudarcheckbox(element.discId)}
-          className="checkbox-table-selecionar"
+          className="checkbox-selecionar-aluno"
         />
-        </td>
-            <td className='information-table'>{element.codigo}</td>
-            <td className='information-table'>{element.nome}</td>
-            <td className='information-table'>{element.cargaHoraria}</td>
-            <td className='information-table' title={element.descricao}>{element.descricao}</td>
-             <td className='information-table'>
-              <div className='container-icon-detalhes'>
-               <img alt='Icone de visualização' src='/icon-ver.png' className='icon-ver' onClick={()=>{setSelectionmodal(element)
-              setStatusmodal(true)
-             }} ></img>
-              </div>
-
-             </td>
-      </tr>
-             )})}
+      </td>
+      <td className="information-table">{element.codigo}</td>
+      <td className="information-table">{element.nome}</td>
+      <td className="information-table">{element.cargaHoraria}</td>
+      <td className="information-table">{element.descricao}</td>
+      <td className="information-table">
+        <div className="container-icon-detalhes">
+          <img
+            alt="Icone de visualização"
+            src="/icon-ver.png"
+            className="icon-ver"
+            onClick={() => {
+              setSelectionmodal(element);
+              setStatusmodal(true);
+            }}
+          />
+        </div>
+      </td>
+    </tr>
+  ))}
+          
         </tbody>
       </table>
    </section>
@@ -309,12 +332,12 @@ useEffect(()=>{
        <img src='/close.png' className='close-response' onClick={closeresponse}></img>
      </div>
    )}
-   {statusmodalconfirm && <Modal_confirm excluir={excluir_disciplina}/>}
+   {statusmodalconfirm && <Modal_confirm excluir={excluir_disc_na_turma}/>}
    {loading && <Loading/>}
-   {statusmodal &&  <Modal_editar_disciplina/> } 
+   {statusmodal &&  <Modal_editar_disciplina/> }
     </>
   )
 
 }
 
-export default Consultardisciplinas
+export default Consultar_disc_na_turma

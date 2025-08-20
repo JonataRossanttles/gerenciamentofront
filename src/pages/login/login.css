@@ -31,7 +31,7 @@
     display: flex;
     flex-direction: column;
     align-items: start;
-   
+   position: relative;
     
 }
 .container-form-login{
@@ -78,6 +78,19 @@ height: 40px;
     color: #005AE6;
     font-size: 0.9rem;
     margin-top: 10px;
+}
+.button-toogle-senha{
+    position: absolute;
+    right: 9px;
+    top: 178px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 0.9rem;
+}
+.img-toogle-senha{
+    width: 20px;
+    height: 20px;
 }
 @media screen and (max-width: 802px) {
     .container-login{

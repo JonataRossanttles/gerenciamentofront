@@ -17,6 +17,7 @@ type props = {
   rotaconsultardisciplinas:string,
   rotaconsultar_turma_alunos:string,
   rotaconsultar_turma_professores:string,
+  rotaconsultar_turma_disciplinas:string,
   rotaeditarturma:string,
   rotaeditaraluno:string,
   rotaeditarusuario:string,
@@ -24,12 +25,11 @@ type props = {
   rotaeditardisciplina:string,
   rotaexcluirturma:string,
   rotaexcluiraluno:string,
-  rotaexcluir_turma_alunos:string,
-  rotaexcluir_turma_professores:string,
-  rotaexcluirusuario:string,
   rotaexcluirdisciplina:string,
-  
-  
+  rotaexcluir_turma_alunos:string,
+  rotaexcluirusuario:string,
+  rotaexcluir_turma_professores:string,
+  rotaexcluir_turma_disciplinas:string
 
 };
 // Criando o contexto para as rotas da API
@@ -55,6 +55,7 @@ export const Providerapi = ({ children }: { children: ReactNode }) => {
     rotaconsultardisciplinas:`${baseURL}/consultar/disciplinas`,
     rotaconsultar_turma_alunos:`${baseURL}/consultar/turma/alunos`,
     rotaconsultar_turma_professores:`${baseURL}/consultar/turma/professores`,
+    rotaconsultar_turma_disciplinas:`${baseURL}/consultar/turma/disciplinas`,
     rotaeditarturma:`${baseURL}/editar/turma`,
     rotaeditaraluno:`${baseURL}/editar/aluno`,
     rotaeditarusuario:`${baseURL}/editar/usuario`,
@@ -63,11 +64,10 @@ export const Providerapi = ({ children }: { children: ReactNode }) => {
     rotaexcluirturma:`${baseURL}/excluir/turma`,
     rotaexcluiraluno:`${baseURL}/excluir/aluno`,
     rotaexcluir_turma_alunos:`${baseURL}/excluir/turma/alunos`,
-    rotaexcluir_turma_professores:`${baseURL}/excluir/turma/professores`,
     rotaexcluirusuario:`${baseURL}/excluir/usuario`,
     rotaexcluirdisciplina:`${baseURL}/excluir/disciplina`,
-    
-    
+    rotaexcluir_turma_professores:`${baseURL}/excluir/turma/professores`,
+    rotaexcluir_turma_disciplinas:`${baseURL}/excluir/turma/disciplinas`
 
   };
 
