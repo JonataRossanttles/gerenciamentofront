@@ -9,6 +9,7 @@ type props = {
   rotavalidartoken: string,
   rotacriarusuario:string,
   rotacriardisc:string,
+  rotacriar_alunos_na_turma:string,
   rotachangepassword:string,
   rotaResetpassword:string,
   rotaconsultarturmas:string,
@@ -18,6 +19,7 @@ type props = {
   rotaconsultar_turma_alunos:string,
   rotaconsultar_turma_professores:string,
   rotaconsultar_turma_disciplinas:string,
+  rotaconsultar_alunos_semturma:string,
   rotaeditarturma:string,
   rotaeditaraluno:string,
   rotaeditarusuario:string,
@@ -44,11 +46,9 @@ export const Providerapi = ({ children }: { children: ReactNode }) => {
     rotaLogin: `${baseURL}/login`,
     rotacriarturma: `${baseURL}/turma/criar`,
     rotacriaraluno: `${baseURL}/aluno/criar`,
-    rotavalidartoken: `${baseURL}/validartoken`,
     rotacriarusuario:`${baseURL}/criaruser`,
     rotacriardisc:`${baseURL}/disciplina/criar`, 
-    rotachangepassword: `${baseURL}/changepassword`,
-    rotaResetpassword:`${baseURL}/resetpassword`,
+    rotacriar_alunos_na_turma:`${baseURL}/turma/adicionaralunos`, 
     rotaconsultarturmas:`${baseURL}/consultar/turmas`,
     rotaconsultaralunos:`${baseURL}/consultar/alunos`,
     rotaconsultarusuarios:`${baseURL}/consultar/usuarios`,
@@ -56,6 +56,7 @@ export const Providerapi = ({ children }: { children: ReactNode }) => {
     rotaconsultar_turma_alunos:`${baseURL}/consultar/turma/alunos`,
     rotaconsultar_turma_professores:`${baseURL}/consultar/turma/professores`,
     rotaconsultar_turma_disciplinas:`${baseURL}/consultar/turma/disciplinas`,
+    rotaconsultar_alunos_semturma:`${baseURL}/consultar/alunos/semturma`,
     rotaeditarturma:`${baseURL}/editar/turma`,
     rotaeditaraluno:`${baseURL}/editar/aluno`,
     rotaeditarusuario:`${baseURL}/editar/usuario`,
@@ -67,7 +68,10 @@ export const Providerapi = ({ children }: { children: ReactNode }) => {
     rotaexcluirusuario:`${baseURL}/excluir/usuario`,
     rotaexcluirdisciplina:`${baseURL}/excluir/disciplina`,
     rotaexcluir_turma_professores:`${baseURL}/excluir/turma/professores`,
-    rotaexcluir_turma_disciplinas:`${baseURL}/excluir/turma/disciplinas`
+    rotaexcluir_turma_disciplinas:`${baseURL}/excluir/turma/disciplinas`,
+    rotavalidartoken: `${baseURL}/validartoken`,
+    rotachangepassword: `${baseURL}/changepassword`,
+    rotaResetpassword:`${baseURL}/resetpassword`
 
   };
 

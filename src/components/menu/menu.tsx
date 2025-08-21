@@ -1,11 +1,14 @@
 
-import {useEffect, useRef } from 'react'
+import {useEffect, useRef, useState } from 'react'
 import './menu.css'
 import { Link, useLocation } from 'react-router-dom';
 
 function Menu() {
   const path = useLocation().pathname;
-  
+  const [toogleconsulta, setToogleconsulta] = useState(false);
+  const [toogleconsultaicon, setToogleconsultaicon] = useState(false);
+  const [tooglecadastrar, setTooglecadastrar] = useState(false);
+  const [tooglecadastraricon, setTooglecadastraricon] = useState(false);
 
   const refs = {
     divcadastro: useRef<HTMLDivElement>(null),
@@ -17,17 +20,14 @@ function Menu() {
     divinicio: useRef<HTMLDivElement>(null)
   }
 function togglecadastro () {
-  if(refs.divcadastro.current){
-refs.divcadastro.current.classList.toggle("option-show")
-refs.diviconcadastro.current?.classList.toggle("icon-options-rotate")
-  }
+  
+  setTooglecadastrar(!tooglecadastrar);
+  setTooglecadastraricon(!tooglecadastraricon);
 }
 
 function toggleconsulta () {
-  if(refs.divconsulta.current){
-    refs.divconsulta.current.classList.toggle("option-show")
-    refs.diviconconsulta.current?.classList.toggle("icon-options-rotate")
-  }
+  setToogleconsulta(!toogleconsulta);
+  setToogleconsultaicon(!toogleconsultaicon);
 }
 
 function toggleconsultaprof () {
@@ -51,36 +51,29 @@ function infooption (element:  HTMLDivElement | HTMLAnchorElement) {
      divinicio.id = '';
     }
     divOption.classList.add('option-selected');
-    
+    // option-selected
 }}
+useEffect(() => {
+ console.log(path)
+}, []);
 
-function infoinicio(){
-  const divinicio = refs.divinicio.current;
-  const options = document.querySelectorAll('.div-option');
-   options.forEach(option => {
-      option.classList.remove('option-selected');
-    });
 
-  if (divinicio) {
-    divinicio.id = 'div-inicio';
-  }
-  
-}
 
 function logoff() {
   console.log('Logoff clicked');
 }
 
 useEffect(()=>{
-if(path === '/adm/cadastrar/turma'){
-  if(refs.divcadastro.current) {
-  infooption(refs.divcadastro.current);
-  }
- 
+if(path.includes('/adm/cadastrar')){
+setTooglecadastrar(true);
+setTooglecadastraricon(true);
 }
+if(path.includes('/adm/consultar')){
+setToogleconsulta(true);
+  setToogleconsultaicon(true);
 
-
-},[path])
+ 
+}},[path])
 
   return (
     <>
@@ -88,8 +81,8 @@ if(path === '/adm/cadastrar/turma'){
       <img  src='/logo.png' alt='logo' className='logo'></img>
      
       <div className='container-option-principal'>
-        <Link to={'/adm'}  className='link-option-principal'   onClick={infoinicio} >
-          <div   ref={refs.divinicio} className='option-principal' id='div-inicio' onClick={infoinicio}>
+        <Link to={'/adm'}  className='link-option-principal'   >
+          <div   ref={refs.divinicio}  className= {path === '/adm' ? 'div-inicio' : 'option-principal'}  >
             <div className='container-icon-option' >
               <img src='/home.png' alt='home' className='icon-option'></img>
             <span className='text-option-principal' >Inicio</span>
@@ -102,31 +95,34 @@ if(path === '/adm/cadastrar/turma'){
             <img src='/icon-cadastro.png' alt='home' className='icon-option'></img>
             <span className='text-option-principal' >Cadastrar</span>
           </div>
-          <img src='/seta-down.png' alt='icon-setinha' className='icon-open-options' ref={refs.diviconcadastro}></img>
+          <img src='/seta-down.png' alt='icon-setinha' className= {tooglecadastraricon ? 'icon-options-rotate' :  'icon-open-options'}  ref={refs.diviconcadastro}></img>
         </div>
-        <div className='container-options'  ref={refs.divcadastro}>
-      <Link to={'cadastrar-turma'} className='div-option' onClick={(e) => infooption(e.currentTarget)}><span className='text-option' id='cadastrar-turma' >Turma</span></Link>  
-        <Link to={'cadastrar-aluno'} className='div-option' onClick={(e) => infooption(e.currentTarget)}><span className='text-option'>Aluno</span></Link>
-        <Link to={'cadastrar-usuario'} className='div-option' onClick={(e) => infooption(e.currentTarget)}><span className='text-option' >Usuário</span></Link>
-        <Link to={'cadastrar-disciplina'} className='div-option' onClick={(e) => infooption(e.currentTarget)}><span className='text-option'>Disciplina</span></Link>
+        <div className={tooglecadastrar ? 'option-show'  :  'container-options'}  ref={refs.divcadastro}>
+      <Link to={'cadastrar-turma'} className= {path === '/adm/cadastrar-turma' ? 'option-selected' : 'div-option'} ><span className='text-option' id='cadastrar-turma' >Turma</span></Link>  
+        <Link to={'cadastrar-aluno'} className={path === '/adm/cadastrar-aluno' ? 'option-selected' : 'div-option'} ><span className='text-option'>Aluno</span></Link>
+        <Link to={'cadastrar-usuario'} className={path === '/adm/cadastrar-usuario' ? 'option-selected' : 'div-option'} ><span className='text-option' >Usuário</span></Link>
+        <Link to={'cadastrar-disciplina'} className={path === '/adm/cadastrar-disciplina' ? 'option-selected' : 'div-option'} ><span className='text-option'>Disciplina</span></Link>
+        <Link to={'cadastrar-alunos-na-turma'} className= {path === '/adm/cadastrar-alunos-na-turma' ? 'option-selected' : 'div-option'}><span className='text-option'>Alunos na turma</span></Link>
+       <Link to={'cadastrar-professores-na-turma'} className= {path === '/adm/cadastrar-professores-na-turma' ? 'option-selected' : 'div-option'}><span className='text-option'>Professor(a)s na turma</span></Link>
+       <Link to={'cadastrar-disciplinas-na-turma'} className= {path === '/adm/cadastrar-disciplinas-na-turma' ? 'option-selected' : 'div-option'}><span className='text-option'>Disciplinas na turma</span></Link>
       </div>
 
-      <div className='option-principal' onClick={toggleconsulta}>
+      <div className= 'option-principal' onClick={toggleconsulta}>
           <div className='container-icon-option'>
             <img src='/icon-consulta.png' alt='home' className='icon-option'></img>
             <span className='text-option-principal' >Consultar</span>
           </div>
-          <img src='/seta-down.png' alt='icon-setinha' className='icon-open-options' ref={refs.diviconconsulta} /> 
+          <img src='/seta-down.png' alt='icon-setinha' className={toogleconsultaicon ? 'icon-options-rotate' :  'icon-open-options' } ref={refs.diviconconsulta} /> 
         </div>
-        <div className='container-options'  ref={refs.divconsulta}>
-          <Link to={'consultar-turmas'} className='div-option' onClick={(e) => infooption(e.currentTarget)}><span className='text-option' >Turmas</span></Link>
-       <Link to={'consultar-alunos'} className='div-option' onClick={(e) => infooption(e.currentTarget)}><span className='text-option'>Alunos</span></Link>
-       <Link to={'consultar-usuarios'} className='div-option' onClick={(e) => infooption(e.currentTarget)}><span className='text-option' >Usuários</span></Link>
-       <Link to={'consultar-disciplinas'} className='div-option' onClick={(e) => infooption(e.currentTarget)}><span className='text-option'>Disciplinas</span></Link>
-       <Link to={'consultar-alunos-na-turma'} className='div-option' onClick={(e) => infooption(e.currentTarget)}><span className='text-option'>Alunos na turma</span></Link>
-       <Link to={'consultar-professores-na-turma'} className='div-option' onClick={(e) => infooption(e.currentTarget)}><span className='text-option'>Professor(a)s na turma</span></Link>
-       <Link to={'consultar-disciplinas-na-turma'} className='div-option' onClick={(e) => infooption(e.currentTarget)}><span className='text-option'>Disciplinas na turma</span></Link>
-       <Link to={'consultar-situacao-cadastral-alunos'} className='div-option' onClick={(e) => infooption(e.currentTarget)}><span className='text-option'>Situação cadastral - Alunos</span></Link>
+        <div className= {toogleconsulta ? 'option-show'  :  'container-options'}   ref={refs.divconsulta}>
+          <Link to={'consultar-turmas'} className= {path === '/adm/consultar-turmas' ? 'option-selected' : 'div-option'}><span className='text-option' >Turmas</span></Link>
+       <Link to={'consultar-alunos'} className= {path === '/adm/consultar-alunos' ? 'option-selected' : 'div-option'}><span className='text-option'>Alunos</span></Link>
+       <Link to={'consultar-usuarios'} className= {path === '/adm/consultar-usuarios' ? 'option-selected' : 'div-option'}><span className='text-option' >Usuários</span></Link>
+       <Link to={'consultar-disciplinas'} className= {path === '/adm/consultar-disciplinas' ? 'option-selected' : 'div-option'}><span className='text-option'>Disciplinas</span></Link>
+       <Link to={'consultar-alunos-na-turma'} className= {path === '/adm/consultar-alunos-na-turma' ? 'option-selected' : 'div-option'}><span className='text-option'>Alunos na turma</span></Link>
+       <Link to={'consultar-professores-na-turma'} className= {path === '/adm/consultar-professores-na-turma' ? 'option-selected' : 'div-option'}><span className='text-option'>Professor(a)s na turma</span></Link>
+       <Link to={'consultar-disciplinas-na-turma'} className= {path === '/adm/consultar-disciplinas-na-turma' ? 'option-selected' : 'div-option'}><span className='text-option'>Disciplinas na turma</span></Link>
+      
       </div>
 
       <div className='option-principal' onClick={toggleconsultaprof} id='visao-prof'>

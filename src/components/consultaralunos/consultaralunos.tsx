@@ -275,6 +275,7 @@ useEffect(()=>{
            <th className='table-header'><input type="checkbox" checked={selectAll} className='checkbox-selecionar-todos' onChange={selecionarTudo}/></th>
         <th className='table-header'>Matrícula</th>
         <th className='table-header'>Nome</th>
+        <th className='table-header'>Turma</th>
         <th className='table-header' >Situação escolar</th>
         <th className='table-header' >Responsável</th>       
         <th className='table-header' >Detalhes</th>       
@@ -294,6 +295,7 @@ useEffect(()=>{
         </td>
             <td className='information-table'>{element.matricula}</td>
             <td className='information-table'>{element.nome}</td>
+            <td className='information-table'>{element.turma ? element.turma : 'Sem turma'}</td>
             <td className='information-table'>{element.situacao}</td>
             <td className='information-table'>{element.nomeResponsavel}</td>
              <td className='information-table'>

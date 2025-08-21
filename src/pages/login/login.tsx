@@ -57,7 +57,7 @@ setTypeinput(mostrarsenha ? 'text' : 'password');
           <img src="/imglogin.jpg" alt="imagem de login" className='imglogin' />
           <div className='container-form-login'>
             <form className='form-login' onSubmit={enviar}>
-              <h1 className='title-login'>SISTEMA DE GERENCIAMENTO ACADÊMICO</h1>
+              <h1 className='title-login'>SISTEMA DE GERENCIAMENTO ESCOLAR</h1>
               <input type="text" placeholder="Digite seu email" className='input-login' ref={inputEmail} />
               <input type={typeinput} placeholder="Digite sua senha" className='input-login' ref={inputSenha} />
               <button type="button" className='button-toogle-senha' onClick={() => {setMostrarsenha(!mostrarsenha)}}>
