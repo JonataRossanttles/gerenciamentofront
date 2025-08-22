@@ -81,7 +81,7 @@ setToogleconsulta(true);
       <img  src='/logo.png' alt='logo' className='logo'></img>
      
       <div className='container-option-principal'>
-        <Link to={'/adm'}  className='link-option-principal'   >
+        <Link to={'/adm'}  className='link-option-principal'>
           <div   ref={refs.divinicio}  className= {path === '/adm' ? 'div-inicio' : 'option-principal'}  >
             <div className='container-icon-option' >
               <img src='/home.png' alt='home' className='icon-option'></img>

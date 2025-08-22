@@ -1,0 +1,128 @@
+.form-consultar-professores{
+    width: 400px;
+    margin-bottom: 30px;
+}
+#form-consultar-professores{
+display: flex;
+flex-direction: column;
+}
+#btn-cadastrar-professores-na-turma{
+    margin-top: 20px;
+}
+.container-consultar{
+    display: flex;
+    align-items: end;
+    margin-bottom: 10px;
+}
+#filtro-professores{
+    margin-right: 0px;
+}
+.container-input-consultar-professores{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: 5px;
+    margin-right: 20px;
+    
+}
+.input-consultar-professores{
+    width: 100%;
+    height: 30px;
+    border-radius: 5px;
+    padding: 0 10px;
+    border: 1px solid #ccc;
+}
+
+.input-consultar-professores::-webkit-inner-spin-button{
+    -webkit-appearance: none;
+    
+}
+.input-filtrar-professores,.input-select-turma{
+     width: 100%;
+    height: 30px;
+    border-radius: 5px;
+    padding: 0 10px;
+    border: 1px solid #ccc;
+    cursor: not-allowed;
+}
+.input-filtrar-professores-liberado{
+    width: 100%;
+    height: 30px;
+    border-radius: 5px;
+    padding: 0 10px;
+    border: 1px solid #ccc;
+    cursor:text;
+}
+.container-input-turmas{
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    gap: 5px;
+    margin-bottom: 10px;
+}
+.input-select-turmas-liberado{
+     width: 100%;
+    height: 30px;
+    border-radius: 5px;
+    padding: 0 10px;
+    border: 1px solid #ccc;
+    cursor:pointer;
+}
+.btn-consultar{
+    width: 100%;
+    height: 30px;
+    cursor: pointer;
+    background-image: linear-gradient(to bottom, #3f98e0, #1A73E8);
+    color: white;
+    border-radius: 5px;
+    border: 1px solid black;
+    box-shadow: 1px 3px 2px  rgba(0, 0, 0, 0.205);
+    
+}
+
+
+.span-consultar-professores{
+    display: inline;
+    font-weight: bold;
+    color: #333;
+}
+   
+.table-consultar{
+    position: relative;
+    width: 100%;
+}
+.line-table{
+    border: 1px solid black;
+}
+.information-table{
+    padding: 10px;
+    text-align: center;
+    max-width: 150px;           /* limite opcional */
+  white-space: nowrap;        /* impede quebra de linha */
+  overflow: hidden;           /* esconde o conteúdo que passar */
+  text-overflow: ellipsis;
+}
+.table-header{
+    padding: 10px;
+    color: white;
+    background-color: #1561c5f1;
+}
+
+
+.table-consultar tbody tr:nth-child(even) {
+  background-color: white; /* cinza claro */
+}
+
+.table-consultar tbody tr:nth-child(odd) {
+  background-color:  #ececec; /* branco */
+}
+
+.icon-editar,.icon-ver{
+    width: 25px;
+    height: 25px;
+    cursor: pointer;
+}
+.icon-ver{
+    width: 30px;
+    height: 30px;
+}

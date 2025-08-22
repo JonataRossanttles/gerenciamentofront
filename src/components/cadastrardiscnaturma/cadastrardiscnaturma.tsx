@@ -1,7 +1,7 @@
 
 
 import { useEffect, useRef, useState } from 'react';
-import './cadastraralunosnaturma.css'
+import './cadastrardiscnaturma.css'
 import { usarcontextoapi } from '../../context/contextapi.tsx';
 import { useNavigate } from 'react-router-dom';
 import Loading from '../loading/loading.tsx';
@@ -9,8 +9,9 @@ import { usarcontexto } from '../../context/context.tsx';
 
 
 
-function Cadastrar_alunos_na_turma() {
-const {rotaconsultar_alunos_semturma,rotaconsultarturmas,rotacriar_alunos_na_turma} = usarcontextoapi();
+
+function Cadastrar_disciplinas_na_turma() {
+const {rotaconsultardisciplinas,rotaconsultarturmas,rotacriar_disciplinas_na_turma} = usarcontextoapi();
 const {arrayConsulta,setArrayconsulta} = usarcontexto()
 const [statusreq, setStatusreq] = useState<string>(); // Indica a mensagem recebida pelo backend.
 const [statusmsgerro, setStatusmsgerro] = useState<boolean>(); // Indica se é uma mensagem de erro ou não
@@ -83,11 +84,11 @@ inputTurma.current?.classList.add('input-select-turmas-liberado')
  
   }
 
-async function consultar_alunos() {
+async function consultar_disciplinas() {
    
 try {
   setLoading(true)
-  const response = await fetch(rotaconsultar_alunos_semturma, {
+  const response = await fetch(rotaconsultardisciplinas, {
   method: 'GET',
   headers: {
     'Content-Type': 'application/json',
@@ -111,14 +112,13 @@ if(!response.ok){
 setLoading(false) 
 if(information.msg.length === 0){
   setLoading(false)
- setStatusreq("Todos os alunos estão enturmados!");
+ setStatusreq("Sem disciplinas para esse período letivo!");
  setStatusresponse(true);
  setStatusmsgerro(true);
 }
 
 setArrayconsulta(information.msg)
 setArrayoriginal(information.msg)
-
 
 } catch (error) {
   setLoading(false)
@@ -129,15 +129,15 @@ setArrayoriginal(information.msg)
  
   }
 
- async function cadastrar_alunos_na_turma() {
+ async function cadastrar_disciplinas_na_turma() {
 
    const dados = {
     turmaId:inputTurma.current?.value,
-    alunosId: selectedIds
+    disciplinasId: selectedIds
   };
 try {
   setLoading(true)
-  const response = await fetch(rotacriar_alunos_na_turma, {
+  const response = await fetch(rotacriar_disciplinas_na_turma, {
   method: 'POST',
   headers: {
     'Content-Type': 'application/json',
@@ -174,7 +174,7 @@ setStatusreq(information.msg);
 setStatusmsgerro(false);
 setDisable(true)
 setSelectedIds([])
-consultar_alunos();
+consultar_disciplinas();
 
 } catch (error) {
   setLoading(false)
@@ -201,13 +201,13 @@ function closeresponse() {
  
 }
 
-function filtraralunos(){
-  const nome = inputFilter.current?.value?.toLowerCase() || ''
+function filtrardisciplinas(){
+  const codigo = inputFilter.current?.value?.toLowerCase() || ''
 
- if(nome.trim() === ''){
+ if(codigo.trim() === ''){
   setArrayconsulta(arrayoriginal)
  }else{
-  const arrayfilter = arrayoriginal.filter((element)=>  element.nome.toLowerCase().includes(nome))
+  const arrayfilter = arrayoriginal.filter((element)=>  element.codigo.toLowerCase().includes(codigo))
   setArrayconsulta(arrayfilter)
  }
 
@@ -216,13 +216,13 @@ function filtraralunos(){
 }
 
 function selecionarTudo(){
- 
+
 if(selectAll){
   setSelectedIds([])
   setSelectAll(false)
 }else{
   setSelectAll(true)
-  const arrayId = arrayConsulta.map((element:any)=>element.alunoId)
+  const arrayId = arrayConsulta.map((element:any)=>element.discId)
   setSelectedIds(arrayId)
  setSelectAll(true)
 }
@@ -238,36 +238,36 @@ function mudarcheckbox (id:string){
 }
 
 useEffect(()=>{
-  consultar_alunos()
+  consultar_disciplinas()
 
 },[])
 
   return (
     <>
     <section className='main'>
-       <form className='form-consultar-alunos' id='form-consultar-alunos' onSubmit={consultar_turmas}>
+       <form className='form-consultar-disciplinas' id='form-consultar-disciplinas' onSubmit={consultar_turmas}>
         <div className='container-consultar'>
-          <div className='container-input-consultar-alunos'>
-          <span className='span-consultar-alunos'>Ano letivo:</span>
-          <input type='number' min={0} className='input-consultar-alunos' placeholder='Digite um ano letivo' defaultValue={""} ref={anoLetivo}/>
+          <div className='container-input-consultar-disciplinas'>
+          <span className='span-consultar-disciplinas'>Ano letivo:</span>
+          <input type='number' min={0} className='input-consultar-disciplinas' placeholder='Digite um ano letivo' defaultValue={""} ref={anoLetivo}/>
          
       </div>
       <button type='submit' className='btn-consultar'>Consultar</button>
         </div>
 
         <div className='container-input-turmas'>
-          <span className='span-consultar-alunos'>Em qual turma deseja incluir os alunos?</span>
+          <span className='span-consultar-disciplinas'>Em qual turma deseja incluir as disciplinas?</span>
           <select className={disable ? 'input-select-turmas-liberado' : 'input-select-turma'} defaultValue={""} disabled={!disable} ref={inputTurma} >
             <option value="" disabled hidden> Selecione uma turma...</option>
             {turmas}
           </select>
       </div>
-      <div className='container-input-consultar-alunos' id='filtro-alunos'>
+      <div className='container-input-consultar-disciplinas' id='filtro-disciplinas'>
 
-        <span className='span-consultar-alunos' >Filtrar pelo nome do aluno:</span>
-        <input type="text" className={disable ? 'input-filtrar-alunos-liberado' : 'input-filtrar-alunos'} ref={inputFilter} onChange={filtraralunos} disabled={!disable}  placeholder='Digite o nome do aluno'/>
+        <span className='span-consultar-disciplinas' >Filtrar pelo código da disciplina:</span>
+        <input type="text" className={disable ? 'input-filtrar-disciplinas-liberado' : 'input-filtrar-disciplinas'} ref={inputFilter} onChange={filtrardisciplinas} disabled={!disable}  placeholder='Digite o código da disciplina'/>
       </div>
-      <button type='button' className='btn-cadastrar' id='btn-cadastrar-alunos-na-turma' onClick={cadastrar_alunos_na_turma}>Cadastrar alunos na turma</button>
+      <button type='button' className='btn-cadastrar' id='btn-cadastrar-disciplinas-na-turma' onClick={cadastrar_disciplinas_na_turma}>Cadastrar disciplinas na turma</button>
       </form>
      
       <table className='table-consultar'>
@@ -275,8 +275,8 @@ useEffect(()=>{
         <thead>
         <tr>
          <th className='table-header'><input type="checkbox" checked={selectAll} className='checkbox-selecionar-todos' onChange={selecionarTudo}/></th>
-        <th className='table-header'>Matrícula</th>
-        <th className='table-header'>Aluno</th>
+        <th className='table-header'>Código</th>
+        <th className='table-header'>Disciplina</th>
              
         </tr>
         </thead>
@@ -286,12 +286,12 @@ useEffect(()=>{
       <td className="information-table">
         <input
           type="checkbox"
-          checked={selectedIds.includes(element.alunoId)}
-          onChange={() => mudarcheckbox(element.alunoId)}
+          checked={selectedIds.includes(element.discId)}
+          onChange={() => mudarcheckbox(element.discId)}
           className="checkbox-selecionar-aluno"
         />
       </td>
-      <td className="information-table">{element.matricula}</td>
+      <td className="information-table">{element.codigo}</td>
       <td className="information-table">{element.nome}</td>
     
     </tr>
@@ -314,4 +314,4 @@ useEffect(()=>{
 
 }
 
-export default Cadastrar_alunos_na_turma
+export default Cadastrar_disciplinas_na_turma
