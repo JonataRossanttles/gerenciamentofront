@@ -22,6 +22,9 @@ import Consultar_disc_na_turma from './components/consultardiscnaturma/consultar
 import Cadastrar_alunos_na_turma from './components/cadastraralunosnaturma/cadastraralunosnaturma'
 import Cadastrar_professores_na_turma from './components/cadastrarprofnaturma/cadastrarprofnaturma'
 import Cadastrar_disciplinas_na_turma from './components/cadastrardiscnaturma/cadastrardiscnaturma'
+import Alterar_alunos_de_turma from './components/alteraralunosdeturma/alteraralunosdeturma'
+import Alterar_disciplinas_de_turma from './components/alterardisciplinasdeturma/alterardisciplinasdeturma'
+import Alterar_professores_de_turma from './components/alterarprofdeturma/alterarprofdeturma'
 
 
 function App() {
@@ -52,7 +55,10 @@ const {authenticated} = usarcontexto()
           <Route path='consultar-alunos-na-turma' element={<Consultar_alunos_na_turma/>}/>
           <Route path='consultar-professores-na-turma' element={<Consultar_prof_na_turma/>}/>
           <Route path='consultar-disciplinas-na-turma' element={<Consultar_disc_na_turma/>}/>
-          
+          <Route path='alterar-alunos-de-turma' element={<Alterar_alunos_de_turma/>}/>
+          <Route path='alterar-disciplinas-de-turma' element={<Alterar_disciplinas_de_turma/>}/>
+          <Route path='alterar-professores-de-turma' element={<Alterar_professores_de_turma/>}/>
+
           </Route>
         </Route>
       </Routes>

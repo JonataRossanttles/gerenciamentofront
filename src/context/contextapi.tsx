@@ -12,6 +12,7 @@ type props = {
   rotacriar_alunos_na_turma:string,
   rotacriar_professores_na_turma:string,
   rotacriar_disciplinas_na_turma:string,
+  rotacriar_turma_disciplina_professores:string,
   rotachangepassword:string,
   rotaResetpassword:string,
   rotaconsultarturmas:string,
@@ -21,6 +22,7 @@ type props = {
   rotaconsultar_turma_alunos:string,
   rotaconsultar_turma_professores:string,
   rotaconsultar_turma_disciplinas:string,
+  rotaconsultar_professor_turmas_disciplinas:string,
   rotaconsultar_alunos_semturma:string,
   rotaconsultar_professores:string,
   rotaeditarturma:string,
@@ -34,7 +36,11 @@ type props = {
   rotaexcluir_turma_alunos:string,
   rotaexcluirusuario:string,
   rotaexcluir_turma_professores:string,
-  rotaexcluir_turma_disciplinas:string
+  rotaexcluir_turma_disciplinas:string,
+  rotaalterar_alunos_de_turma:string,
+  rotaalterar_disciplinas_de_turma:string,
+  rotaalterar_professores_de_turma:string,
+  logout:string,
 
 };
 // Criando o contexto para as rotas da API
@@ -54,6 +60,7 @@ export const Providerapi = ({ children }: { children: ReactNode }) => {
     rotacriar_alunos_na_turma:`${baseURL}/turma/adicionaralunos`, 
     rotacriar_professores_na_turma:`${baseURL}/turma/adicionarprof`, 
     rotacriar_disciplinas_na_turma:`${baseURL}/turma/adicionardisc`, 
+    rotacriar_turma_disciplina_professores:`${baseURL}/turma/disciplina/professores`, 
     rotaconsultarturmas:`${baseURL}/consultar/turmas`,
     rotaconsultaralunos:`${baseURL}/consultar/alunos`,
     rotaconsultarusuarios:`${baseURL}/consultar/usuarios`,
@@ -61,6 +68,7 @@ export const Providerapi = ({ children }: { children: ReactNode }) => {
     rotaconsultar_turma_alunos:`${baseURL}/consultar/turma/alunos`,
     rotaconsultar_turma_professores:`${baseURL}/consultar/turma/professores`,
     rotaconsultar_turma_disciplinas:`${baseURL}/consultar/turma/disciplinas`,
+    rotaconsultar_professor_turmas_disciplinas:`${baseURL}/consultar/professor/turmas/disciplinas`,
     rotaconsultar_alunos_semturma:`${baseURL}/consultar/alunos/semturma`,
     rotaconsultar_professores:`${baseURL}/consultar/professores`,
     rotaeditarturma:`${baseURL}/editar/turma`,
@@ -75,9 +83,13 @@ export const Providerapi = ({ children }: { children: ReactNode }) => {
     rotaexcluirdisciplina:`${baseURL}/excluir/disciplina`,
     rotaexcluir_turma_professores:`${baseURL}/excluir/turma/professores`,
     rotaexcluir_turma_disciplinas:`${baseURL}/excluir/turma/disciplinas`,
+    rotaalterar_alunos_de_turma:`${baseURL}/turma/alteraralunos`,
+    rotaalterar_disciplinas_de_turma:`${baseURL}/turma/alterardisc`,
+    rotaalterar_professores_de_turma:`${baseURL}/turma/alterarprof`,
     rotavalidartoken: `${baseURL}/validartoken`,
     rotachangepassword: `${baseURL}/changepassword`,
-    rotaResetpassword:`${baseURL}/resetpassword`
+    rotaResetpassword:`${baseURL}/resetpassword`,
+    logout:`${baseURL}/logout`
 
   };
 

@@ -25,6 +25,9 @@ function Header() {
  if(path === "/adm/consultar-professores-na-turma")  useinformationmenu("Consultar Professores na turma")
  if(path === "/adm/consultar-disciplinas-na-turma")  useinformationmenu("Consultar Disciplinas na turma")
  if(path === "/adm/consultar-situacao-cadastral-alunos")  useinformationmenu("Consultar Situação academica dos alunos")
+ if(path === "/adm/alterar-alunos-de-turma")  useinformationmenu("Alterar Alunos de turma")
+ if(path === "/adm/alterar-disciplinas-de-turma")  useinformationmenu("Alterar disciplinas de turma")
+ if(path === "/adm/alterar-professores-de-turma")  useinformationmenu("Alterar professores de turma")
  if(path === "/adm")  useinformationmenu("Início")
  },[path])
   return (
