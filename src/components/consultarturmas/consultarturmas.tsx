@@ -1,6 +1,6 @@
 
 
-import { use, useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import './consultarturmas.css'
 import { usarcontextoapi } from '../../context/contextapi.tsx';
 import {  useNavigate } from 'react-router-dom';

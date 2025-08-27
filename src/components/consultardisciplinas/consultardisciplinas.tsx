@@ -13,7 +13,7 @@ import Modal_editar_disciplina from '../modaleditardisciplina/modaleditardiscipl
 
 function Consultardisciplinas() {
 const {rotaconsultardisciplinas,rotaexcluirdisciplina} = usarcontextoapi();
-const {statusmodal,setStatusmodal,Selectionmodal,setSelectionmodal,arrayConsulta,setArrayconsulta,
+const {statusmodal,setStatusmodal,setSelectionmodal,arrayConsulta,setArrayconsulta,
   statusmodalconfirm,setStatusmodalconfirm} = usarcontexto()
 const [statusreq, setStatusreq] = useState<string>(); // Indica a mensagem recebida pelo backend.
 const [statusmsgerro, setStatusmsgerro] = useState<boolean>(); // Indica se é uma mensagem de erro ou não
@@ -25,7 +25,6 @@ const btn_excluir = useRef<HTMLButtonElement>(null);
 const navigate = useNavigate();
 const [loading,setLoading] = useState<boolean>()
 const [disable,setDisable] = useState<boolean>(false)
-const [tabeladisciplina , setTabeladisciplina] = useState<React.ReactElement[]>([])
 const [selectedIds, setSelectedIds] = useState<string[]>([]);
 const [selectAll, setSelectAll] = useState<boolean>(false);
 const [arrayoriginal , setArrayoriginal] = useState<any[]>([])

@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import './modaleditarprofessores.css'
 //import { usarcontextoapi } from '../../context/contextapi.tsx';
-import { useNavigate } from 'react-router-dom';
 import Loading from '../loading/loading.tsx';
 import { usarcontexto } from '../../context/context.tsx';
 
@@ -10,14 +9,13 @@ function Modal_editar_professores() {
 //const {rotaeditarprofessores} = usarcontextoapi();
 const {setStatusmodal,Selectionmodal}=usarcontexto()
 const [statusreq, setStatusreq] = useState<string>(); // Indica a mensagem recebida pelo backend.
-const [statusmsgerro, setStatusmsgerro] = useState<boolean>(); // Indica se é uma mensagem de erro ou não
+const [statusmsgerro] = useState<boolean>(); // Indica se é uma mensagem de erro ou não
 const [statusresponse, setStatusresponse] = useState<boolean>(false);  // Indica se a caixa de resposta deve ser exibida ou não
 const status = useRef<HTMLSelectElement>(null);
 const nome = useRef<HTMLInputElement>(null);
 const divresponse = useRef<HTMLDivElement>(null);
-const navigate = useNavigate();
-const [loading,setLoading] = useState<boolean>()
-const [editando,setEditando] = useState({
+const [loading] = useState<boolean>()
+const [editando] = useState({
   nome:false,
   status:false,
   

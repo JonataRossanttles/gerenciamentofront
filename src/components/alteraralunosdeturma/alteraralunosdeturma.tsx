@@ -19,7 +19,6 @@ const divresponse = useRef<HTMLDivElement>(null);
 const inputTurmaorigem = useRef<HTMLSelectElement>(null);
 const inputTurmadestino = useRef<HTMLSelectElement>(null);
 const inputFilter = useRef<HTMLInputElement>(null);
-const anoLetivo = useRef<HTMLInputElement>(null);
 const navigate = useNavigate();
 const [loading,setLoading] = useState<boolean>()
 const [disable,setDisable] = useState<boolean>(false)
