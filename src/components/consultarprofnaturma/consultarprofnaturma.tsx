@@ -5,15 +5,14 @@ import './consultarprofnaturma.css'
 import { usarcontextoapi } from '../../context/contextapi.tsx';
 import { useNavigate } from 'react-router-dom';
 import Loading from '../loading/loading.tsx';
-
 import { usarcontexto } from '../../context/context.tsx';
-import Modal_editar_aluno from '../modaleditaraluno/modaleditaraluno.tsx';
 import Modal_confirm from '../modalconfirm/modalconfirm.tsx';
 import Modal_editar_professores from '../modaleditarprofessores/modaleditarprofessores.tsx';
 
 
 function Consultar_prof_na_turma() {
-const {rotaconsultar_turma_professores,rotaexcluir_turma_professores,rotaconsultarturmas} = usarcontextoapi();
+const {rotaconsultar_turma_professores,rotaexcluir_turma_professores,rotaconsultarturmas,
+  rotaconsultar_professor_turmas_disciplinas} = usarcontextoapi();
 const {statusmodal,setStatusmodal,arrayConsulta,setArrayconsulta,setSelectionmodal,
   statusmodalconfirm,setStatusmodalconfirm
 } = usarcontexto()
@@ -81,6 +80,56 @@ setDisable(true)
 
 inputTurmas.current?.classList.add('input-select-turmas-liberado')
 
+
+} catch (error) {
+  setLoading(false)
+  setStatusreq('Erro no servidor! ' + error);
+ setStatusresponse(true);
+ setStatusmsgerro(true);
+}
+ 
+  }
+  async function consultar_disciplinas_do_professor(element:any) {
+
+   const dados = {
+    anoLetivo:anoLetivo.current?.value,
+    userId:element.userId,
+    turmaId:inputTurmas.current?.value
+  };
+try {
+  setLoading(true)
+  const response = await fetch(rotaconsultar_professor_turmas_disciplinas, {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+  },
+  credentials: 'include',
+  body: JSON.stringify({
+    dados:dados})
+})
+const information = await response.json();
+
+if(response.status === 401) {
+ navigate('/');
+ return;
+}
+if(!response.ok){
+ setLoading(false)
+ setStatusreq(information.msg);
+ setStatusresponse(true);
+ setStatusmsgerro(true);
+ return;
+}
+setLoading(false) 
+if(information.msg.length === 0){
+  setLoading(false)
+ setStatusreq("Não existem disciplinas para esse professor nessa turma!");
+ setStatusresponse(true);
+ setStatusmsgerro(true);
+return
+}
+setSelectionmodal(information.msg)
+setStatusmodal(true);
 
 } catch (error) {
   setLoading(false)
@@ -174,11 +223,13 @@ inputTurmas.current?.classList.add('input-select-turmas-liberado')
 }
   }
 async function excluir_professores_na_turma() {
-     console.log(selectedIds)
+    
   const dados = {
     professoresId: selectedIds,
-    turmaId: inputTurmas.current?.value
+    turmaId: inputTurmas.current?.value,
+    periodoLetivo: anoLetivo.current?.value
   }
+  console.log(dados)
 try {
   setLoading(true)
   const response = await fetch(rotaexcluir_turma_professores, {
@@ -207,9 +258,11 @@ setLoading(false)
 setStatusresponse(true);
 setStatusreq(information.msg);
 setStatusmsgerro(false);
-setStatusmodalconfirm(false)
- turma_select()
- if (divresponse.current) {
+setStatusmodalconfirm(false);
+setSelectAll(false);
+setSelectedIds([]);
+turma_select();
+if (divresponse.current) {
    divresponse.current.classList.remove('erroresponse');
    divresponse.current.classList.add('sucessoresponse');
  }
@@ -312,8 +365,7 @@ useEffect(()=>{
             src="/icon-ver.png"
             className="icon-ver"
             onClick={() => {
-              setSelectionmodal(element);
-              setStatusmodal(true);
+              consultar_disciplinas_do_professor(element)
             }}
           />
         </div>

@@ -14,7 +14,7 @@ import Modal_confirm from '../modalconfirm/modalconfirm.tsx';
 function Consultar_alunos_na_turma() {
 const {rotaconsultar_turma_alunos,rotaexcluir_turma_alunos,rotaconsultarturmas} = usarcontextoapi();
 const {statusmodal,setStatusmodal,arrayConsulta,setArrayconsulta,setSelectionmodal,
-  statusmodalconfirm,setStatusmodalconfirm
+  statusmodalconfirm,setStatusmodalconfirm,infouser
 } = usarcontexto()
 const [statusreq, setStatusreq] = useState<string>(); // Indica a mensagem recebida pelo backend.
 const [statusmsgerro, setStatusmsgerro] = useState<boolean>(); // Indica se é uma mensagem de erro ou não
@@ -31,6 +31,7 @@ const [arrayoriginal , setArrayoriginal] = useState<any[]>([])
 const [turmas, setTurmas] = useState<React.ReactElement[]>([])
 const [selectedIds, setSelectedIds] = useState<string[]>([]);
 const [selectAll, setSelectAll] = useState<boolean>(false);
+
 
 async function consultar_turmas(e: React.FormEvent<HTMLFormElement>) {
   e.preventDefault();
@@ -276,37 +277,38 @@ useEffect(()=>{
       </div>
      
       </form>
-      <div className='container-button-excluir'>
-       <button type='button' className={ disable ? 'btn-excluir-liberado' : 'btn-excluir-consultar' } ref={btn_excluir} onClick={()=>{setStatusmodalconfirm(true)}} disabled={!disable}>Retirar aluno(s) da turma</button>
-      </div>
+       {infouser === "admin" &&  <div className='container-button-excluir'>
+        <button type='button' className={disable ? 'btn-excluir-liberado' : 'btn-excluir-consultar'} ref={btn_excluir} onClick={()=>{setStatusmodalconfirm(true)}} disabled={!disable}>Retirar aluno(s) da turma </button>
+      </div>} 
+     
       <table className='table-consultar'>
          
         <thead>
         <tr>
-         <th className='table-header'><input type="checkbox" checked={selectAll} className='checkbox-selecionar-todos' onChange={selecionarTudo}/></th>
+       {infouser === "admin" &&  <th className='table-header'><input type="checkbox" checked={selectAll} className='checkbox-selecionar-todos' onChange={selecionarTudo}/></th>}
         <th className='table-header'>Matrícula</th>
         <th className='table-header'>Nome</th>
         <th className='table-header' >Situação escolar</th>
         <th className='table-header' >Responsável</th>       
-        <th className='table-header' >Detalhes</th>       
+       {infouser === "admin" && <th className='table-header' >Detalhes</th>}       
         </tr>
         </thead>
         <tbody>
           {arrayConsulta.map((element: any) => (
     <tr key={element.alunoId} className="line-table">
-      <td className="information-table">
+     {infouser === "admin" &&  <td className="information-table">
         <input
           type="checkbox"
           checked={selectedIds.includes(element.alunoId)}
           onChange={() => mudarcheckbox(element.alunoId)}
           className="checkbox-selecionar-aluno"
         />
-      </td>
+      </td>}
       <td className="information-table">{element.matricula}</td>
       <td className="information-table">{element.nome}</td>
       <td className="information-table">{element.situacao}</td>
       <td className="information-table">{element.nomeResponsavel}</td>
-      <td className="information-table">
+     {infouser === "admin" &&  <td className="information-table">
         <div className="container-icon-detalhes">
           <img
             alt="Icone de visualização"
@@ -318,7 +320,7 @@ useEffect(()=>{
             }}
           />
         </div>
-      </td>
+      </td>}
     </tr>
   ))}
           

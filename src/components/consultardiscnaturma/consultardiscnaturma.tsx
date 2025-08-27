@@ -16,7 +16,7 @@ import Modal_editar_disciplina from '../modaleditardisciplina/modaleditardiscipl
 function Consultar_disc_na_turma() {
 const {rotaconsultar_turma_disciplinas,rotaexcluir_turma_disciplinas,rotaconsultarturmas} = usarcontextoapi();
 const {statusmodal,setStatusmodal,arrayConsulta,setArrayconsulta,setSelectionmodal,
-  statusmodalconfirm,setStatusmodalconfirm
+  statusmodalconfirm,setStatusmodalconfirm,infouser
 } = usarcontexto()
 const [statusreq, setStatusreq] = useState<string>(); // Indica a mensagem recebida pelo backend.
 const [statusmsgerro, setStatusmsgerro] = useState<boolean>(); // Indica se é uma mensagem de erro ou não
@@ -123,6 +123,7 @@ async function turma_select() {
   setSelectAll(false)
     const dados = {
     turmaId:inputTurmas.current?.value,
+    anoLetivo:anoLetivo.current?.value
   };
 try {
   setLoading(true)
@@ -156,11 +157,15 @@ if(information.msg.length === 0){
  setStatusresponse(true);
  setStatusmsgerro(true);
 }
-console.log(information.msg[0].dadosdisciplinas)
 console.log(information.msg)
 
-setArrayoriginal(information.msg[0].dadosdisciplinas)
-setArrayconsulta(information.msg[0].dadosdisciplinas)
+if(infouser === 'admin'){
+  setArrayoriginal(information.msg[0].dadosdisciplinas)
+  setArrayconsulta(information.msg[0].dadosdisciplinas)
+
+}
+setArrayoriginal(information.msg.map((element: any) => element.dadosdisciplinas[0]))
+setArrayconsulta(information.msg.map((element: any) => element.dadosdisciplinas[0]))
 
 setDisable(true)
 inputFilter.current?.classList.add('input-filtrar-disc-liberado')
@@ -272,42 +277,45 @@ useEffect(()=>{
       </div>
       <div className='container-input-consultar-disc' id='filtro-disc'>
 
-        <span className='span-consultar-disc' >Filtrar pelo nome do aluno:</span>
-        <input type="text" className={disable ? 'input-filtrar-disc-liberado' : 'input-filtrar-disc'} ref={inputFilter} onChange={filtrardisc} disabled={!disable}  placeholder='Digite o nome do aluno'/>
+        <span className='span-consultar-disc' >Filtrar pelo nome da disciplina:</span>
+        <input type="text" className={disable ? 'input-filtrar-disc-liberado' : 'input-filtrar-disc'} ref={inputFilter} onChange={filtrardisc} disabled={!disable}  placeholder='Digite o nome da disciplina'/>
       </div>
      
       </form>
-      <div className='container-button-excluir'>
-       <button type='button' className={ disable ? 'btn-excluir-liberado' : 'btn-excluir-consultar' } ref={btn_excluir} onClick={()=>{setStatusmodalconfirm(true)}} disabled={!disable}>Retirar disciplina(s) da turma</button>
-      </div>
+      {infouser === "admin" &&  <div className='container-button-excluir'>
+        <button type='button' className={disable ? 'btn-excluir-liberado' : 'btn-excluir-consultar'} ref={btn_excluir} onClick={()=>{setStatusmodalconfirm(true)}} disabled={!disable}>Retirar disciplina(s) da turma </button>
+      </div>} 
+      
+
       <table className='table-consultar'>
          
         <thead>
         <tr>
-         <th className='table-header'><input type="checkbox" checked={selectAll} className='checkbox-selecionar-todos' onChange={selecionarTudo}/></th>
+        {infouser === "admin" && <th className='table-header'><input type="checkbox" checked={selectAll} className='checkbox-selecionar-todos' onChange={selecionarTudo}/></th>}
         <th className='table-header'>Código</th>
         <th className='table-header'>Nome</th>
         <th className='table-header' >Carga Horária</th>      
         <th className='table-header' >Descrição</th>      
-        <th className='table-header' >Detalhes</th>       
+       {infouser === "admin" && <th className='table-header' >Detalhes</th>}       
         </tr>
         </thead>
         <tbody>
-          {arrayConsulta.map((element: any) => (
-    <tr key={element.alunoId} className="line-table">
-      <td className="information-table">
-        <input
-          type="checkbox"
+       
+            {arrayConsulta.map((element: any) => (
+              <tr key={element.alunoId} className="line-table">
+              {infouser === "admin" &&  <td className="information-table">
+                  <input
+                    type="checkbox"
           checked={selectedIds.includes(element.discId)}
           onChange={() => mudarcheckbox(element.discId)}
           className="checkbox-selecionar-aluno"
         />
-      </td>
+      </td>}
       <td className="information-table">{element.codigo}</td>
       <td className="information-table">{element.nome}</td>
       <td className="information-table">{element.cargaHoraria}</td>
       <td className="information-table">{element.descricao}</td>
-      <td className="information-table">
+     {infouser === "admin" &&  <td className="information-table">
         <div className="container-icon-detalhes">
           <img
             alt="Icone de visualização"
@@ -319,7 +327,7 @@ useEffect(()=>{
             }}
           />
         </div>
-      </td>
+      </td>}
     </tr>
   ))}
           

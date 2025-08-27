@@ -15,8 +15,9 @@ type props = {
   arrayConsulta:any[],
   setArrayconsulta: (value:any[])=>void,
   Selectionmodal:obj,
-  setSelectionmodal:React.Dispatch<React.SetStateAction<obj>>
-
+  setSelectionmodal:React.Dispatch<React.SetStateAction<obj>>,
+  infouser:string,
+  setInfouser:React.Dispatch<React.SetStateAction<string>>,
 };
 // Criando o contexto para as rotas da API
 const Context = createContext<props | undefined>(undefined);
@@ -24,6 +25,7 @@ const Context = createContext<props | undefined>(undefined);
 // Provider para fornecer as rotas da API
 export const Provider = ({ children }: { children: ReactNode }) => {
   const [informationmenu, useInformationmenu] = useState('');
+  const [infouser, setInfouser] = useState<string>('');
   const [authenticated, setAuthenticated] = useState(false);
   const [statusmodal, setStatusmodal] = useState(false);
   const [statusmodalconfirm, setStatusmodalconfirm] = useState(false);
@@ -43,8 +45,9 @@ export const Provider = ({ children }: { children: ReactNode }) => {
     Selectionmodal,
     setSelectionmodal,
     statusmodalconfirm,
-    setStatusmodalconfirm
- 
+    setStatusmodalconfirm,
+    infouser,
+    setInfouser
   };
 
   return (

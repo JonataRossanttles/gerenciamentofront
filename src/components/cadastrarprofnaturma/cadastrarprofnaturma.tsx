@@ -8,16 +8,17 @@ import Loading from '../loading/loading.tsx';
 import { usarcontexto } from '../../context/context.tsx';
 
 
-
-
 function Cadastrar_professores_na_turma() {
-const {rotaconsultar_professores,rotaconsultarturmas,rotacriar_professores_na_turma} = usarcontextoapi();
+const {rotaconsultar_professores,rotaconsultarturmas,rotacriar_turma_disciplina_professores,
+rotaconsultar_turma_disciplinas
+} = usarcontextoapi();
 const {arrayConsulta,setArrayconsulta} = usarcontexto()
 const [statusreq, setStatusreq] = useState<string>(); // Indica a mensagem recebida pelo backend.
 const [statusmsgerro, setStatusmsgerro] = useState<boolean>(); // Indica se é uma mensagem de erro ou não
 const [statusresponse, setStatusresponse] = useState<boolean>(false);  // Indica se a caixa de resposta deve ser exibida ou não
 const divresponse = useRef<HTMLDivElement>(null);
 const inputTurma = useRef<HTMLSelectElement>(null);
+const inputDisciplina = useRef<HTMLSelectElement>(null);
 const inputFilter = useRef<HTMLInputElement>(null);
 const anoLetivo = useRef<HTMLInputElement>(null);
 const navigate = useNavigate();
@@ -25,6 +26,7 @@ const [loading,setLoading] = useState<boolean>()
 const [disable,setDisable] = useState<boolean>(false)
 const [arrayoriginal , setArrayoriginal] = useState<any[]>([])
 const [turmas, setTurmas] = useState<React.ReactElement[]>([])
+const [disciplinas, setDisciplinas] = useState<React.ReactElement[]>([])
 const [selectedIds, setSelectedIds] = useState<string[]>([]);
 const [selectAll, setSelectAll] = useState<boolean>(false);
 
@@ -74,6 +76,60 @@ setTurmas(information.msg.map((element:any)=>{
 
 setDisable(true)
 inputTurma.current?.classList.add('input-select-turmas-liberado')
+
+} catch (error) {
+  setLoading(false)
+  setStatusreq('Erro no servidor! ' + error);
+ setStatusresponse(true);
+ setStatusmsgerro(true);
+}
+ 
+  }
+async function consultar_disciplinas() {
+
+   const dados = {
+    turmaId:inputTurma.current?.value
+  };
+console.log(dados)
+try {
+  setLoading(true)
+  const response = await fetch(rotaconsultar_turma_disciplinas, {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+  },
+  credentials: 'include',
+  body: JSON.stringify({
+    dados:dados})
+})
+const information = await response.json();
+
+if(response.status === 401) {
+ navigate('/');
+ return;
+}
+if(!response.ok){
+ console.log(information.msg)
+ setLoading(false)
+ setStatusreq(information.msg);
+ setStatusresponse(true);
+ setStatusmsgerro(true);
+ return;
+}
+setLoading(false) 
+if(information.msg.length === 0){
+  setLoading(false)
+ setStatusreq("Não existem disciplinas para essa turma");
+ setStatusresponse(true);
+ setStatusmsgerro(true);
+}
+console.log(information.msg)
+setDisciplinas(information.msg[0].dadosdisciplinas.map((element:any)=>{
+  return(
+    <option key={element.discId} value={element.discId}>{element.nome}</option>
+  )
+}))
+
 
 } catch (error) {
   setLoading(false)
@@ -133,11 +189,14 @@ setArrayoriginal(information.msg)
 
    const dados = {
     turmaId:inputTurma.current?.value,
-    professoresId: selectedIds
+    professoresId: selectedIds,
+    disciplinaId:inputDisciplina.current?.value,
+    anoLetivo:Number(anoLetivo.current?.value)
   };
+
 try {
   setLoading(true)
-  const response = await fetch(rotacriar_professores_na_turma, {
+  const response = await fetch(rotacriar_turma_disciplina_professores, {
   method: 'POST',
   headers: {
     'Content-Type': 'application/json',
@@ -173,7 +232,8 @@ setStatusresponse(true);
 setStatusreq(information.msg);
 setStatusmsgerro(false);
 setDisable(true)
-consultar_professores();
+setSelectedIds([])
+setSelectAll(false)
 
 } catch (error) {
   setLoading(false)
@@ -183,6 +243,7 @@ consultar_professores();
 }
  
   } 
+
 // Adicionando a cor a div de resposta com base no status da mensagem de erro
   useEffect(() => {
  if(statusmsgerro && divresponse.current) {
@@ -256,11 +317,20 @@ useEffect(()=>{
 
         <div className='container-input-turmas'>
           <span className='span-consultar-professores'>Em qual turma deseja incluir os professores?</span>
-          <select className={disable ? 'input-select-turmas-liberado' : 'input-select-turma'} defaultValue={""} disabled={!disable} ref={inputTurma} >
+          <select className={disable ? 'input-select-turmas-liberado' : 'input-select-turma'} defaultValue={""} disabled={!disable} ref={inputTurma} onChange={consultar_disciplinas}>
             <option value="" disabled hidden> Selecione uma turma...</option>
             {turmas}
           </select>
       </div>
+      <div className='container-input-turmas'>
+          <span className='span-consultar-professores'>Qual disciplina ele irá lecionar na turma selecionada?</span>
+          <select className={disable ? 'input-select-turmas-liberado' : 'input-select-turma'} defaultValue={""} disabled={!disable} ref={inputDisciplina} >
+            <option value="" disabled hidden> Selecione uma disciplina...</option>
+            {disciplinas}
+          </select>
+      </div>
+
+
       <div className='container-input-consultar-professores' id='filtro-professores'>
 
         <span className='span-consultar-professores' >Filtrar pelo nome do professor:</span>

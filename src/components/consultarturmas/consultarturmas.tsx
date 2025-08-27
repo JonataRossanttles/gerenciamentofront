@@ -14,7 +14,7 @@ function Consultarturmas() {
 const {rotaconsultarturmas,rotaexcluirturma} = usarcontextoapi();
 
 const {statusmodal,setStatusmodal,setSelectionmodal,arrayConsulta,setArrayconsulta,
-  statusmodalconfirm,setStatusmodalconfirm} = usarcontexto()
+  statusmodalconfirm,setStatusmodalconfirm,infouser} = usarcontexto()
 const [statusreq, setStatusreq] = useState<string>(); // Indica a mensagem recebida pelo backend.
 const [statusmsgerro, setStatusmsgerro] = useState<boolean>(); // Indica se é uma mensagem de erro ou não
 const [statusresponse, setStatusresponse] = useState<boolean>(false);  // Indica se a caixa de resposta deve ser exibida ou não
@@ -240,7 +240,7 @@ function mudarcheckbox (id:string){
 
 useEffect(()=>{
   setArrayconsulta([])
-  
+ 
 },[])
 
 
@@ -263,9 +263,10 @@ useEffect(()=>{
       </div>
       
       </form>
-      <div className='container-button-excluir'>
+       {infouser === "admin" &&  <div className='container-button-excluir'>
         <button type='button' className={disable ? 'btn-excluir-liberado' : 'btn-excluir-consultar'} ref={btn_excluir} onClick={()=>{setStatusmodalconfirm(true)}} disabled={!disable}>Excluir turma(s) </button>
-      </div>
+      </div>} 
+      
       <table className='table-consultar'>
         <thead>
         <tr>

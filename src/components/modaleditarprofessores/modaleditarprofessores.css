@@ -14,6 +14,10 @@ display: flex;
 flex-direction: column;
 
 }
+#close-modal-editar-prof{
+    right: 5px;
+    top: 6px;
+}
 .container-modal{
     display: flex;
     align-items: end;

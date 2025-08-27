@@ -4,9 +4,11 @@ import './menu.css'
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { usarcontextoapi } from '../../context/contextapi';
 import Loading from '../loading/loading';
+import { usarcontexto } from '../../context/context';
 
 function Menu() {
   const {logout} = usarcontextoapi()
+  const { infouser,setInfouser } = usarcontexto()
   const navigate = useNavigate();
   const path = useLocation().pathname;
   const [toogleconsulta, setToogleconsulta] = useState(false);
@@ -17,7 +19,7 @@ function Menu() {
 const [statusmsgerro, setStatusmsgerro] = useState<boolean>(); // Indica se é uma mensagem de erro ou não
 const [statusresponse, setStatusresponse] = useState<boolean>(false);  // Indica se a caixa de resposta deve ser exibida ou não
 const [loading,setLoading] = useState<boolean>()
-const [infouser,setInfouser] = useState<string>()
+
 
   const refs = {
     divcadastro: useRef<HTMLDivElement>(null),
@@ -150,10 +152,10 @@ useEffect(()=>{
           <img src='/seta-down.png' alt='icon-setinha' className={toogleconsultaicon ? 'icon-options-rotate' :  'icon-open-options' } ref={refs.diviconconsulta} /> 
         </div>
         <div className= {toogleconsulta ? 'option-show'  :  'container-options'}   ref={refs.divconsulta}>
-          <Link to={'consultar-turmas'} className= {path === '/adm/consultar-turmas' ? 'option-selected' : 'div-option'}><span className='text-option' >Turmas</span></Link>
+       {infouser === 'admin' && <Link to={'consultar-turmas'} className= {path === '/adm/consultar-turmas' ? 'option-selected' : 'div-option'}><span className='text-option' >Turmas</span></Link>}
      {infouser === 'admin' &&  <Link to={'consultar-alunos'} className= {path === '/adm/consultar-alunos' ? 'option-selected' : 'div-option'}><span className='text-option'>Alunos</span></Link>} 
      {infouser === 'admin' &&  <Link to={'consultar-usuarios'} className= {path === '/adm/consultar-usuarios' ? 'option-selected' : 'div-option'}><span className='text-option' >Usuários</span></Link>}
-       <Link to={'consultar-disciplinas'} className= {path === '/adm/consultar-disciplinas' ? 'option-selected' : 'div-option'}><span className='text-option'>Disciplinas</span></Link>
+      {infouser === 'admin' &&  <Link to={'consultar-disciplinas'} className= {path === '/adm/consultar-disciplinas' ? 'option-selected' : 'div-option'}><span className='text-option'>Disciplinas</span></Link>}
        <Link to={'consultar-alunos-na-turma'} className= {path === '/adm/consultar-alunos-na-turma' ? 'option-selected' : 'div-option'}><span className='text-option'>Alunos na turma</span></Link>
      {infouser === 'admin' &&  <Link to={'consultar-professores-na-turma'} className= {path === '/adm/consultar-professores-na-turma' ? 'option-selected' : 'div-option'}><span className='text-option'>Professor(a)s na turma</span></Link>}
        <Link to={'consultar-disciplinas-na-turma'} className= {path === '/adm/consultar-disciplinas-na-turma' ? 'option-selected' : 'div-option'}><span className='text-option'>Disciplinas na turma</span></Link>

@@ -1,13 +1,13 @@
 import { useEffect, useRef, useState } from 'react';
 import './modaleditarprofessores.css'
-import { usarcontextoapi } from '../../context/contextapi.tsx';
+//import { usarcontextoapi } from '../../context/contextapi.tsx';
 import { useNavigate } from 'react-router-dom';
 import Loading from '../loading/loading.tsx';
 import { usarcontexto } from '../../context/context.tsx';
 
 
 function Modal_editar_professores() {
-const {rotaeditarprofessores} = usarcontextoapi();
+//const {rotaeditarprofessores} = usarcontextoapi();
 const {setStatusmodal,Selectionmodal}=usarcontexto()
 const [statusreq, setStatusreq] = useState<string>(); // Indica a mensagem recebida pelo backend.
 const [statusmsgerro, setStatusmsgerro] = useState<boolean>(); // Indica se é uma mensagem de erro ou não
@@ -23,7 +23,7 @@ const [editando,setEditando] = useState({
   
 })
 
-async function atualizar_usuario(e: React.FormEvent<HTMLFormElement>) {
+/*async function atualizar_usuario(e: React.FormEvent<HTMLFormElement>) {
   e.preventDefault();
      
   const dados = {
@@ -72,9 +72,8 @@ setStatusmsgerro(false);
  setStatusresponse(true);
  setStatusmsgerro(true);
 }
- 
- 
-  }
+
+  */
 // Adicionando a cor a div de resposta com base no status da mensagem de erro
   useEffect(() => {
  if(statusmsgerro && divresponse.current) {
@@ -117,40 +116,31 @@ useEffect(()=>{
     <>
     <div className='modal'>
    
-    <form className='form-modal-usuario' onSubmit={atualizar_usuario}>
-      <img src='/close-modal.png' alt='fechar' className='close-modal' onClick={closemodal}></img>
-      <div className='container-input'>
-        <span className='span-modal-usuario'>Nome:</span>
-        <div className='container-input-icon-modal'>
-          <input type="text" className='input-modal-usuario' ref={nome} disabled={!editando.nome} defaultValue={Selectionmodal?.nome || ''}/> 
-          <div className='container-icon-modal'>
-            <img src='/icon-editar.png' alt='Editar'className='icon-modal' onClick={() => setEditando(prev => ({ ...prev, nome: true }))} ></img>
-            <img src='/icon-salvar.png' alt='Salvar' className='icon-modal' onClick={() => setEditando(prev => ({ ...prev, nome: false }))}></img>
-          </div>
-            
-        </div>  
-        
-      </div>
-      
-      <div className='container-input'>
-        <span className='span-modal-usuario'>Status:</span>
-       <div className='container-input-icon-modal'>
-        <select className='input-modal-usuario'  ref={status} disabled={!editando.status}  defaultValue={ Selectionmodal?.status == true ? "ativo" : "inativo" }  >
-            <option value="" disabled hidden> Selecione uma opção</option>
-            <option value={'ativo'}>Ativo</option>
-            <option value={'inativo'}>Inativo</option>           
-          </select>
-          <div className='container-icon-modal'>
-            <img src='/icon-editar.png' alt='Editar'className='icon-modal'onClick={() => setEditando(prev => ({ ...prev, status: true }))} ></img>
-            <img src='/icon-salvar.png' alt='Salvar' className='icon-modal' onClick={() => setEditando(prev => ({ ...prev, status: false }))}></img>
-          </div>
-            
-        </div>  
-      </div>
+    <form className='form-modal-usuario' >
+      <img src='/close-modal.png' alt='fechar' className='close-modal' id='close-modal-editar-prof' onClick={closemodal}></img>
+       <table className='table-consultar'>
          
-      
-      <button className='btn-modal' type='submit'>Atualizar</button>
+        <thead>
+        <tr>
+          <th className='table-header'>Código</th>
+          <th className='table-header'>Disciplina</th>  
+        </tr>
+        </thead>
+        <tbody>
+          {Selectionmodal.map((element: any) => {
+            const disciplina = element?.dadosdisciplinas?.[0];
+            return (
+              <tr key={element.discId} className="line-table">
+                <td className="information-table">{disciplina?.codigo}</td>
+                <td className="information-table">{disciplina?.nome}</td>
+              </tr>
+            );
+          })}
 
+          
+        </tbody>
+      </table>     
+      
     </form>
 
 
