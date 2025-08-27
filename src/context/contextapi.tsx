@@ -48,7 +48,8 @@ const Context = createContext<props | undefined>(undefined);
 
 // Provider para fornecer as rotas da API
 export const Providerapi = ({ children }: { children: ReactNode }) => {
-  const baseURL = 'http://192.168.50.71:3000';
+  const baseURL = 'https://gerenciamentoback.onrender.com'; 
+  // const baseURL = 'http://192.168.50.71:3000'
 
   //Atribuindo os valores das rotas da API 
   const rotas: props = {
