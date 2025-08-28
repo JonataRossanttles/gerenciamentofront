@@ -277,7 +277,7 @@ useEffect(() => {
       <div className='container-input'>
         <span className='span-modal-aluno'>E-mail do responsável:</span>
           <div className='container-input-icon-modal'>
-          <input type="text" className='input-modal-aluno' ref={emailResponsavel} disabled={!editando.emailResponsavel} defaultValue={Selectionmodal?.emailResponsavel}/> 
+          <input type="email" className='input-modal-aluno' ref={emailResponsavel} disabled={!editando.emailResponsavel} defaultValue={Selectionmodal?.emailResponsavel}/> 
           <div className='container-icon-modal'>
             <img src='/icon-editar.png' alt='Editar'className='icon-modal' onClick={() => setEditando(prev => ({ ...prev, emailResponsavel: true }))} ></img>
             <img src='/icon-salvar.png' alt='Salvar' className='icon-modal' onClick={() => setEditando(prev => ({ ...prev, emailResponsavel: false }))} ></img>

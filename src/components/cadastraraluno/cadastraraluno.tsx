@@ -177,7 +177,7 @@ function closeresponse() {
       
         <div className='container-input'>
           <span className='span-cadastrar-aluno'>E-mail do responsável:</span>
-          <input type="text" className='input-cadastrar-aluno' ref={emailResponsavel} placeholder='Digite o e-mail do responsável'/>
+          <input type="email" className='input-cadastrar-aluno' ref={emailResponsavel} placeholder='Digite o e-mail do responsável'/>
         </div>
     </div>
     <div className='container-2'>
