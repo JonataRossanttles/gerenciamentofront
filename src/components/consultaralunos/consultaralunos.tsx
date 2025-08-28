@@ -14,7 +14,7 @@ import Modal_confirm from '../modalconfirm/modalconfirm.tsx';
 function Consultaralunos() {
 const {rotaconsultaralunos,rotaexcluiraluno} = usarcontextoapi();
 const {statusmodal,setStatusmodal,arrayConsulta,setArrayconsulta,setSelectionmodal,
-  statusmodalconfirm,setStatusmodalconfirm,Selectionmodal
+  statusmodalconfirm,setStatusmodalconfirm
 } = usarcontexto()
 const [statusreq, setStatusreq] = useState<string>(); // Indica a mensagem recebida pelo backend.
 const [statusmsgerro, setStatusmsgerro] = useState<boolean>(); // Indica se é uma mensagem de erro ou não
