@@ -56,7 +56,6 @@ if(response.status === 401) {
  return;
 }
 if(!response.ok){
- console.log(information.msg)
  setLoading(false)
  setStatusreq(information.msg);
  setStatusresponse(true);
@@ -138,7 +137,6 @@ if(response.status === 401) {
  return;
 }
 if(!response.ok){
- console.log(information.msg)
  setLoading(false)
  setStatusreq(information.msg);
  setStatusresponse(true);
@@ -266,7 +264,7 @@ useEffect(()=>{
        {infouser === "admin" &&  <div className='container-button-excluir'>
         <button type='button' className={disable ? 'btn-excluir-liberado' : 'btn-excluir-consultar'} ref={btn_excluir} onClick={()=>{setStatusmodalconfirm(true)}} disabled={!disable}>Excluir turma(s) </button>
       </div>} 
-      
+        <span className='span-total'>Total de turmas: {arrayConsulta.length}</span>
       <table className='table-consultar'>
         <thead>
         <tr>

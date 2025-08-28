@@ -28,8 +28,8 @@ const [selectedIds, setSelectedIds] = useState<string[]>([]);
 const [selectAll, setSelectAll] = useState<boolean>(false);
 const [arrayoriginal , setArrayoriginal] = useState<any[]>([])
 
-async function consultar_usuarios(e: React.FormEvent<HTMLFormElement>) {
-  e.preventDefault();
+async function consultar_usuarios() {
+
   if (!selectStatus.current)  return
    
   const dados = {
@@ -238,18 +238,18 @@ useEffect(()=>{
   return (
     <>
     <section className='main'>
-       <form className='form-consultar-turma' id='form-consultar-turma' onSubmit={consultar_usuarios}>
+       <form className='form-consultar-turma' id='form-consultar-turma' >
         <div className='container-consultar'>
           <div className='container-input-consultar-usuarios'>
           <span className='span-consultar-turma'>Status:</span>
-          <select className='input-consultar-alunos' defaultValue={""} ref={selectStatus}>
+          <select className='input-consultar-alunos' defaultValue={""} ref={selectStatus} onChange={()=>{consultar_usuarios()}}>
             <option value="" disabled hidden> Selecione uma opção</option>
             <option value={'ativo'}>Ativo</option>
             <option value={'inativo'}>Inativo</option>           
             <option value={'todos'}>Todos</option>
           </select>
       </div>
-      <button className='btn-consultar'>Consultar</button>
+      {/*  <button className='btn-consultar'>Consultar</button> */}
         </div>
     
       <div className='container-input-consultar-usuarios' id='filtro-turma'>
@@ -261,6 +261,7 @@ useEffect(()=>{
       <div className='container-button-excluir'>
         <button type='button' className={disable ? 'btn-excluir-liberado' : 'btn-excluir-consultar'} ref={btn_excluir} onClick={()=>{setStatusmodalconfirm(true)}} disabled={!disable}>Excluir usuario(s) </button>
       </div>
+        <span className='span-total'>Total de usuários: {arrayConsulta.length}</span>
       <table className='table-consultar'>
         <thead>
         <tr>

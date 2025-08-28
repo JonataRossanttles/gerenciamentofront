@@ -33,6 +33,7 @@ flex-direction: column;
     border: 1px solid #ccc;
 }
 
+
 .input-consultar-alunos::-webkit-inner-spin-button{
     -webkit-appearance: none;
     

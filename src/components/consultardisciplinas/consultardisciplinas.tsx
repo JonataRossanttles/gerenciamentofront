@@ -262,6 +262,7 @@ useEffect(()=>{
        <div className='container-button-excluir'>
         <button type='button' className={disable ? 'btn-excluir-liberado' : 'btn-excluir-consultar'} ref={btn_excluir} onClick={()=>{setStatusmodalconfirm(true)}} disabled={!disable}>Excluir disciplina(s) </button>
       </div>
+        <span className='span-total'>Total de disciplinas: {arrayConsulta.length}</span>
       <table className='table-consultar'>
         <thead>
         <tr>

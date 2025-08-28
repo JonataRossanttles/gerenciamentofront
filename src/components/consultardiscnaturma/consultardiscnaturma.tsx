@@ -5,9 +5,7 @@ import './consultardiscnaturma.css'
 import { usarcontextoapi } from '../../context/contextapi.tsx';
 import { useNavigate } from 'react-router-dom';
 import Loading from '../loading/loading.tsx';
-
 import { usarcontexto } from '../../context/context.tsx';
-
 import Modal_confirm from '../modalconfirm/modalconfirm.tsx';
 import Modal_editar_disciplina from '../modaleditardisciplina/modaleditardisciplina.tsx';
 
@@ -57,7 +55,6 @@ if(response.status === 401) {
  return;
 }
 if(!response.ok){
- console.log(information.msg)
  setLoading(false)
  setStatusreq(information.msg);
  setStatusresponse(true);
@@ -143,7 +140,6 @@ if(response.status === 401) {
  return;
 }
 if(!response.ok){
- console.log(information.msg)
  setLoading(false)
  setStatusreq(information.msg);
  setStatusresponse(true);
@@ -157,15 +153,16 @@ if(information.msg.length === 0){
  setStatusresponse(true);
  setStatusmsgerro(true);
 }
-console.log(information.msg)
 
 if(infouser === 'admin'){
   setArrayoriginal(information.msg[0].dadosdisciplinas)
   setArrayconsulta(information.msg[0].dadosdisciplinas)
-
-}
+  return
+}else{
 setArrayoriginal(information.msg.map((element: any) => element.dadosdisciplinas[0]))
 setArrayconsulta(information.msg.map((element: any) => element.dadosdisciplinas[0]))
+
+}
 
 setDisable(true)
 inputFilter.current?.classList.add('input-filtrar-disc-liberado')
@@ -255,6 +252,8 @@ useEffect(()=>{
 
 },[])
 
+
+
   return (
     <>
     <section className='main'>
@@ -286,7 +285,7 @@ useEffect(()=>{
         <button type='button' className={disable ? 'btn-excluir-liberado' : 'btn-excluir-consultar'} ref={btn_excluir} onClick={()=>{setStatusmodalconfirm(true)}} disabled={!disable}>Retirar disciplina(s) da turma </button>
       </div>} 
       
-
+<span className='span-total'>Total de disciplinas na turma: {arrayConsulta.length}</span>
       <table className='table-consultar'>
          
         <thead>
@@ -302,7 +301,7 @@ useEffect(()=>{
         <tbody>
        
             {arrayConsulta.map((element: any) => (
-              <tr key={element.alunoId} className="line-table">
+              <tr key={element.discId} className="line-table">
               {infouser === "admin" &&  <td className="information-table">
                   <input
                     type="checkbox"

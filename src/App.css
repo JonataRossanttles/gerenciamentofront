@@ -38,7 +38,7 @@
 .btn-excluir-consultar{
     position: absolute;
     right: 0;
-    top: -40px;
+    top: -10px;
     width: 200px;
     height: 30px;
     cursor: not-allowed;
@@ -51,7 +51,7 @@
 .btn-excluir-liberado{
  position: absolute;
     right: 0;
-    top: -40px;
+    top: -10px;
     width: 200px;
     height: 30px;
     cursor: pointer;
@@ -103,6 +103,10 @@
     padding: 0 10px;
     border: 1px solid #ccc;
     cursor:pointer;
+}
+.span-total{
+   display: inline-block;
+    margin-bottom: 10px;
 }
 .close-response{
     width: 15px;

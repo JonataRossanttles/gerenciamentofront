@@ -1,0 +1,29 @@
+.container-inicio{
+width: 100%;
+    flex: 1;
+    background-color: rgba(128, 128, 128, 0.048);
+    padding: 30px;
+}
+.container-dados-inicio{
+    margin-top: 10px;
+   
+}
+.container-dados-inicio>.dadosdb {
+    margin-bottom: 10px;
+}
+.dadosdb{
+     display: flex;
+     align-items: center;
+}
+p{
+    margin-right: 10px;
+}
+.title-inicio{
+    font-size: 30px;
+  font-weight: bold;
+  color: #333;
+}
+.status-consumodb{
+    width: 20px;
+    height: 20px;
+}

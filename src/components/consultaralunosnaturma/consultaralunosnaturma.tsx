@@ -280,7 +280,7 @@ useEffect(()=>{
        {infouser === "admin" &&  <div className='container-button-excluir'>
         <button type='button' className={disable ? 'btn-excluir-liberado' : 'btn-excluir-consultar'} ref={btn_excluir} onClick={()=>{setStatusmodalconfirm(true)}} disabled={!disable}>Retirar aluno(s) da turma </button>
       </div>} 
-     
+       <span className='span-total'>Total de alunos na turma: {arrayConsulta.length}</span>
       <table className='table-consultar'>
          
         <thead>

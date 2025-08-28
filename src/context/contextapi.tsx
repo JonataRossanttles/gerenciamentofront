@@ -25,6 +25,7 @@ type props = {
   rotaconsultar_professor_turmas_disciplinas:string,
   rotaconsultar_alunos_semturma:string,
   rotaconsultar_professores:string,
+  rotaconsultar_dadosbanco:string,
   rotaeditarturma:string,
   rotaeditaraluno:string,
   rotaeditarusuario:string,
@@ -42,6 +43,7 @@ type props = {
   rotaalterar_professores_de_turma:string,
   logout:string,
 
+
 };
 // Criando o contexto para as rotas da API
 const Context = createContext<props | undefined>(undefined);
@@ -49,7 +51,8 @@ const Context = createContext<props | undefined>(undefined);
 // Provider para fornecer as rotas da API
 export const Providerapi = ({ children }: { children: ReactNode }) => {
   const baseURL = 'https://gerenciamentoback.onrender.com'; 
-  
+  // http://localhost:3000
+  //https://gerenciamentoback.onrender.com
 
   //Atribuindo os valores das rotas da API 
   const rotas: props = {
@@ -72,6 +75,7 @@ export const Providerapi = ({ children }: { children: ReactNode }) => {
     rotaconsultar_professor_turmas_disciplinas:`${baseURL}/consultar/professor/turmas/disciplinas`,
     rotaconsultar_alunos_semturma:`${baseURL}/consultar/alunos/semturma`,
     rotaconsultar_professores:`${baseURL}/consultar/professores`,
+    rotaconsultar_dadosbanco:`${baseURL}/consultar/dadosbanco`,
     rotaeditarturma:`${baseURL}/editar/turma`,
     rotaeditaraluno:`${baseURL}/editar/aluno`,
     rotaeditarusuario:`${baseURL}/editar/usuario`,

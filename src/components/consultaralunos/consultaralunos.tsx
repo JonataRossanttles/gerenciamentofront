@@ -32,8 +32,7 @@ const [selectAll, setSelectAll] = useState<boolean>(false);
 const [arrayoriginal , setArrayoriginal] = useState<any[]>([])
 
 
-async function consultar_alunos(e: React.FormEvent<HTMLFormElement>) {
-  e.preventDefault();
+async function consultar_alunos() {
    
   const dados = {
     situacao: selectSituacao.current?.value.toUpperCase(),
@@ -56,7 +55,7 @@ if(response.status === 401) {
  return;
 }
 if(!response.ok){
- console.log(information.msg)
+ 
  setLoading(false)
  setStatusreq(information.msg);
  setStatusresponse(true);
@@ -130,7 +129,6 @@ if(response.status === 401) {
  return;
 }
 if(!response.ok){
- console.log(information.msg)
  setLoading(false)
  setStatusreq(information.msg);
  setStatusresponse(true);
@@ -161,7 +159,7 @@ setDisable(true)
   }
 
 async function excluir_aluno() {
-     console.log(Selectionmodal)
+    
   const dados = {
     alunosId: selectedIds,
 
@@ -224,7 +222,7 @@ if(selectAll){
 
 }
 function mudarcheckbox (id:string){
-  console.log(id)
+
   if (selectedIds.includes(id)) {
     setSelectedIds(selectedIds.filter(item => item !== id));
     
@@ -241,11 +239,11 @@ useEffect(()=>{
   return (
     <>
     <section className='main'>
-       <form className='form-consultar-alunos' id='form-consultar-alunos' onSubmit={consultar_alunos}>
+       <form className='form-consultar-alunos' id='form-consultar-alunos' >
         <div className='container-consultar'>
           <div className='container-input-consultar-alunoss'>
           <span className='span-consultar-alunos'>Situação escolar:</span>
-          <select className='input-consultar-alunos' defaultValue={""} ref={selectSituacao}>
+          <select className='input-consultar-alunos' defaultValue={""} ref={selectSituacao} onChange={()=>{consultar_alunos()}}>
             <option value="" disabled hidden> Selecione uma opção</option>
             <option value={'ATIVO'}>Ativo</option>
             <option value={'CANCELADO'}>Cancelado</option>
@@ -257,7 +255,7 @@ useEffect(()=>{
           </select>
      
       </div>
-      <button type='submit' className='btn-consultar'>Consultar</button>
+      {/*  <button type='submit' className='btn-consultar'>Consultar</button> */}
         </div>
     
       <div className='container-input-consultar-alunoss' id='filtro-alunos'>
@@ -269,6 +267,7 @@ useEffect(()=>{
       <div className='container-button-excluir'>
         <button type='button' className={disable ? 'btn-excluir-liberado' : 'btn-excluir-consultar'} ref={btn_excluir} onClick={()=>{setStatusmodalconfirm(true)}} disabled={!disable}>Excluir aluno(s) </button>
       </div>
+        <span className='span-total'>Total de alunos: {arrayConsulta.length}</span>
       <table className='table-consultar'>
         <thead>
         <tr>

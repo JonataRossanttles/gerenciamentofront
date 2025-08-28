@@ -174,6 +174,7 @@ setStatusreq(information.msg);
 setStatusmsgerro(false);
 setDisable(true)
 setSelectedIds([])
+setSelectAll(false)
 consultar_alunos();
 
 } catch (error) {
@@ -269,7 +270,7 @@ useEffect(()=>{
       </div>
       <button type='button' className='btn-cadastrar' id='btn-cadastrar-alunos-na-turma' onClick={cadastrar_alunos_na_turma}>Cadastrar alunos na turma</button>
       </form>
-     
+     <span className='span-total'>Total de alunos sem turma: {arrayConsulta.length}</span>
       <table className='table-consultar'>
          
         <thead>
