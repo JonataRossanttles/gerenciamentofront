@@ -174,7 +174,7 @@ inputTurmas.current?.classList.add('input-select-turmas-liberado')
 }
   }
 async function excluir_aluno_na_turma() {
-     console.log(selectedIds)
+    
   const dados = {
     alunosId: selectedIds,
     turmaId: inputTurmas.current?.value
@@ -335,7 +335,7 @@ useEffect(()=>{
    )}
    {statusmodalconfirm && <Modal_confirm excluir={excluir_aluno_na_turma}/>}
    {loading && <Loading/>}
-   {statusmodal &&  <Modal_editar_aluno/> } 
+   {statusmodal &&  <Modal_editar_aluno refresh ={turma_select} /> } 
     </>
   )
 

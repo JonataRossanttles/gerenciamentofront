@@ -5,8 +5,11 @@ import { useNavigate } from 'react-router-dom';
 import Loading from '../loading/loading.tsx';
 import { usarcontexto } from '../../context/context.tsx';
 
+type Modaleditar = {
+  refresh: () => void;
+}
 
-function Modal_consultar_turma() {
+function Modal_consultar_turma({refresh}:Modaleditar) {
 const {rotaeditarturma} = usarcontextoapi();
 const {setStatusmodal,Selectionmodal}=usarcontexto()
 const [statusreq, setStatusreq] = useState<string>(); // Indica a mensagem recebida pelo backend.
@@ -66,8 +69,8 @@ setLoading(false)
 setStatusresponse(true);
 setStatusreq(information.msg);
 setStatusmsgerro(false);
+refresh();
 
- 
  if (divresponse.current) {
    divresponse.current.classList.remove('erroresponse');
    divresponse.current.classList.add('sucessoresponse');

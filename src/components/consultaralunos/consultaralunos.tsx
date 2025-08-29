@@ -294,7 +294,7 @@ useEffect(()=>{
         </td>
             <td className='information-table'>{element.matricula}</td>
             <td className='information-table'>{element.nome}</td>
-            <td className='information-table'>{element.turma ? element.turma : 'Sem turma'}</td>
+            <td className='information-table'>{element.dadosturma?.[0]?.turma ?? 'Sem turma'}</td>
             <td className='information-table'>{element.situacao}</td>
             <td className='information-table'>{element.nomeResponsavel}</td>
              <td className='information-table'>
@@ -320,7 +320,7 @@ useEffect(()=>{
    )}
    {statusmodalconfirm && <Modal_confirm excluir={excluir_aluno}/>}
    {loading && <Loading/>}
-   {statusmodal &&  <Modal_editar_aluno/> } 
+   {statusmodal &&  <Modal_editar_aluno refresh={refresh}/> } 
     </>
   )
 

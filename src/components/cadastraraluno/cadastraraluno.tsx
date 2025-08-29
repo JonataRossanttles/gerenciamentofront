@@ -172,7 +172,7 @@ function closeresponse() {
         </div>
         <div className='container-input'>
           <span className='span-cadastrar-aluno'>Telefone do responsável:</span>
-          <input type="number" min={0}  className='input-cadastrar-aluno' ref={telefoneResponsavel} placeholder='Digite o telefone do responsável'/>
+          <input type="tel" pattern="\d{11}" maxLength={11} className='input-cadastrar-aluno' ref={telefoneResponsavel} placeholder='Digite o telefone do responsável'/>
         </div>
       
         <div className='container-input'>
@@ -191,7 +191,7 @@ function closeresponse() {
         </div>
         <div className='container-input'>
           <span className='span-cadastrar-aluno'>Número:</span>
-          <input type="text" className='input-cadastrar-aluno' ref={numero} placeholder='Digite o número da residência do aluno'/>
+          <input type="number" min={0} className='input-cadastrar-aluno' ref={numero} placeholder='Digite o número da residência do aluno'/>
         </div>
         <div className='container-input'>
           <span className='span-cadastrar-aluno'>Bairro:</span>

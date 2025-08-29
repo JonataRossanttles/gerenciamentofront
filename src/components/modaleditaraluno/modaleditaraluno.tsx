@@ -4,9 +4,11 @@ import { usarcontextoapi } from '../../context/contextapi.tsx';
 import { useNavigate } from 'react-router-dom';
 import Loading from '../loading/loading.tsx';
 import { usarcontexto } from '../../context/context.tsx';
+type Modaleditar = {
+  refresh: () => void;
+}
 
-
-function Modal_editar_aluno() {
+function Modal_editar_aluno({refresh}:Modaleditar) {
 const {rotaeditaraluno} = usarcontextoapi();
 const {setStatusmodal,Selectionmodal}=usarcontexto()
 const [statusreq, setStatusreq] = useState<string>(); // Indica a mensagem recebida pelo backend.
@@ -92,8 +94,8 @@ setLoading(false)
 setStatusresponse(true);
 setStatusreq(information.msg);
 setStatusmsgerro(false);
+refresh();
 
- 
  if (divresponse.current) {
    divresponse.current.classList.remove('erroresponse');
    divresponse.current.classList.add('sucessoresponse');
@@ -266,7 +268,7 @@ useEffect(() => {
       <div className='container-input'>
         <span className='span-modal-aluno'>Tel. do responsável:</span>
           <div className='container-input-icon-modal'>
-          <input type="text" className='input-modal-aluno' ref={telefoneResponsavel} disabled={!editando.telefoneResponsavel} defaultValue={Selectionmodal?.telefoneResponsavel}/> 
+          <input type="tel" pattern="\d{11}" maxLength={11} className='input-modal-aluno' ref={telefoneResponsavel} disabled={!editando.telefoneResponsavel} defaultValue={Selectionmodal?.telefoneResponsavel}/> 
           <div className='container-icon-modal'>
             <img src='/icon-editar.png' alt='Editar'className='icon-modal' onClick={() => setEditando(prev => ({ ...prev, telefoneResponsavel: true }))} ></img>
             <img src='/icon-salvar.png' alt='Salvar' className='icon-modal' onClick={() => setEditando(prev => ({ ...prev, telefoneResponsavel: false }))} ></img>
@@ -332,7 +334,7 @@ useEffect(() => {
 <div className='container-input'>
         <span className='span-modal-aluno'>Número:</span>
           <div className='container-input-icon-modal'>
-          <input type="text" className='input-modal-aluno' ref={numero} disabled={!editando.numero} defaultValue={Selectionmodal?.endereco.numero}/> 
+          <input type="number" min={0} className='input-modal-aluno' ref={numero} disabled={!editando.numero} defaultValue={Selectionmodal?.endereco.numero}/> 
           <div className='container-icon-modal'>
             <img src='/icon-editar.png' alt='Editar'className='icon-modal' onClick={() => setEditando(prev => ({ ...prev, numero: true }))} ></img>
             <img src='/icon-salvar.png' alt='Salvar' className='icon-modal' onClick={() => setEditando(prev => ({ ...prev, numero: false }))} ></img>

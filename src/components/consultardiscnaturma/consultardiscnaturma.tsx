@@ -210,7 +210,8 @@ setStatusresponse(true);
 setStatusreq(information.msg);
 setStatusmsgerro(false);
 setStatusmodalconfirm(false)
- turma_select()
+turma_select()
+
  if (divresponse.current) {
    divresponse.current.classList.remove('erroresponse');
    divresponse.current.classList.add('sucessoresponse');
@@ -341,7 +342,7 @@ useEffect(()=>{
    )}
    {statusmodalconfirm && <Modal_confirm excluir={excluir_disc_na_turma}/>}
    {loading && <Loading/>}
-   {statusmodal &&  <Modal_editar_disciplina/> }
+   {statusmodal &&  <Modal_editar_disciplina refresh={turma_select}/> }
     </>
   )
 

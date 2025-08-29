@@ -311,7 +311,7 @@ useEffect(()=>{
    )}
    {statusmodalconfirm && <Modal_confirm excluir={excluir_disciplina}/>}
    {loading && <Loading/>}
-   {statusmodal &&  <Modal_editar_disciplina/> } 
+   {statusmodal &&  <Modal_editar_disciplina refresh ={refresh}/> } 
     </>
   )
 

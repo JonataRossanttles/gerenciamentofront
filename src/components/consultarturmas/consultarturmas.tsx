@@ -321,7 +321,7 @@ useEffect(()=>{
    )}
    {statusmodalconfirm && <Modal_confirm excluir={excluir_turma}/>}
    {loading && <Loading/>}
-   {statusmodal &&  <Modal_consultar_turma/> } 
+   {statusmodal &&  <Modal_consultar_turma refresh={refresh}/> }
     </>
   )
 
