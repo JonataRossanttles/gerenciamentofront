@@ -201,10 +201,6 @@ useEffect(()=>{
 
 },[editando])
 
-useEffect(() => {
-  console.log(Selectionmodal)
-}, []);
-
 
   return (
     <>

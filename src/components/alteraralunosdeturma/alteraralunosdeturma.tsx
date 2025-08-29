@@ -50,7 +50,6 @@ if(response.status === 401) {
  return;
 }
 if(!response.ok){
- console.log(information.msg)
  setLoading(false)
  setStatusreq(information.msg);
  setStatusresponse(true);
@@ -95,13 +94,13 @@ try {
   credentials: 'include'
 })
 const information = await response.json();
-console.log(information)
+
 if(response.status === 401) {
  navigate('/');
  return;
 }
 if(!response.ok){
- console.log(information.msg)
+
  setLoading(false)
  setStatusreq(information.msg);
  setStatusresponse(true);
@@ -154,7 +153,7 @@ if(response.status === 401) {
  return;
 }
 if(!response.ok){
- console.log(information.msg)
+
  setLoading(false)
  setStatusreq(information.msg);
  setStatusresponse(true);

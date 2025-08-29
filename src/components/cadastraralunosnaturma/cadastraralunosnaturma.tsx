@@ -50,7 +50,7 @@ if(response.status === 401) {
  return;
 }
 if(!response.ok){
- console.log(information.msg)
+
  setLoading(false)
  setStatusreq(information.msg);
  setStatusresponse(true);
@@ -101,7 +101,7 @@ if(response.status === 401) {
  return;
 }
 if(!response.ok){
- console.log(information.msg)
+
  setLoading(false)
  setStatusreq(information.msg);
  setStatusresponse(true);
@@ -153,7 +153,7 @@ if(response.status === 401) {
  return;
 }
 if(!response.ok){
- console.log(information.msg)
+
  setLoading(false)
  setStatusreq(information.msg);
  setStatusresponse(true);

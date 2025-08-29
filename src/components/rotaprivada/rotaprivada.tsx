@@ -29,7 +29,6 @@ async function validarToken() {
     });
 const information = await response.json();
     if (!response.ok) {
-      console.log(information.msg);
       setLoading(false);
       return setAuthenticated(false);
     }

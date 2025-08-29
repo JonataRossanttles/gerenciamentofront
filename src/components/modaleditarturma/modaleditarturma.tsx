@@ -136,11 +136,6 @@ useEffect(()=>{
 
 },[editando])
 
-useEffect(() => {
-  console.log(Selectionmodal)
-}, []);
-
-
   return (
     <>
     <div className='modal'>

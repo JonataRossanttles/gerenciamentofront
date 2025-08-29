@@ -54,7 +54,7 @@ if(response.status === 401) {
  return;
 }
 if(!response.ok){
- console.log(information.msg)
+
  setLoading(false)
  setStatusreq(information.msg);
  setStatusresponse(true);
@@ -132,7 +132,7 @@ if(response.status === 401) {
  return;
 }
 if(!response.ok){
- console.log(information.msg)
+
  setLoading(false)
  setStatusreq(information.msg);
  setStatusresponse(true);
@@ -227,7 +227,7 @@ if(selectAll){
 
 }
 function mudarcheckbox (id:string){
-  console.log(id)
+
   if (selectedIds.includes(id)) {
     setSelectedIds(selectedIds.filter(item => item !== id));
   } else {

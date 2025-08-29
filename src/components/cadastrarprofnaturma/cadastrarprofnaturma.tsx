@@ -53,7 +53,7 @@ if(response.status === 401) {
  return;
 }
 if(!response.ok){
- console.log(information.msg)
+
  setLoading(false)
  setStatusreq(information.msg);
  setStatusresponse(true);
@@ -90,7 +90,7 @@ async function consultar_disciplinas() {
    const dados = {
     turmaId:inputTurma.current?.value
   };
-console.log(dados)
+
 try {
   setLoading(true)
   const response = await fetch(rotaconsultar_turma_disciplinas, {
@@ -109,7 +109,7 @@ if(response.status === 401) {
  return;
 }
 if(!response.ok){
- console.log(information.msg)
+
  setLoading(false)
  setStatusreq(information.msg);
  setStatusresponse(true);
@@ -123,7 +123,7 @@ if(information.msg.length === 0){
  setStatusresponse(true);
  setStatusmsgerro(true);
 }
-console.log(information.msg)
+
 setDisciplinas(information.msg[0].dadosdisciplinas.map((element:any)=>{
   return(
     <option key={element.discId} value={element.discId}>{element.nome}</option>
@@ -158,7 +158,7 @@ if(response.status === 401) {
  return;
 }
 if(!response.ok){
- console.log(information.msg)
+
  setLoading(false)
  setStatusreq(information.msg);
  setStatusresponse(true);
@@ -212,7 +212,7 @@ if(response.status === 401) {
  return;
 }
 if(!response.ok){
- console.log(information.msg)
+
  setLoading(false)
  setStatusreq(information.msg);
  setStatusresponse(true);
@@ -276,7 +276,7 @@ function filtrarprofessores(){
 }
 
 function selecionarTudo(){
-  console.log(selectAll)
+  
 if(selectAll){
   setSelectedIds([])
   setSelectAll(false)

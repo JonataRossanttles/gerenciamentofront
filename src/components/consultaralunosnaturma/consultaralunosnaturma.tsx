@@ -56,7 +56,7 @@ if(response.status === 401) {
  return;
 }
 if(!response.ok){
- console.log(information.msg)
+
  setLoading(false)
  setStatusreq(information.msg);
  setStatusresponse(true);
@@ -143,7 +143,7 @@ if(response.status === 401) {
  return;
 }
 if(!response.ok){
- console.log(information.msg)
+
  setLoading(false)
  setStatusreq(information.msg);
  setStatusresponse(true);
@@ -157,7 +157,7 @@ if(information.msg.length === 0){
  setStatusresponse(true);
  setStatusmsgerro(true);
 }
-console.log(information.msg[0].dadosalunos)
+
 
 setArrayoriginal(information.msg[0].dadosalunos)
 setArrayconsulta(information.msg[0].dadosalunos)
@@ -224,7 +224,7 @@ setStatusmodalconfirm(false)
   }
 
 function selecionarTudo(){
-  console.log(selectAll)
+
 if(selectAll){
   setSelectedIds([])
   setSelectAll(false)

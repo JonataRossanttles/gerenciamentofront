@@ -55,7 +55,7 @@ if(response.status === 401) {
  return;
 }
 if(!response.ok){
- console.log(information.msg)
+
  setLoading(false)
  setStatusreq(information.msg);
  setStatusresponse(true);
@@ -192,7 +192,7 @@ if(response.status === 401) {
  return;
 }
 if(!response.ok){
- console.log(information.msg)
+
  setLoading(false)
  setStatusreq(information.msg);
  setStatusresponse(true);
@@ -206,7 +206,7 @@ if(information.msg.length === 0){
  setStatusresponse(true);
  setStatusmsgerro(true);
 }
-console.log(information.msg[0].dadosprofessores)
+
 
 setArrayoriginal(information.msg[0].dadosprofessores)
 setArrayconsulta(information.msg[0].dadosprofessores)
@@ -229,7 +229,7 @@ async function excluir_professores_na_turma() {
     turmaId: inputTurmas.current?.value,
     periodoLetivo: anoLetivo.current?.value
   }
-  console.log(dados)
+
 try {
   setLoading(true)
   const response = await fetch(rotaexcluir_turma_professores, {
@@ -277,7 +277,7 @@ if (divresponse.current) {
   }
 
 function selecionarTudo(){
-  console.log(selectAll)
+
 if(selectAll){
   setSelectedIds([])
   setSelectAll(false)

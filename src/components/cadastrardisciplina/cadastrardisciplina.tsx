@@ -32,7 +32,7 @@ async function cadastrar_disciplina(e: React.FormEvent<HTMLFormElement>) {
     cargaHoraria: Number(cargaHoraria.current.value) ,
     anoLetivo: Number(anoLetivo.current.value),
   };
-  console.log(dados)
+
 try {
   setLoading(true)
   const response = await fetch(rotacriardisc, {

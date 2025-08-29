@@ -53,7 +53,7 @@ if(response.status === 401) {
  return;
 }
 if(!response.ok){
- console.log(information.msg)
+
  setLoading(false)
  setStatusreq(information.msg);
  setStatusresponse(true);
@@ -130,7 +130,7 @@ if(response.status === 401) {
  return;
 }
 if(!response.ok){
- console.log(information.msg)
+
  setLoading(false)
  setStatusreq(information.msg);
  setStatusresponse(true);
@@ -160,7 +160,7 @@ inputFilter.current?.classList.add('input-filtrar-turma-liberado')
  
   }
 async function excluir_usuario() {
-  console.log(Selectionmodal)
+
   const dados = {
     userId: selectedIds,
     
@@ -222,7 +222,7 @@ if(selectAll){
 
 }
 function mudarcheckbox (id:string){
-  console.log(id)
+
   if (selectedIds.includes(id)) {
     setSelectedIds(selectedIds.filter(item => item !== id));
   } else {

@@ -15,7 +15,7 @@ const senharef = useRef<HTMLInputElement>(null)
 const [statusloading,setStatusloading] = useState<boolean>(false)
 
 useEffect(()=>{
-  console.log(parametro.token)
+
   setToken(parametro.token)
   
 },[])
